@@ -252,7 +252,7 @@ export function Sidebar() {
                 {(company?.nome || "F").charAt(0).toUpperCase()}
               </div>
             )}
-            <span className="font-semibold text-sm truncate">{company?.nome || "Financ-BI"}</span>
+            <span className="font-semibold text-sm truncate">{company?.nome || "SIGES BI JENNOS"}</span>
           </div>
         )}
         <button

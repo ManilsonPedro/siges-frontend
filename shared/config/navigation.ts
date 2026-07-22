@@ -1,5 +1,5 @@
 /**
- * Configuração central de navegação enterprise — Financ-BI Jennos + Primavera ERP
+ * Configuração central de navegação enterprise — SIGES BI JENNOS + Primavera ERP
  * Formato de permissão: dominio.recurso.acao
  * Itens marcados com primavera: true são sincronizados / lidos do Primavera ERP
  */

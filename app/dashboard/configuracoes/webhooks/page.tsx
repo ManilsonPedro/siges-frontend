@@ -20,7 +20,7 @@ const webhooks = [
     id: 1,
     urlDestino: "https://erp.empresa.ao/webhooks/vendas",
     evento: "venda.criada",
-    descricaoEvento: "Nova venda registada no Financ-BI",
+    descricaoEvento: "Nova venda registada no sistema",
     estado: "Activo",
     ultimaExecucao: "18/06/2026 às 23:04",
     httpStatus: 200,
@@ -38,7 +38,7 @@ const webhooks = [
   },
   {
     id: 3,
-    urlDestino: "https://financbi.empresa.ao/aprovacoes/notify",
+    urlDestino: "https://sigesbi.empresa.ao/aprovacoes/notify",
     evento: "aprovacao.pendente",
     descricaoEvento: "Documento aguarda aprovação de responsável",
     estado: "Activo",
@@ -129,7 +129,7 @@ export default function WebhooksPage() {
             </span>
           </div>
           <p className="text-sm text-ink-mid/70 dark:text-ink-mid/60">
-            Notificações automáticas para sistemas externos do Financ-BI Jennos
+            Notificações automáticas para sistemas externos do SIGES BI JENNOS
           </p>
         </div>
         <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-700 text-white text-sm font-medium transition-colors self-start sm:self-auto">

@@ -82,7 +82,7 @@ function LoginPageInner() {
               className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-base"
               style={{ background: "rgba(255,255,255,0.12)", color: "#fff" }}
             >
-              FB
+              SB
             </div>
             <div>
               <p className="text-white font-semibold text-[0.9375rem] leading-none">SIGES BI JENNOS</p>
@@ -115,7 +115,7 @@ function LoginPageInner() {
           </div>
           <div className="h-px w-full bg-white/10" />
           <p className="text-white/30 text-2xs mt-3">
-            FINANC-BI &copy; {new Date().getFullYear()}
+            SIGES BI JENNOS &copy; {new Date().getFullYear()}
           </p>
         </div>
       </div>
@@ -129,7 +129,7 @@ function LoginPageInner() {
               className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm text-white"
               style={{ background: "#0b3b6f" }}
             >
-              FB
+              SB
             </div>
             <div>
               <p className="font-semibold text-ink dark:text-white text-[0.9375rem] leading-none">SIGES BI JENNOS</p>

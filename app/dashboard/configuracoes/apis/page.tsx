@@ -71,8 +71,8 @@ const apis = [
   },
   {
     id: 6,
-    nome: "Webhooks Internos — Financ-BI",
-    urlBase: "https://financbi.empresa.ao/webhooks",
+    nome: "Webhooks Internos — SIGES BI JENNOS",
+    urlBase: "https://sigesbi.empresa.ao/webhooks",
     versao: "v1.0",
     autenticacao: "Bearer",
     estado: "Activa",
@@ -113,7 +113,7 @@ export default function ApisPage() {
             </span>
           </div>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Integrações externas e serviços conectados ao Financ-BI Jennos
+            Integrações externas e serviços conectados ao SIGES BI JENNOS
           </p>
         </div>
         <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-700 text-white text-sm font-medium transition-colors self-start sm:self-auto">

@@ -3,6 +3,9 @@ import type {
   AreaServico, Equipamento, TurnoOperacional,
   TanqueCombustivel, Bomba, Bico, Abastecimento,
   TipoLavagem, BoxLavagem, SlotLavagem, OrdemLavagem,
+  CategoriaVeiculo, CreateCategoriaVeiculoDTO,
+  ExtraLavagem, CreateExtraLavagemDTO,
+  Viatura, CreateViaturaDTO,
   TanqueAgua, ConsumoAgua,
 } from "@/shared/types";
 
@@ -118,8 +121,49 @@ export const operacoesLavagemService = {
     const { data } = await api.get<OrdemLavagem[]>("/operacoes/lavagem/ordens", { params: { estado } });
     return data;
   },
-  async createOrdem(dto: { cliente_id?: string; viatura_id?: string; tipo_lavagem_id: string; slot_id?: string; box_id?: string }): Promise<OrdemLavagem> {
+  async createOrdem(dto: { cliente_id?: string; viatura_id?: string; tipo_lavagem_id: string; slot_id?: string; box_id?: string; extra_ids?: string[]; origem?: string }): Promise<OrdemLavagem> {
     const { data } = await api.post<OrdemLavagem>("/operacoes/lavagem/ordens", dto);
+    return data;
+  },
+  // Categorias de Veículo
+  async listCategoriasVeiculo(): Promise<CategoriaVeiculo[]> {
+    const { data } = await api.get<CategoriaVeiculo[]>("/operacoes/lavagem/categorias-veiculo");
+    return data;
+  },
+  async createCategoriaVeiculo(dto: CreateCategoriaVeiculoDTO): Promise<CategoriaVeiculo> {
+    const { data } = await api.post<CategoriaVeiculo>("/operacoes/lavagem/categorias-veiculo", dto);
+    return data;
+  },
+  async updateCategoriaVeiculo(id: string, dto: Partial<CreateCategoriaVeiculoDTO>): Promise<CategoriaVeiculo> {
+    const { data } = await api.patch<CategoriaVeiculo>(`/operacoes/lavagem/categorias-veiculo/${id}`, dto);
+    return data;
+  },
+  async deleteCategoriaVeiculo(id: string): Promise<void> {
+    await api.delete(`/operacoes/lavagem/categorias-veiculo/${id}`);
+  },
+  // Extras
+  async listExtras(): Promise<ExtraLavagem[]> {
+    const { data } = await api.get<ExtraLavagem[]>("/operacoes/lavagem/extras");
+    return data;
+  },
+  async createExtra(dto: CreateExtraLavagemDTO): Promise<ExtraLavagem> {
+    const { data } = await api.post<ExtraLavagem>("/operacoes/lavagem/extras", dto);
+    return data;
+  },
+  async updateExtra(id: string, dto: Partial<CreateExtraLavagemDTO>): Promise<ExtraLavagem> {
+    const { data } = await api.patch<ExtraLavagem>(`/operacoes/lavagem/extras/${id}`, dto);
+    return data;
+  },
+  async deleteExtra(id: string): Promise<void> {
+    await api.delete(`/operacoes/lavagem/extras/${id}`);
+  },
+  // Viaturas
+  async listViaturas(matricula?: string): Promise<Viatura[]> {
+    const { data } = await api.get<Viatura[]>("/operacoes/lavagem/viaturas", { params: { matricula } });
+    return data;
+  },
+  async createViatura(dto: CreateViaturaDTO): Promise<Viatura> {
+    const { data } = await api.post<Viatura>("/operacoes/lavagem/viaturas", dto);
     return data;
   },
   async checkin(id: string): Promise<OrdemLavagem> {

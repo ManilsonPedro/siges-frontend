@@ -30,23 +30,32 @@ const ESTADO_COLOR: Record<string, string> = {
   checkin: "bg-amber-100 text-amber-700", em_curso: "bg-amber-100 text-amber-700",
   controlo_qualidade: "bg-amber-100 text-amber-700", concluida: "bg-live-dim text-live", paga: "bg-live-dim text-live",
 };
+const ORIGEM_LABEL: Record<string, string> = {
+  portal_cliente: "Portal do Cliente", backoffice_walkin: "Walk-in", backoffice_telefone: "Telefone",
+};
 
 export default function LavagemPage() {
   const qc = useQueryClient();
-  const [tab, setTab] = useState<"tipos" | "boxes" | "ordens">("ordens");
+  const [tab, setTab] = useState<"tipos" | "boxes" | "ordens" | "categorias" | "extras">("ordens");
   const [showTipo, setShowTipo] = useState(false);
   const [showBox, setShowBox] = useState(false);
   const [showOrdem, setShowOrdem] = useState(false);
+  const [showCategoria, setShowCategoria] = useState(false);
+  const [showExtra, setShowExtra] = useState(false);
   const [qualidadeOrdem, setQualidadeOrdem] = useState<OrdemLavagem | null>(null);
   const [pontuacao, setPontuacao] = useState(5);
 
   const { data: tipos = [] } = useQuery({ queryKey: ["lavagem-tipos"], queryFn: operacoesLavagemService.listTipos });
   const { data: boxes = [] } = useQuery({ queryKey: ["lavagem-boxes"], queryFn: operacoesLavagemService.listBoxes });
   const { data: ordens = [] } = useQuery({ queryKey: ["lavagem-ordens"], queryFn: () => operacoesLavagemService.listOrdens() });
+  const { data: categorias = [] } = useQuery({ queryKey: ["lavagem-categorias"], queryFn: operacoesLavagemService.listCategoriasVeiculo });
+  const { data: extras = [] } = useQuery({ queryKey: ["lavagem-extras"], queryFn: operacoesLavagemService.listExtras });
 
   const [tipoForm, setTipoForm] = useState({ codigo: "", nome: "", preco_base: 2000, duracao_estimada_minutos: 30 });
   const [boxForm, setBoxForm] = useState({ codigo: "", nome: "" });
-  const [ordemForm, setOrdemForm] = useState({ tipo_lavagem_id: "" });
+  const [ordemForm, setOrdemForm] = useState<{ tipo_lavagem_id: string; extra_ids: string[] }>({ tipo_lavagem_id: "", extra_ids: [] });
+  const [categoriaForm, setCategoriaForm] = useState({ codigo: "", nome: "", fator_preco: 1, fator_agua: 1, ordem: 0 });
+  const [extraForm, setExtraForm] = useState({ codigo: "", nome: "", preco: 0, duracao_adicional_minutos: 0 });
 
   const createTipoMut = useMutation({
     mutationFn: () => operacoesLavagemService.createTipo(tipoForm),
@@ -57,9 +66,27 @@ export default function LavagemPage() {
     onSuccess: () => { toast.success("Box criado"); qc.invalidateQueries({ queryKey: ["lavagem-boxes"] }); setShowBox(false); },
   });
   const createOrdemMut = useMutation({
-    mutationFn: () => operacoesLavagemService.createOrdem(ordemForm),
-    onSuccess: () => { toast.success("Ordem criada"); qc.invalidateQueries({ queryKey: ["lavagem-ordens"] }); setShowOrdem(false); },
+    mutationFn: () => operacoesLavagemService.createOrdem({ ...ordemForm, origem: "backoffice_walkin" }),
+    onSuccess: () => { toast.success("Ordem criada"); qc.invalidateQueries({ queryKey: ["lavagem-ordens"] }); setShowOrdem(false); setOrdemForm({ tipo_lavagem_id: "", extra_ids: [] }); },
     onError: (e: any) => toast.error(e?.response?.data?.detail || "Erro"),
+  });
+  const createCategoriaMut = useMutation({
+    mutationFn: () => operacoesLavagemService.createCategoriaVeiculo(categoriaForm),
+    onSuccess: () => { toast.success("Categoria criada"); qc.invalidateQueries({ queryKey: ["lavagem-categorias"] }); setShowCategoria(false); setCategoriaForm({ codigo: "", nome: "", fator_preco: 1, fator_agua: 1, ordem: 0 }); },
+    onError: (e: any) => toast.error(e?.response?.data?.detail || "Erro"),
+  });
+  const deleteCategoriaMut = useMutation({
+    mutationFn: (id: string) => operacoesLavagemService.deleteCategoriaVeiculo(id),
+    onSuccess: () => { toast.success("Categoria eliminada"); qc.invalidateQueries({ queryKey: ["lavagem-categorias"] }); },
+  });
+  const createExtraMut = useMutation({
+    mutationFn: () => operacoesLavagemService.createExtra(extraForm),
+    onSuccess: () => { toast.success("Extra criado"); qc.invalidateQueries({ queryKey: ["lavagem-extras"] }); setShowExtra(false); setExtraForm({ codigo: "", nome: "", preco: 0, duracao_adicional_minutos: 0 }); },
+    onError: (e: any) => toast.error(e?.response?.data?.detail || "Erro"),
+  });
+  const deleteExtraMut = useMutation({
+    mutationFn: (id: string) => operacoesLavagemService.deleteExtra(id),
+    onSuccess: () => { toast.success("Extra eliminado"); qc.invalidateQueries({ queryKey: ["lavagem-extras"] }); },
   });
   const checkinMut = useMutation({
     mutationFn: (id: string) => operacoesLavagemService.checkin(id),
@@ -91,16 +118,22 @@ export default function LavagemPage() {
           <Droplets className="h-7 w-7 text-ink" />
           <h1 className="text-2xl font-bold text-ink dark:text-white">Lavagem Automóvel</h1>
         </div>
-        <button onClick={() => tab === "tipos" ? setShowTipo(true) : tab === "boxes" ? setShowBox(true) : setShowOrdem(true)}
+        <button onClick={() => {
+          if (tab === "tipos") setShowTipo(true);
+          else if (tab === "boxes") setShowBox(true);
+          else if (tab === "categorias") setShowCategoria(true);
+          else if (tab === "extras") setShowExtra(true);
+          else setShowOrdem(true);
+        }}
           className="inline-flex items-center gap-2 px-4 py-2 bg-ink text-white rounded-lg hover:bg-ink/90">
           <Plus className="h-4 w-4" /> Novo
         </button>
       </div>
 
-      <div className="flex gap-2 border-b border-ink-ghost/40 dark:border-ink-ghost/15">
-        {(["ordens", "tipos", "boxes"] as const).map((t) => (
+      <div className="flex gap-2 border-b border-ink-ghost/40 dark:border-ink-ghost/15 flex-wrap">
+        {(["ordens", "tipos", "categorias", "extras", "boxes"] as const).map((t) => (
           <button key={t} onClick={() => setTab(t)} className={`px-4 py-2 text-sm font-medium border-b-2 -mb-px capitalize ${tab === t ? "border-ink text-ink" : "border-transparent text-ink-mid/70"}`}>
-            {t === "ordens" ? "Ordens" : t === "tipos" ? "Tipos de Lavagem" : "Boxes"}
+            {t === "ordens" ? "Ordens" : t === "tipos" ? "Tipos de Lavagem" : t === "categorias" ? "Categorias de Veículo" : t === "extras" ? "Extras" : "Boxes"}
           </button>
         ))}
       </div>
@@ -112,7 +145,12 @@ export default function LavagemPage() {
             <div key={o.id} className="bg-panel dark:bg-panel rounded-xl shadow p-4 flex items-center justify-between">
               <div>
                 <p className="font-medium">{tipoNome(o.tipo_lavagem_id)}</p>
-                <span className={`text-xs px-2 py-1 rounded ${ESTADO_COLOR[o.estado]}`}>{ESTADO_LABEL[o.estado]}</span>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className={`text-xs px-2 py-1 rounded ${ESTADO_COLOR[o.estado]}`}>{ESTADO_LABEL[o.estado]}</span>
+                  <span className="text-xs text-ink-mid/70">{ORIGEM_LABEL[o.origem] || o.origem}</span>
+                  {o.preco_total != null && <span className="text-xs font-semibold text-ink">{o.preco_total.toLocaleString("pt-AO")} Kz</span>}
+                  {o.extras.length > 0 && <span className="text-xs text-ink-mid/70">+{o.extras.length} extra(s)</span>}
+                </div>
               </div>
               <div className="flex gap-2">
                 {(o.estado === "agendada" || o.estado === "confirmada") && (
@@ -171,6 +209,54 @@ export default function LavagemPage() {
         </div>
       )}
 
+      {tab === "categorias" && (
+        <div className="bg-panel dark:bg-panel rounded-xl shadow overflow-hidden">
+          <table className="w-full">
+            <thead className="bg-surface dark:bg-ink-ghost/20"><tr className="text-left text-xs uppercase text-ink-mid/70">
+              <th className="px-4 py-3">Código</th><th className="px-4 py-3">Nome</th><th className="px-4 py-3">Fator Preço</th><th className="px-4 py-3">Fator Água</th><th className="px-4 py-3 text-right">Acções</th>
+            </tr></thead>
+            <tbody className="divide-y divide-ink-ghost/40 dark:divide-ink-ghost/15">
+              {categorias.length === 0 && <tr><td colSpan={5} className="p-6 text-center text-ink-mid/70">Nenhuma categoria</td></tr>}
+              {categorias.map((c) => (
+                <tr key={c.id}>
+                  <td className="px-4 py-3 font-mono text-sm">{c.codigo}</td>
+                  <td className="px-4 py-3 text-sm">{c.nome}</td>
+                  <td className="px-4 py-3 text-sm tabular-nums">{c.fator_preco}×</td>
+                  <td className="px-4 py-3 text-sm tabular-nums">{c.fator_agua}×</td>
+                  <td className="px-4 py-3 text-right">
+                    <button onClick={() => confirm(`Eliminar "${c.nome}"?`) && deleteCategoriaMut.mutate(c.id)} className="p-2 text-ink-mid/70 hover:text-danger"><X className="h-4 w-4" /></button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {tab === "extras" && (
+        <div className="bg-panel dark:bg-panel rounded-xl shadow overflow-hidden">
+          <table className="w-full">
+            <thead className="bg-surface dark:bg-ink-ghost/20"><tr className="text-left text-xs uppercase text-ink-mid/70">
+              <th className="px-4 py-3">Código</th><th className="px-4 py-3">Nome</th><th className="px-4 py-3">Preço</th><th className="px-4 py-3">Duração extra</th><th className="px-4 py-3 text-right">Acções</th>
+            </tr></thead>
+            <tbody className="divide-y divide-ink-ghost/40 dark:divide-ink-ghost/15">
+              {extras.length === 0 && <tr><td colSpan={5} className="p-6 text-center text-ink-mid/70">Nenhum extra</td></tr>}
+              {extras.map((ex) => (
+                <tr key={ex.id}>
+                  <td className="px-4 py-3 font-mono text-sm">{ex.codigo}</td>
+                  <td className="px-4 py-3 text-sm">{ex.nome}</td>
+                  <td className="px-4 py-3 text-sm tabular-nums">{ex.preco.toLocaleString("pt-AO")} Kz</td>
+                  <td className="px-4 py-3 text-sm">{ex.duracao_adicional_minutos} min</td>
+                  <td className="px-4 py-3 text-right">
+                    <button onClick={() => confirm(`Eliminar "${ex.nome}"?`) && deleteExtraMut.mutate(ex.id)} className="p-2 text-ink-mid/70 hover:text-danger"><X className="h-4 w-4" /></button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
       <Modal open={showTipo} onClose={() => setShowTipo(false)} title="Novo tipo de lavagem">
         <form onSubmit={(e) => { e.preventDefault(); createTipoMut.mutate(); }} className="space-y-4">
           <div><label className="block text-sm font-medium mb-1">Código *</label><input value={tipoForm.codigo} onChange={(e) => setTipoForm({ ...tipoForm, codigo: e.target.value })} required className="w-full border rounded-lg px-3 py-2 dark:bg-ink-ghost/20 dark:border-ink-ghost/20" /></div>
@@ -200,12 +286,59 @@ export default function LavagemPage() {
       <Modal open={showOrdem} onClose={() => setShowOrdem(false)} title="Nova ordem de lavagem">
         <form onSubmit={(e) => { e.preventDefault(); createOrdemMut.mutate(); }} className="space-y-4">
           <div><label className="block text-sm font-medium mb-1">Tipo de lavagem *</label>
-            <select value={ordemForm.tipo_lavagem_id} onChange={(e) => setOrdemForm({ tipo_lavagem_id: e.target.value })} required className="w-full border rounded-lg px-3 py-2 dark:bg-ink-ghost/20 dark:border-ink-ghost/20">
+            <select value={ordemForm.tipo_lavagem_id} onChange={(e) => setOrdemForm({ ...ordemForm, tipo_lavagem_id: e.target.value })} required className="w-full border rounded-lg px-3 py-2 dark:bg-ink-ghost/20 dark:border-ink-ghost/20">
               <option value="">Seleccionar…</option>{tipos.map((t) => <option key={t.id} value={t.id}>{t.nome}</option>)}
             </select></div>
+          {extras.length > 0 && (
+            <div>
+              <label className="block text-sm font-medium mb-2">Extras</label>
+              <div className="space-y-1">
+                {extras.filter((ex) => ex.activo).map((ex) => (
+                  <label key={ex.id} className="flex items-center gap-2 text-sm">
+                    <input type="checkbox" checked={ordemForm.extra_ids.includes(ex.id)}
+                      onChange={(e) => setOrdemForm({
+                        ...ordemForm,
+                        extra_ids: e.target.checked ? [...ordemForm.extra_ids, ex.id] : ordemForm.extra_ids.filter((id) => id !== ex.id),
+                      })} />
+                    {ex.nome} — {ex.preco.toLocaleString("pt-AO")} Kz
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
           <div className="flex justify-end gap-2 pt-2">
             <button type="button" onClick={() => setShowOrdem(false)} className="px-4 py-2 border rounded-lg">Cancelar</button>
             <button type="submit" disabled={createOrdemMut.isPending} className="px-4 py-2 bg-ink text-white rounded-lg disabled:opacity-50">{createOrdemMut.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Criar"}</button>
+          </div>
+        </form>
+      </Modal>
+
+      <Modal open={showCategoria} onClose={() => setShowCategoria(false)} title="Nova categoria de veículo">
+        <form onSubmit={(e) => { e.preventDefault(); createCategoriaMut.mutate(); }} className="space-y-4">
+          <div><label className="block text-sm font-medium mb-1">Código *</label><input value={categoriaForm.codigo} onChange={(e) => setCategoriaForm({ ...categoriaForm, codigo: e.target.value })} required placeholder="ex.: suv_pickup" className="w-full border rounded-lg px-3 py-2 dark:bg-ink-ghost/20 dark:border-ink-ghost/20" /></div>
+          <div><label className="block text-sm font-medium mb-1">Nome *</label><input value={categoriaForm.nome} onChange={(e) => setCategoriaForm({ ...categoriaForm, nome: e.target.value })} required placeholder="ex.: SUV / Pickup" className="w-full border rounded-lg px-3 py-2 dark:bg-ink-ghost/20 dark:border-ink-ghost/20" /></div>
+          <div className="grid grid-cols-2 gap-3">
+            <div><label className="block text-xs mb-1">Fator preço</label><input type="number" step="0.1" min={0.1} value={categoriaForm.fator_preco} onChange={(e) => setCategoriaForm({ ...categoriaForm, fator_preco: parseFloat(e.target.value) || 1 })} className="w-full border rounded-lg px-2 py-1 dark:bg-ink-ghost/20 dark:border-ink-ghost/20" /></div>
+            <div><label className="block text-xs mb-1">Fator água</label><input type="number" step="0.1" min={0.1} value={categoriaForm.fator_agua} onChange={(e) => setCategoriaForm({ ...categoriaForm, fator_agua: parseFloat(e.target.value) || 1 })} className="w-full border rounded-lg px-2 py-1 dark:bg-ink-ghost/20 dark:border-ink-ghost/20" /></div>
+          </div>
+          <div className="flex justify-end gap-2 pt-2">
+            <button type="button" onClick={() => setShowCategoria(false)} className="px-4 py-2 border rounded-lg">Cancelar</button>
+            <button type="submit" disabled={createCategoriaMut.isPending} className="px-4 py-2 bg-ink text-white rounded-lg disabled:opacity-50">{createCategoriaMut.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Guardar"}</button>
+          </div>
+        </form>
+      </Modal>
+
+      <Modal open={showExtra} onClose={() => setShowExtra(false)} title="Novo extra">
+        <form onSubmit={(e) => { e.preventDefault(); createExtraMut.mutate(); }} className="space-y-4">
+          <div><label className="block text-sm font-medium mb-1">Código *</label><input value={extraForm.codigo} onChange={(e) => setExtraForm({ ...extraForm, codigo: e.target.value })} required placeholder="ex.: encerar" className="w-full border rounded-lg px-3 py-2 dark:bg-ink-ghost/20 dark:border-ink-ghost/20" /></div>
+          <div><label className="block text-sm font-medium mb-1">Nome *</label><input value={extraForm.nome} onChange={(e) => setExtraForm({ ...extraForm, nome: e.target.value })} required placeholder="ex.: Encerar" className="w-full border rounded-lg px-3 py-2 dark:bg-ink-ghost/20 dark:border-ink-ghost/20" /></div>
+          <div className="grid grid-cols-2 gap-3">
+            <div><label className="block text-xs mb-1">Preço (Kz)</label><input type="number" min={0} value={extraForm.preco} onChange={(e) => setExtraForm({ ...extraForm, preco: parseFloat(e.target.value) || 0 })} className="w-full border rounded-lg px-2 py-1 dark:bg-ink-ghost/20 dark:border-ink-ghost/20" /></div>
+            <div><label className="block text-xs mb-1">Duração extra (min)</label><input type="number" min={0} value={extraForm.duracao_adicional_minutos} onChange={(e) => setExtraForm({ ...extraForm, duracao_adicional_minutos: parseInt(e.target.value) || 0 })} className="w-full border rounded-lg px-2 py-1 dark:bg-ink-ghost/20 dark:border-ink-ghost/20" /></div>
+          </div>
+          <div className="flex justify-end gap-2 pt-2">
+            <button type="button" onClick={() => setShowExtra(false)} className="px-4 py-2 border rounded-lg">Cancelar</button>
+            <button type="submit" disabled={createExtraMut.isPending} className="px-4 py-2 bg-ink text-white rounded-lg disabled:opacity-50">{createExtraMut.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Guardar"}</button>
           </div>
         </form>
       </Modal>

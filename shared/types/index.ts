@@ -765,10 +765,31 @@ export interface TipoLavagem {
 }
 export interface BoxLavagem { id: string; company_id: string; codigo: string; nome: string; estado: string; capacidade: number; }
 export interface SlotLavagem { id: string; box_id: string; data_hora_inicio: string; data_hora_fim: string; estado: string; preco_override?: number | null; }
+export interface CategoriaVeiculo {
+  id: string; company_id: string; codigo: string; nome: string;
+  fator_preco: number; fator_agua: number; ordem: number; activo: boolean;
+}
+export interface CreateCategoriaVeiculoDTO {
+  codigo: string; nome: string; fator_preco?: number; fator_agua?: number; ordem?: number; activo?: boolean;
+}
+export interface ExtraLavagem {
+  id: string; company_id: string; codigo: string; nome: string;
+  preco: number; duracao_adicional_minutos: number; activo: boolean;
+}
+export interface CreateExtraLavagemDTO {
+  codigo: string; nome: string; preco: number; duracao_adicional_minutos?: number; activo?: boolean;
+}
+export interface CreateViaturaDTO {
+  cliente_id?: string; matricula: string; marca?: string; modelo?: string; cor?: string; categoria_veiculo_id?: string;
+}
+export interface ExtraAplicado { extra_id: string; preco_aplicado: number; }
+export type OrigemOrdemLavagem = "portal_cliente" | "backoffice_walkin" | "backoffice_telefone";
 export interface OrdemLavagem {
   id: string; company_id: string; cliente_id?: string | null; viatura_id?: string | null;
   tipo_lavagem_id: string; box_id?: string | null; slot_id?: string | null; estado: string;
-  agua_consumida_litros?: number | null; re_lavagem_de_id?: string | null; created_at: string;
+  origem: OrigemOrdemLavagem;
+  agua_consumida_litros?: number | null; re_lavagem_de_id?: string | null;
+  preco_total?: number | null; extras: ExtraAplicado[]; created_at: string;
 }
 
 export interface TanqueAgua {
@@ -831,7 +852,11 @@ export interface Oportunidade {
   valor_estimado: number; probabilidade_pct: number; etapa_pipeline_id: string; responsavel_id?: string | null;
   data_fecho_prevista?: string | null; estado: "aberta" | "ganha" | "perdida"; motivo_perda?: string | null; created_at: string;
 }
-export interface Viatura { id: string; company_id: string; cliente_id: string; matricula: string; marca?: string | null; modelo?: string | null; cor?: string | null; vin?: string | null; }
+export interface Viatura {
+  id: string; company_id: string; cliente_id?: string | null; matricula: string;
+  marca?: string | null; modelo?: string | null; cor?: string | null; vin?: string | null;
+  categoria_veiculo_id?: string | null;
+}
 export interface Visita {
   id: string; company_id: string; oportunidade_id?: string | null; cliente_id?: string | null;
   data_hora: string; tipo: "presencial" | "remota"; responsavel_id?: string | null; notas?: string | null; estado: string;

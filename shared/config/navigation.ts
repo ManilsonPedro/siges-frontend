@@ -321,6 +321,8 @@ export const NAV_CONFIG: NavItem[] = [
         icon: Car,
         children: [
           { type: "leaf", key: "op-lavagem-page",  label: "Ordens & Boxes",   href: "/dashboard/operacoes/lavagem",        permission: "operacoes.lavagem.view",   isNew: true },
+          { type: "leaf", key: "op-lavagem-fila",  label: "Fila de Atendimento", href: "/dashboard/operacoes/lavagem/fila", permission: "operacoes.lavagem.view",   isNew: true },
+          { type: "leaf", key: "op-lavagem-walkin",label: "Novo Walk-in",     href: "/dashboard/operacoes/lavagem/walkin/novo", permission: "operacoes.lavagem.agendar", isNew: true },
         ],
       },
       {

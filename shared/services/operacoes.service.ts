@@ -6,6 +6,7 @@ import type {
   CategoriaVeiculo, CreateCategoriaVeiculoDTO,
   ExtraLavagem, CreateExtraLavagemDTO,
   Viatura, CreateViaturaDTO,
+  CreateWalkinDTO, FilaItem,
   TanqueAgua, ConsumoAgua,
 } from "@/shared/types";
 
@@ -164,6 +165,15 @@ export const operacoesLavagemService = {
   },
   async createViatura(dto: CreateViaturaDTO): Promise<Viatura> {
     const { data } = await api.post<Viatura>("/operacoes/lavagem/viaturas", dto);
+    return data;
+  },
+  // Walk-in e Fila de Prioridade
+  async createWalkin(dto: CreateWalkinDTO): Promise<OrdemLavagem> {
+    const { data } = await api.post<OrdemLavagem>("/operacoes/lavagem/ordens/walkin", dto);
+    return data;
+  },
+  async filaAtendimento(): Promise<FilaItem[]> {
+    const { data } = await api.get<FilaItem[]>("/operacoes/lavagem/fila-atendimento");
     return data;
   },
   async checkin(id: string): Promise<OrdemLavagem> {

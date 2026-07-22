@@ -791,6 +791,16 @@ export interface OrdemLavagem {
   agua_consumida_litros?: number | null; re_lavagem_de_id?: string | null;
   preco_total?: number | null; extras: ExtraAplicado[]; created_at: string;
 }
+export interface CreateWalkinDTO {
+  nome_cliente?: string; telefone_cliente?: string; matricula: string;
+  marca?: string; modelo?: string; cor?: string; categoria_veiculo_id?: string;
+  cliente_id?: string; tipo_lavagem_id: string; extra_ids?: string[];
+}
+export interface FilaItem {
+  ordem_id: string; origem: OrigemOrdemLavagem; prioridade: 1 | 2 | 3;
+  matricula?: string | null; tipo_lavagem_nome: string;
+  slot_hora?: string | null; espera_desde: string;
+}
 
 export interface TanqueAgua {
   id: string; company_id: string; codigo: string; nome: string;

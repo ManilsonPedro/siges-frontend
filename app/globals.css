@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── IBM Plex Sans + Mono ──────────────────────────────────────────
+   Carregadas via next/font no layout.tsx — aqui apenas fallbacks
+   ─────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  :root {
+    /* ── Tokens de identidade Aquasan ── */
+    --ink:        #0b3b6f;   /* azul marinho do logo — autoridade máxima     */
+    --ink-mid:    #3d5a80;   /* derivado: ink suavizado — texto sec, bordas  */
+    --ink-ghost:  #c8d6e8;   /* derivado: ink quase branco — divisores       */
+    --surface:    #f0f4f9;   /* derivado: ink dessaturado 95% — fundo geral  */
+    --panel:      #ffffff;   /* painéis, cards                               */
+    --live:       #22c55e;   /* verde do logo — activo, pago, confirmado     */
+    --live-dim:   #dcfce7;   /* verde claro — fundo de badges positivos      */
+    --amber:      #d97706;   /* semântico — pendente, atenção                */
+    --amber-dim:  #fef3c7;   /* fundo de badges de atenção                  */
+    --danger:     #dc2626;   /* semântico — erro, cancelado                  */
+    --danger-dim: #fee2e2;   /* fundo de badges de erro                     */
+
+    /* ── Aliases shadcn/ui ── */
+    --background:          220 35% 96%;   /* surface */
+    --foreground:          213 74% 24%;   /* ink */
+    --card:                0 0% 100%;
+    --card-foreground:     213 74% 24%;
+    --popover:             0 0% 100%;
+    --popover-foreground:  213 74% 24%;
+    --primary:             213 74% 24%;   /* ink */
+    --primary-foreground:  0 0% 100%;
+    --secondary:           213 35% 88%;
+    --secondary-foreground: 213 74% 24%;
+    --muted:               213 25% 93%;
+    --muted-foreground:    213 30% 48%;
+    --accent:              213 35% 88%;
+    --accent-foreground:   213 74% 24%;
+    --destructive:         0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border:              213 25% 88%;
+    --input:               213 25% 88%;
+    --ring:                213 74% 35%;
+    --radius:              0.5rem;
+  }
+
+  .dark {
+    --ink:        #e8f0fa;
+    --ink-mid:    #a8c0dc;
+    --ink-ghost:  #1e3a5a;
+    --surface:    #0d1b2e;
+    --panel:      #112240;
+    --live:       #22c55e;
+    --live-dim:   #052e16;
+    --amber:      #fbbf24;
+    --amber-dim:  #1c1105;
+    --danger:     #f87171;
+    --danger-dim: #1c0a0a;
+
+    --background:          213 74% 11%;
+    --foreground:          213 40% 95%;
+    --card:                213 60% 14%;
+    --card-foreground:     213 40% 95%;
+    --popover:             213 60% 14%;
+    --popover-foreground:  213 40% 95%;
+    --primary:             213 60% 65%;
+    --primary-foreground:  213 74% 8%;
+    --secondary:           213 40% 20%;
+    --secondary-foreground: 213 40% 90%;
+    --muted:               213 40% 18%;
+    --muted-foreground:    213 25% 55%;
+    --accent:              213 40% 20%;
+    --accent-foreground:   213 40% 90%;
+    --destructive:         0 60% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border:              213 40% 20%;
+    --input:               213 40% 20%;
+    --ring:                213 60% 55%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-plex-sans, 'IBM Plex Sans', system-ui, sans-serif);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Números, moedas, referências — sempre mono */
+  .mono, [data-mono],
+  td.num, th.num { font-family: var(--font-plex-mono, 'IBM Plex Mono', monospace); }
+}
+
+/* ─── Tipografia ──────────────────────────────────────────────────── */
+@layer utilities {
+  .text-display {
+    font-family: var(--font-plex-sans, 'IBM Plex Sans', sans-serif);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .text-label-caps {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-mid);
+  }
+  .text-num {
+    font-family: var(--font-plex-mono, 'IBM Plex Mono', monospace);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ─── Scrollbar fina (sidebar) ────────────────────────────────────── */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-ghost) transparent;
+}
+.scrollbar-thin::-webkit-scrollbar { width: 4px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: var(--ink-ghost);
+  border-radius: 2px;
+}
+
+/* ─── Focus visível (acessibilidade) ─────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.dark :focus-visible { outline-color: var(--live); }
+
+/* ─── Reduced motion ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Impressão ──────────────────────────────────────────────────── */
+@media print {
+  @page { size: A4; margin: 15mm 12mm; }
+  .no-print, aside, nav, button, .sidebar, [role="dialog"] { display: none !important; }
+  body { background: white !important; color: black !important; font-size: 11pt; }
+  main { overflow: visible !important; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .printable-area { box-shadow: none !important; border: 1px solid #ccc !important; page-break-inside: avoid; }
+  thead { display: table-header-group; }
+  tfoot { display: table-footer-group; }
+  tr { page-break-inside: avoid; }
+}

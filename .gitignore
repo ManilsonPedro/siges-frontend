@@ -1,0 +1,20 @@
+# ============ Claude Code (sessões locais) ============
+.claude/
+
+# ============ Node / Next.js ============
+node_modules/
+.next/
+out/
+.env.local
+.env.production
+
+# ============ Sistema operativo ============
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ============ IDEs ============
+.vscode/settings.json
+.idea/
+*.suo
+*.user

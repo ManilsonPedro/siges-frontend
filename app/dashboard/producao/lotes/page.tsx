@@ -52,8 +52,8 @@ const LOTES: Lote[] = [
   {
     id: "L-002",
     numero: "KTK-260618-102",
-    produto: "Lixívia KITOKA 5L",
-    categoria: "KITOKA",
+    produto: "Lixívia Multiuso 5L",
+    categoria: "Multiuso",
     dataProducao: "18/06/2026",
     dataValidade: "18/12/2026",
     quantidade: 3500,
@@ -82,8 +82,8 @@ const LOTES: Lote[] = [
   {
     id: "L-004",
     numero: "KTK-260616-088",
-    produto: "Lixívia KITOKA 1L",
-    categoria: "KITOKA",
+    produto: "Lixívia Multiuso 1L",
+    categoria: "Multiuso",
     dataProducao: "16/06/2026",
     dataValidade: "16/12/2026",
     quantidade: 6000,
@@ -112,8 +112,8 @@ const LOTES: Lote[] = [
   {
     id: "L-006",
     numero: "KTK-260612-077",
-    produto: "Lixívia KITOKA 20L",
-    categoria: "KITOKA",
+    produto: "Lixívia Multiuso 20L",
+    categoria: "Multiuso",
     dataProducao: "12/06/2026",
     dataValidade: "12/12/2026",
     quantidade: 5200,
@@ -142,8 +142,8 @@ const LOTES: Lote[] = [
   {
     id: "L-008",
     numero: "KTK-260608-055",
-    produto: "Lixívia KITOKA 5L",
-    categoria: "KITOKA",
+    produto: "Lixívia Multiuso 5L",
+    categoria: "Multiuso",
     dataProducao: "08/06/2026",
     dataValidade: "08/12/2026",
     quantidade: 3100,
@@ -172,8 +172,8 @@ const LOTES: Lote[] = [
   {
     id: "L-010",
     numero: "KTK-260603-031",
-    produto: "Lixívia KITOKA 20L",
-    categoria: "KITOKA",
+    produto: "Lixívia Multiuso 20L",
+    categoria: "Multiuso",
     dataProducao: "03/06/2026",
     dataValidade: "03/12/2026",
     quantidade: 7200,
@@ -206,7 +206,7 @@ const STATUS_CONFIG: Record<StatusLote, { label: string; color: string; icon: Re
 
 export default function HistoricoLotesPage() {
   const [filtroStatus, setFiltroStatus] = useState<StatusLote | "Todos">("Todos");
-  const [filtroCategoria, setFiltroCategoria] = useState<"Todos" | "Hipoclorito" | "KITOKA">("Todos");
+  const [filtroCategoria, setFiltroCategoria] = useState<"Todos" | "Hipoclorito" | "Multiuso">("Todos");
   const [busca, setBusca] = useState("");
 
   const totalLitros = LOTES.reduce((acc, l) => acc + l.quantidade, 0);
@@ -236,7 +236,7 @@ export default function HistoricoLotesPage() {
             Histórico de Lotes
           </h1>
           <p className="mt-1 text-sm text-ink-mid/70 dark:text-ink-mid/60">
-            Histórico completo de lotes produzidos com rastreabilidade e certificados de qualidade — Aquasan Angola / KITOKA.
+            Histórico completo de lotes produzidos com rastreabilidade e certificados de qualidade.
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -354,12 +354,12 @@ export default function HistoricoLotesPage() {
           <FlaskConical className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-mid/50 pointer-events-none" />
           <select
             value={filtroCategoria}
-            onChange={(e) => setFiltroCategoria(e.target.value as "Todos" | "Hipoclorito" | "KITOKA")}
+            onChange={(e) => setFiltroCategoria(e.target.value as "Todos" | "Hipoclorito" | "Multiuso")}
             className="pl-9 pr-8 py-2 rounded-lg border border-ink-ghost/80 dark:border-gray-600 bg-panel dark:bg-panel text-ink dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 appearance-none"
           >
             <option value="Todos">Todas as categorias</option>
             <option value="Hipoclorito">Hipoclorito</option>
-            <option value="KITOKA">KITOKA</option>
+            <option value="Multiuso">Multiuso</option>
           </select>
         </div>
       </div>

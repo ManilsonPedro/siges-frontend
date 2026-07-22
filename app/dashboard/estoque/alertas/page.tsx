@@ -74,7 +74,7 @@ const PRODUTOS: Produto[] = [
   },
   {
     codigo: "EMB-PET-001",
-    nome: "Embalagem PET 1L KITOKA",
+    nome: "Embalagem PET 1L Multiuso",
     categoria: "Embalagem",
     unidade: "Unidade",
     stockActual: 1850,
@@ -88,7 +88,7 @@ const PRODUTOS: Produto[] = [
   },
   {
     codigo: "EMB-PET-005",
-    nome: "Embalagem PET 5L KITOKA",
+    nome: "Embalagem PET 5L Multiuso",
     categoria: "Embalagem",
     unidade: "Unidade",
     stockActual: 3200,
@@ -102,7 +102,7 @@ const PRODUTOS: Produto[] = [
   },
   {
     codigo: "PA-LIX-001",
-    nome: "Lixívia KITOKA 1L (Caixa 12un)",
+    nome: "Lixívia Multiuso 1L (Caixa 12un)",
     categoria: "Produto Acabado",
     unidade: "Caixa",
     stockActual: 3200,
@@ -116,7 +116,7 @@ const PRODUTOS: Produto[] = [
   },
   {
     codigo: "PA-LIX-005",
-    nome: "Lixívia KITOKA 5L (Caixa 6un)",
+    nome: "Lixívia Multiuso 5L (Caixa 6un)",
     categoria: "Produto Acabado",
     unidade: "Caixa",
     stockActual: 980,
@@ -144,7 +144,7 @@ const PRODUTOS: Produto[] = [
   },
   {
     codigo: "EMB-ROT-001",
-    nome: "Rótulo KITOKA 1L (Rolo 1000un)",
+    nome: "Rótulo Multiuso 1L (Rolo 1000un)",
     categoria: "Embalagem",
     unidade: "Rolo",
     stockActual: 2,
@@ -158,7 +158,7 @@ const PRODUTOS: Produto[] = [
   },
   {
     codigo: "EMB-ROT-005",
-    nome: "Rótulo KITOKA 5L (Rolo 500un)",
+    nome: "Rótulo Multiuso 5L (Rolo 500un)",
     categoria: "Embalagem",
     unidade: "Rolo",
     stockActual: 7,
@@ -283,7 +283,7 @@ export default function AlertasStockPage() {
             </h1>
           </div>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-            Monitorização de níveis de stock mínimo, máximo e situações críticas — Aquasan Angola.
+            Monitorização de níveis de stock mínimo, máximo e situações críticas.
           </p>
         </div>
         <div className="flex items-center gap-2">

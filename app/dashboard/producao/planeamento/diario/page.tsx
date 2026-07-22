@@ -52,7 +52,7 @@ const ORDENS: OrdemProducao[] = [
     id: "OP-2026-0642",
     data: "19/06/2026",
     turno: "Manhã (06h–14h)",
-    produto: "Lixívia KITOKA 5L",
+    produto: "Lixívia Multiuso 5L",
     lote: "KTK-260619-210",
     quantidadePlaneada: 1500,
     quantidadeRealizada: 1500,
@@ -80,7 +80,7 @@ const ORDENS: OrdemProducao[] = [
     id: "OP-2026-0644",
     data: "19/06/2026",
     turno: "Tarde (14h–22h)",
-    produto: "Lixívia KITOKA 1L",
+    produto: "Lixívia Multiuso 1L",
     lote: "KTK-260619-211",
     quantidadePlaneada: 800,
     quantidadeRealizada: 0,
@@ -108,7 +108,7 @@ const ORDENS: OrdemProducao[] = [
     id: "OP-2026-0639",
     data: "18/06/2026",
     turno: "Manhã (06h–14h)",
-    produto: "Lixívia KITOKA 20L",
+    produto: "Lixívia Multiuso 20L",
     lote: "KTK-260618-208",
     quantidadePlaneada: 1200,
     quantidadeRealizada: 900,
@@ -136,7 +136,7 @@ const ORDENS: OrdemProducao[] = [
     id: "OP-2026-0637",
     data: "17/06/2026",
     turno: "Manhã (06h–14h)",
-    produto: "Lixívia KITOKA 5L",
+    produto: "Lixívia Multiuso 5L",
     lote: "KTK-260617-205",
     quantidadePlaneada: 2000,
     quantidadeRealizada: 2000,
@@ -208,7 +208,7 @@ export default function ProducaoDiariaPage() {
             Produção Diária
           </h1>
           <p className="mt-1 text-sm text-ink-mid/70 dark:text-gray-400">
-            Planeamento e acompanhamento da produção diária de hipoclorito e lixívia KITOKA — Aquasan Angola.
+            Planeamento e acompanhamento da produção diária de hipoclorito e lixívia multiuso.
           </p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
@@ -295,9 +295,9 @@ export default function ProducaoDiariaPage() {
               {[
                 { produto: "Hipoclorito de Sódio 20L", planeado: 5500, realizado: 4920 },
                 { produto: "Hipoclorito de Sódio 5L", planeado: 3800, realizado: 3220 },
-                { produto: "Lixívia KITOKA 20L", planeado: 1200, realizado: 900 },
-                { produto: "Lixívia KITOKA 5L", planeado: 3500, realizado: 3500 },
-                { produto: "Lixívia KITOKA 1L", planeado: 800, realizado: 0 },
+                { produto: "Lixívia Multiuso 20L", planeado: 1200, realizado: 900 },
+                { produto: "Lixívia Multiuso 5L", planeado: 3500, realizado: 3500 },
+                { produto: "Lixívia Multiuso 1L", planeado: 800, realizado: 0 },
               ].map((row) => {
                 const pct = row.planeado > 0 ? Math.round((row.realizado / row.planeado) * 100) : 0;
                 const barColor =

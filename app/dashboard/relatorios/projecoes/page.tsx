@@ -46,7 +46,7 @@ const CENARIO_CONFIG: Record<Cenario, { color: string; bg: string; border: strin
     bg: "bg-emerald-50 dark:bg-emerald-950/30",
     border: "border-emerald-200 dark:border-emerald-800",
     dot: "bg-live",
-    label: "Crescimento acelerado — mercado favorável, expansão KITOKA",
+    label: "Crescimento acelerado — mercado favorável, expansão de linha",
   },
   Base: {
     color: "text-blue-700 dark:text-blue-400",
@@ -142,7 +142,7 @@ export default function ProjecoesPage() {
               </span>
             </div>
             <p className="text-sm text-ink-mid/70 dark:text-ink-mid/60">
-              Previsão financeira Jul–Dez 2026 — Aquasan Angola · Produto KITOKA
+              Previsão financeira Jul–Dez 2026
             </p>
           </div>
         </div>
@@ -361,7 +361,7 @@ export default function ProjecoesPage() {
         </div>
         <div className="px-6 py-3 bg-surface dark:bg-gray-900/20 border-t border-ink-ghost/40 dark:border-ink-ghost/20">
           <p className="text-xs text-ink-mid/50 dark:text-ink-mid/40">
-            Projeções calculadas com base em dados históricos Jan–Jun 2026 · Aquasan Angola · Produto KITOKA
+            Projeções calculadas com base em dados históricos Jan–Jun 2026
           </p>
         </div>
       </div>

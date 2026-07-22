@@ -63,7 +63,7 @@ interface VendaPeriodo {
 
 const VENDAS_PRODUTO: VendaProduto[] = [
   {
-    produto: "KITOKA Hipoclorito de Sódio 12%",
+    produto: "Hipoclorito de Sódio 12%",
     sku: "KTK-HCL-12",
     categoria: "Desinfectante",
     unidade: "litros",
@@ -73,7 +73,7 @@ const VENDAS_PRODUTO: VendaProduto[] = [
     variacao: 12.4,
   },
   {
-    produto: "KITOKA Lixívia Industrial 5L",
+    produto: "Lixívia Industrial 5L",
     sku: "KTK-LX-5L",
     categoria: "Desinfectante",
     unidade: "unidades",
@@ -83,7 +83,7 @@ const VENDAS_PRODUTO: VendaProduto[] = [
     variacao: 7.8,
   },
   {
-    produto: "KITOKA Hipoclorito de Cálcio 70%",
+    produto: "Hipoclorito de Cálcio 70%",
     sku: "KTK-HCC-70",
     categoria: "Desinfectante",
     unidade: "kg",
@@ -93,7 +93,7 @@ const VENDAS_PRODUTO: VendaProduto[] = [
     variacao: 18.2,
   },
   {
-    produto: "KITOKA Lixívia Doméstica 1L",
+    produto: "Lixívia Doméstica 1L",
     sku: "KTK-LX-1L",
     categoria: "Higiene",
     unidade: "unidades",
@@ -103,7 +103,7 @@ const VENDAS_PRODUTO: VendaProduto[] = [
     variacao: -3.1,
   },
   {
-    produto: "KITOKA Água Tratada Bidão 20L",
+    produto: "Água Tratada Bidão 20L",
     sku: "KTK-AT-20L",
     categoria: "Água Potável",
     unidade: "unidades",
@@ -113,7 +113,7 @@ const VENDAS_PRODUTO: VendaProduto[] = [
     variacao: 5.6,
   },
   {
-    produto: "KITOKA Cloro Granulado 25kg",
+    produto: "Cloro Granulado 25kg",
     sku: "KTK-CG-25",
     categoria: "Desinfectante",
     unidade: "sacos",
@@ -123,7 +123,7 @@ const VENDAS_PRODUTO: VendaProduto[] = [
     variacao: 9.3,
   },
   {
-    produto: "KITOKA Sulfato de Alumínio 50kg",
+    produto: "Sulfato de Alumínio 50kg",
     sku: "KTK-SA-50",
     categoria: "Coagulante",
     unidade: "sacos",
@@ -581,7 +581,7 @@ export default function RelatorioVendasPage() {
               Relatório de Vendas
             </h1>
             <p className="text-sm text-ink-mid/70 dark:text-ink-mid/60">
-              Análise por produto, cliente, região e período · Aquasan / KITOKA Angola
+              Análise por produto, cliente, região e período
             </p>
           </div>
         </div>
@@ -729,7 +729,7 @@ export default function RelatorioVendasPage() {
           Gráfico — integração BI em curso
         </p>
         <p className="text-sm text-ink-mid/50 dark:text-ink-mid/40 max-w-md">
-          Visualização de barras e linha de tendência de vendas mensais por produto KITOKA. Será integrado com o módulo de BI após configuração do conector de dados.
+          Visualização de barras e linha de tendência de vendas mensais por produto. Será integrado com o módulo de BI após configuração do conector de dados.
         </p>
       </div>
 
@@ -764,7 +764,7 @@ export default function RelatorioVendasPage() {
         {/* Footer */}
         <div className="px-6 py-3 bg-surface dark:bg-gray-900/20 border-t border-ink-ghost/40 dark:border-gray-700">
           <p className="text-xs text-ink-mid/50 dark:text-ink-mid/40">
-            Dados do período {periodoInicio} → {periodoFim} · Aquasan Angola — Produtos KITOKA · Gerado em{" "}
+            Dados do período {periodoInicio} → {periodoFim} · Gerado em{" "}
             {new Date().toLocaleDateString("pt-PT")}
           </p>
         </div>

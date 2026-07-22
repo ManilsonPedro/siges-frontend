@@ -44,7 +44,7 @@ const INSPECOES: Inspecao[] = [
     id: "INS-002",
     data: "17/06/2026",
     lote: "KTK-260617-102",
-    produto: "Lixívia KITOKA 5L",
+    produto: "Lixívia Multiuso 5L",
     inspector: "Domingos Ferreira",
     ph: "12.4",
     concentracao: "3.9%",
@@ -70,7 +70,7 @@ const INSPECOES: Inspecao[] = [
     id: "INS-004",
     data: "15/06/2026",
     lote: "KTK-260615-088",
-    produto: "Lixívia KITOKA 1L",
+    produto: "Lixívia Multiuso 1L",
     inspector: "Carlota Nzinga",
     ph: "12.5",
     concentracao: "3.8%",
@@ -96,7 +96,7 @@ const INSPECOES: Inspecao[] = [
     id: "INS-006",
     data: "12/06/2026",
     lote: "KTK-260612-077",
-    produto: "Lixívia KITOKA 20L",
+    produto: "Lixívia Multiuso 20L",
     inspector: "Esperança Luvualu",
     ph: "12.7",
     concentracao: "4.0%",
@@ -166,7 +166,7 @@ export default function InspecoesQualidadePage() {
             Inspeções de Qualidade
           </h1>
           <p className="mt-1 text-sm text-ink-mid/70 dark:text-ink-mid/60">
-            Registo dos controlos de qualidade realizados sobre os lotes produzidos na Aquasan Angola.
+            Registo dos controlos de qualidade realizados sobre os lotes produzidos pela empresa.
           </p>
         </div>
         <span className="inline-flex items-center rounded-full bg-violet-100 dark:bg-violet-900/40 px-3 py-1 text-xs font-semibold text-violet-700 dark:text-violet-300">

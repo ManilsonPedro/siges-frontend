@@ -428,7 +428,7 @@ export function EnterpriseSidebar() {
             )}
             <div className="min-w-0">
               <p className="text-[0.8125rem] font-semibold text-ink dark:text-white truncate leading-tight">
-                {company?.nome || "Aquasan"}
+                {company?.nome || "SIGES BI JENNOS"}
               </p>
               <p className="text-2xs text-ink-mid/60 dark:text-ink-mid/50 truncate tracking-wide">
                 ERP Industrial

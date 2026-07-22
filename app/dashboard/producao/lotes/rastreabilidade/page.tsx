@@ -38,7 +38,7 @@ const LOTES_MOCK: Record<string, {
     materiasPrimas: [
       { nome: "Cloro Gasoso 99%", quantidade: "320 kg", fornecedor: "ChemTrade Luanda Lda", lote: "CG-260601-01" },
       { nome: "Soda Cáustica NaOH 50%", quantidade: "580 kg", fornecedor: "Quimicão Angola", lote: "SC-260601-07" },
-      { nome: "Água desmineralizada", quantidade: "7100 L", fornecedor: "Aquasan (produção interna)", lote: "AD-260610-02" },
+      { nome: "Água desmineralizada", quantidade: "7100 L", fornecedor: "Produção interna", lote: "AD-260610-02" },
     ],
     controlos: [
       { data: "10/06/2026 14:00", inspector: "Carlota Nzinga", parametro: "pH", resultado: "12.8", estado: "Aprovado" },
@@ -54,14 +54,14 @@ const LOTES_MOCK: Record<string, {
   },
   "KTK-260615-088": {
     numero: "KTK-260615-088",
-    produto: "Lixívia KITOKA 5L",
+    produto: "Lixívia Multiuso 5L",
     dataFabrico: "15/06/2026",
     ordemProducao: "OP-2026-0631",
     quantidade: 3500,
     unidade: "L",
     responsavel: "Beatriz Venâncio",
     materiasPrimas: [
-      { nome: "Hipoclorito de Sódio 12%", quantidade: "2800 L", fornecedor: "Aquasan (produção interna)", lote: "HIP-260612-391" },
+      { nome: "Hipoclorito de Sódio 12%", quantidade: "2800 L", fornecedor: "Produção interna", lote: "HIP-260612-391" },
       { nome: "Surfactante aniónico", quantidade: "35 kg", fornecedor: "Bema Chemicals Lda", lote: "SA-260601-14" },
       { nome: "Corante azul alimentar", quantidade: "2.1 kg", fornecedor: "Bema Chemicals Lda", lote: "CA-260601-02" },
       { nome: "Embalagem PEAD 5L", quantidade: "700 un", fornecedor: "PlastiAngola SA", lote: "EM-260601-05" },

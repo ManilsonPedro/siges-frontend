@@ -8,7 +8,7 @@
 
 @layer base {
   :root {
-    /* ── Tokens de identidade Aquasan ── */
+    /* ── Tokens de identidade visual ── */
     --ink:        #0b3b6f;   /* azul marinho do logo — autoridade máxima     */
     --ink-mid:    #3d5a80;   /* derivado: ink suavizado — texto sec, bordas  */
     --ink-ghost:  #c8d6e8;   /* derivado: ink quase branco — divisores       */

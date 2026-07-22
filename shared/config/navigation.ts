@@ -574,7 +574,7 @@ export const NAV_CONFIG: NavItem[] = [
   { type: "divider", key: "div-7" },
 
   // ═══════════════════════════════════════════════════════
-  // 🏭 PRODUÇÃO INDUSTRIAL (módulo diferencial Aquasan)
+  // 🏭 PRODUÇÃO INDUSTRIAL (módulo diferencial)
   // ═══════════════════════════════════════════════════════
   {
     type: "section",
@@ -600,7 +600,7 @@ export const NAV_CONFIG: NavItem[] = [
         icon: ClipboardList,
         children: [
           { type: "leaf", key: "ord-hipoclorito", label: "Hipoclorito de Sódio", href: "/dashboard/producao/ordens?produto=hipoclorito", permission: "producao.ordens.listar" },
-          { type: "leaf", key: "ord-kitoka",      label: "Lixívia KITOKA",       href: "/dashboard/producao/ordens?produto=kitoka",       permission: "producao.ordens.listar" },
+          { type: "leaf", key: "ord-multiuso",    label: "Lixívia Multiuso",     href: "/dashboard/producao/ordens?produto=multiuso",     permission: "producao.ordens.listar" },
           { type: "leaf", key: "ord-nova",        label: "Nova Ordem",           href: "/dashboard/producao/ordens/nova",                 permission: "producao.ordens.criar" },
           { type: "leaf", key: "ord-lista",       label: "Todas as Ordens",      href: "/dashboard/producao/ordens",                      permission: "producao.ordens.listar" },
         ],

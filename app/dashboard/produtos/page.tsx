@@ -174,7 +174,7 @@ export default function ProdutosPage() {
         <div>
           <h1 className="text-2xl font-bold text-ink dark:text-white">Produtos</h1>
           <p className="text-ink-mid/70 text-sm">
-            {produtos.length} produto(s) · marca KITOKA — Aquasan Angola
+            {produtos.length} produto(s) · gestão de marcas e catálogo
           </p>
         </div>
         <button onClick={() => setShowForm(true)} className="flex items-center gap-2 bg-live hover:bg-live/90 text-white px-4 py-2 rounded-lg text-sm font-medium">
@@ -227,9 +227,9 @@ export default function ProdutosPage() {
                     <td className="px-4 py-3 font-mono text-xs text-gray-700 dark:text-gray-300">{p.sku}</td>
                     <td className="px-4 py-3 font-medium text-ink dark:text-white">{p.nome}</td>
                     <td className="px-4 py-3 text-ink-mid dark:text-ink-mid/60">
-                      {p.marca === "KITOKA" ? (
+                      {p.marca === "Marca Própria" ? (
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold bg-live-dim text-live">
-                          <Tag className="h-3 w-3" /> KITOKA
+                          <Tag className="h-3 w-3" /> Marca Própria
                         </span>
                       ) : (p.marca || "—")}
                     </td>
@@ -272,7 +272,7 @@ export default function ProdutosPage() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Marca</label>
-              <input {...register("marca")} className="w-full rounded-lg border border-ink-ghost/80 dark:border-gray-600 px-3 py-2 text-sm bg-panel dark:bg-ink-ghost/20 text-ink dark:text-white" placeholder="KITOKA" />
+              <input {...register("marca")} className="w-full rounded-lg border border-ink-ghost/80 dark:border-gray-600 px-3 py-2 text-sm bg-panel dark:bg-ink-ghost/20 text-ink dark:text-white" placeholder="Marca Própria" />
             </div>
           </div>
           <div>

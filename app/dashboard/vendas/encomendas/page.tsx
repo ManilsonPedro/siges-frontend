@@ -23,7 +23,7 @@ const ENCOMENDAS = [
     data: "2026-06-15",
     dataEntrega: "2026-06-20",
     produtos: [
-      { nome: "Lixívia KITOKA 5L", qty: 120 },
+      { nome: "Lixívia Multiuso 5L", qty: 120 },
       { nome: "Hipoclorito de Sódio 20L", qty: 30 },
     ],
     valorTotal: 1_245_600,
@@ -35,7 +35,7 @@ const ENCOMENDAS = [
     cliente: "Distribuidora Kero Talatona",
     data: "2026-06-14",
     dataEntrega: "2026-06-18",
-    produtos: [{ nome: "Lixívia KITOKA 1L", qty: 500 }],
+    produtos: [{ nome: "Lixívia Multiuso 1L", qty: 500 }],
     valorTotal: 875_000,
     estado: "Entregue",
     vendedor: "Fernanda Nzinga",
@@ -79,8 +79,8 @@ const ENCOMENDAS = [
     data: "2026-06-10",
     dataEntrega: "2026-06-28",
     produtos: [
-      { nome: "Lixívia KITOKA 5L", qty: 300 },
-      { nome: "Lixívia KITOKA 1L", qty: 600 },
+      { nome: "Lixívia Multiuso 5L", qty: 300 },
+      { nome: "Lixívia Multiuso 1L", qty: 600 },
     ],
     valorTotal: 5_460_000,
     estado: "Confirmada",
@@ -92,7 +92,7 @@ const ENCOMENDAS = [
     data: "2026-06-09",
     dataEntrega: "2026-06-12",
     produtos: [
-      { nome: "Lixívia KITOKA 5L", qty: 60 },
+      { nome: "Lixívia Multiuso 5L", qty: 60 },
       { nome: "Hipoclorito de Sódio 20L", qty: 10 },
     ],
     valorTotal: 862_000,
@@ -115,8 +115,8 @@ const ENCOMENDAS = [
     data: "2026-06-07",
     dataEntrega: "2026-06-22",
     produtos: [
-      { nome: "Lixívia KITOKA 1L", qty: 1000 },
-      { nome: "Lixívia KITOKA 5L", qty: 200 },
+      { nome: "Lixívia Multiuso 1L", qty: 1000 },
+      { nome: "Lixívia Multiuso 5L", qty: 200 },
     ],
     valorTotal: 3_850_000,
     estado: "Pendente",
@@ -231,7 +231,7 @@ export default function EncomendasPage() {
               </span>
             </div>
             <p className="text-sm text-ink-mid/70 dark:text-ink-mid/60 mt-0.5">
-              Gestão de encomendas de clientes — Aquasan Angola
+              Gestão de encomendas de clientes
             </p>
           </div>
         </div>

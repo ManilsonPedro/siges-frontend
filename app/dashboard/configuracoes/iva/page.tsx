@@ -84,7 +84,7 @@ export default function IvaPage() {
             </span>
           </div>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Taxas de IVA em vigor para facturação da Aquasan Angola
+            Taxas de IVA em vigor para facturação da empresa
           </p>
         </div>
         <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-700 text-white text-sm font-medium transition-colors self-start sm:self-auto">

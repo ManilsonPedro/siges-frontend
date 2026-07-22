@@ -43,7 +43,7 @@ interface KpiCard {
 }
 
 // ---------------------------------------------------------------------------
-// Mock data — realistic Angolan water treatment company (Aquasan / KITOKA)
+// Mock data — realistic Angolan water treatment company
 // ---------------------------------------------------------------------------
 
 const COMPRAS: CompraItem[] = [
@@ -51,7 +51,7 @@ const COMPRAS: CompraItem[] = [
     id: "1",
     codigo: "OC-2026-0041",
     data: "2026-06-02",
-    fornecedor: "KITOKA Industrial Lda",
+    fornecedor: "Distribuidora Industrial Lda",
     categoria: "Químicos",
     produto: "Hipoclorito de Sódio 12% — Granel",
     quantidade: 8_000,
@@ -67,9 +67,9 @@ const COMPRAS: CompraItem[] = [
     id: "2",
     codigo: "OC-2026-0042",
     data: "2026-06-04",
-    fornecedor: "KITOKA Industrial Lda",
+    fornecedor: "Distribuidora Industrial Lda",
     categoria: "Químicos",
-    produto: "Lixívia KITOKA 5 L (caixas 4 un)",
+    produto: "Lixívia Multiuso 5 L (caixas 4 un)",
     quantidade: 2_400,
     unidade: "L",
     preco_unitario: 650,
@@ -99,7 +99,7 @@ const COMPRAS: CompraItem[] = [
     id: "4",
     codigo: "OC-2026-0044",
     data: "2026-06-07",
-    fornecedor: "KITOKA Industrial Lda",
+    fornecedor: "Distribuidora Industrial Lda",
     categoria: "Químicos",
     produto: "Hipoclorito de Sódio 12% — Barris 200 L",
     quantidade: 4_000,
@@ -195,9 +195,9 @@ const COMPRAS: CompraItem[] = [
     id: "10",
     codigo: "OC-2026-0050",
     data: "2026-06-16",
-    fornecedor: "KITOKA Industrial Lda",
+    fornecedor: "Distribuidora Industrial Lda",
     categoria: "Químicos",
-    produto: "Lixívia KITOKA 20 L (bombonas)",
+    produto: "Lixívia Multiuso 20 L (bombonas)",
     quantidade: 1_000,
     unidade: "L",
     preco_unitario: 620,
@@ -384,7 +384,7 @@ export default function RelatorioComprasPage() {
               Relatório de Compras
             </h1>
             <p className="text-sm text-ink-mid/70 dark:text-ink-mid/60">
-              Análise de compras por fornecedor, categoria e período — Aquasan Angola
+              Análise de compras por fornecedor, categoria e período
             </p>
           </div>
         </div>
@@ -767,7 +767,7 @@ export default function RelatorioComprasPage() {
 
         <div className="px-6 py-3 bg-surface dark:bg-gray-800/30 border-t border-ink-ghost/40 dark:border-ink-ghost/15">
           <p className="text-xs text-ink-mid/50 dark:text-ink-mid/40">
-            Dados de compras — Aquasan Angola · Produto KITOKA · Período:{" "}
+            Dados de compras · Período:{" "}
             {dataInicio ? new Date(dataInicio).toLocaleDateString("pt-PT") : "Início"} →{" "}
             {dataFim ? new Date(dataFim).toLocaleDateString("pt-PT") : "Fim"}
           </p>

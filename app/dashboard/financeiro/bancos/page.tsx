@@ -84,7 +84,7 @@ export default function BancosPage() {
         <div>
           <h1 className="text-2xl font-bold text-ink dark:text-white">Contas Bancárias</h1>
           <p className="text-sm text-ink-mid/70 dark:text-ink-mid/60 mt-1">
-            Posição bancária consolidada da Aquasan Angola — Junho 2026
+            Posição bancária consolidada — Junho 2026
           </p>
         </div>
         <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-100 dark:bg-blue-900/40 px-3 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">

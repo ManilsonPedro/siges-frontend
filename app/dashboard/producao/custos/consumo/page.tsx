@@ -22,7 +22,7 @@ interface LinhaConsumo {
 const CONSUMOS: LinhaConsumo[] = [
   {
     ordemProducao: "OP-2026-0631",
-    produto: "Lixívia KITOKA 5L",
+    produto: "Lixívia Multiuso 5L",
     materiaPrima: "Hipoclorito de Sódio 12%",
     unidade: "L",
     qtdPrevista: 2750,
@@ -32,7 +32,7 @@ const CONSUMOS: LinhaConsumo[] = [
   },
   {
     ordemProducao: "OP-2026-0631",
-    produto: "Lixívia KITOKA 5L",
+    produto: "Lixívia Multiuso 5L",
     materiaPrima: "Surfactante aniónico",
     unidade: "kg",
     qtdPrevista: 32,
@@ -42,7 +42,7 @@ const CONSUMOS: LinhaConsumo[] = [
   },
   {
     ordemProducao: "OP-2026-0631",
-    produto: "Lixívia KITOKA 5L",
+    produto: "Lixívia Multiuso 5L",
     materiaPrima: "Embalagem PEAD 5L",
     unidade: "un",
     qtdPrevista: 700,
@@ -82,7 +82,7 @@ const CONSUMOS: LinhaConsumo[] = [
   },
   {
     ordemProducao: "OP-2026-0598",
-    produto: "Lixívia KITOKA 1L",
+    produto: "Lixívia Multiuso 1L",
     materiaPrima: "Hipoclorito de Sódio 12%",
     unidade: "L",
     qtdPrevista: 1200,
@@ -92,7 +92,7 @@ const CONSUMOS: LinhaConsumo[] = [
   },
   {
     ordemProducao: "OP-2026-0598",
-    produto: "Lixívia KITOKA 1L",
+    produto: "Lixívia Multiuso 1L",
     materiaPrima: "Embalagem PEAD 1L",
     unidade: "un",
     qtdPrevista: 1200,

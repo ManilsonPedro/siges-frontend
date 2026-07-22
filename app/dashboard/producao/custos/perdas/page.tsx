@@ -30,7 +30,7 @@ const PERDAS: Perca[] = [
   {
     id: "PDA-001",
     data: "05/06/2026",
-    produto: "Lixívia KITOKA 5L",
+    produto: "Lixívia Multiuso 5L",
     lote: "KTK-260605-061",
     quantidadePerdida: 80,
     unidade: "L",
@@ -66,7 +66,7 @@ const PERDAS: Perca[] = [
   {
     id: "PDA-004",
     data: "15/06/2026",
-    produto: "Lixívia KITOKA 1L",
+    produto: "Lixívia Multiuso 1L",
     lote: "KTK-260615-090",
     quantidadePerdida: 12,
     unidade: "L",
@@ -90,7 +90,7 @@ const PERDAS: Perca[] = [
   {
     id: "PDA-006",
     data: "18/06/2026",
-    produto: "Lixívia KITOKA 5L",
+    produto: "Lixívia Multiuso 5L",
     lote: "KTK-260618-115",
     quantidadePerdida: 35,
     unidade: "L",
@@ -147,7 +147,7 @@ export default function RegistoPerdasPage() {
             Registo de Perdas
           </h1>
           <p className="mt-1 text-sm text-ink-mid/70 dark:text-ink-mid/60">
-            Controlo de perdas de produto — Aquasan Angola, Junho 2026.
+            Controlo de perdas de produto — Junho 2026.
           </p>
         </div>
         <span className="inline-flex items-center rounded-full bg-violet-100 dark:bg-violet-900/40 px-3 py-1 text-xs font-semibold text-violet-700 dark:text-violet-300">

@@ -18,7 +18,7 @@ import {
 const webhooks = [
   {
     id: 1,
-    urlDestino: "https://erp.aquasan.ao/webhooks/vendas",
+    urlDestino: "https://erp.empresa.ao/webhooks/vendas",
     evento: "venda.criada",
     descricaoEvento: "Nova venda registada no Financ-BI",
     estado: "Activo",
@@ -28,7 +28,7 @@ const webhooks = [
   },
   {
     id: 2,
-    urlDestino: "https://alerts.aquasan.ao/stock",
+    urlDestino: "https://alerts.empresa.ao/stock",
     evento: "stock.alerta",
     descricaoEvento: "Stock abaixo do nível mínimo configurado",
     estado: "Activo",
@@ -38,7 +38,7 @@ const webhooks = [
   },
   {
     id: 3,
-    urlDestino: "https://financbi.aquasan.ao/aprovacoes/notify",
+    urlDestino: "https://financbi.empresa.ao/aprovacoes/notify",
     evento: "aprovacao.pendente",
     descricaoEvento: "Documento aguarda aprovação de responsável",
     estado: "Activo",
@@ -48,7 +48,7 @@ const webhooks = [
   },
   {
     id: 4,
-    urlDestino: "https://crm.aquasan.ao/sync/clientes",
+    urlDestino: "https://crm.empresa.ao/sync/clientes",
     evento: "venda.criada",
     descricaoEvento: "Sincronização de cliente com o CRM após venda",
     estado: "Activo",
@@ -68,7 +68,7 @@ const webhooks = [
   },
   {
     id: 6,
-    urlDestino: "https://erp.aquasan.ao/webhooks/compras",
+    urlDestino: "https://erp.empresa.ao/webhooks/compras",
     evento: "aprovacao.pendente",
     descricaoEvento: "Notificação de OC pendente no Primavera",
     estado: "Activo",

@@ -122,7 +122,7 @@ export default function EficienciaProducaoPage() {
             Eficiência de Produção
           </h1>
           <p className="mt-1 text-sm text-ink-mid/70 dark:text-ink-mid/60">
-            Indicadores de eficiência (OEE, rendimento, rejeição e paragens) — Aquasan Angola, Junho 2026.
+            Indicadores de eficiência (OEE, rendimento, rejeição e paragens) — Junho 2026.
           </p>
         </div>
         <span className="inline-flex items-center rounded-full bg-violet-100 dark:bg-violet-900/40 px-3 py-1 text-xs font-semibold text-violet-700 dark:text-violet-300">

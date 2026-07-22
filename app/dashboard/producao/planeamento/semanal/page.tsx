@@ -83,10 +83,10 @@ const PLANO: LinhaPlano[] = [
   },
   {
     id: "PL-003",
-    produto: "Lixívia KITOKA 5L",
-    categoria: "Lixívia KITOKA",
+    produto: "Lixívia Multiuso 5L",
+    categoria: "Lixívia Multiuso",
     operador: "Beatriz Venâncio",
-    linha: "Linha B — KITOKA",
+    linha: "Linha B — Multiuso",
     metaDiaria: 1400,
     unidade: "L",
     segunda: 1400,
@@ -99,10 +99,10 @@ const PLANO: LinhaPlano[] = [
   },
   {
     id: "PL-004",
-    produto: "Lixívia KITOKA 1L",
-    categoria: "Lixívia KITOKA",
+    produto: "Lixívia Multiuso 1L",
+    categoria: "Lixívia Multiuso",
     operador: "Carlota Nzinga",
-    linha: "Linha B — KITOKA",
+    linha: "Linha B — Multiuso",
     metaDiaria: 2400,
     unidade: "L",
     segunda: 2400,
@@ -131,7 +131,7 @@ const PLANO: LinhaPlano[] = [
   },
   {
     id: "PL-006",
-    produto: "Água Tratada AQUASAN 20L",
+    produto: "Água Tratada Multiuso 20L",
     categoria: "Água Tratada",
     operador: "Joaquim Ndala",
     linha: "Linha D — Água Tratada",
@@ -152,6 +152,7 @@ const REALIZADO: Record<string, RealizadoDia> = {
   "PL-002": { segunda: 1190, terca: 1210, quarta: 1180, quinta: 1220, sexta: 0, sabado: 0 },
   "PL-003": { segunda: 1360, terca: 1400, quarta: 1420, quinta: 1380, sexta: 0, sabado: 0 },
   "PL-004": { segunda: 2380, terca: 2420, quarta: 2400, quinta: 2390, sexta: 0, sabado: 0 },
+
   "PL-005": { segunda: 800, terca: 780, quarta: 820, quinta: 800, sexta: 0, sabado: 0 },
   "PL-006": { segunda: 3000, terca: 2980, quarta: 3020, quinta: 3000, sexta: 0, sabado: 0 },
 };
@@ -223,7 +224,7 @@ function CapacidadeBar({ usado, max }: { usado: number; max: number }) {
 
 const CATEGORIA_CORES: Record<string, string> = {
   "Hipoclorito":    "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300",
-  "Lixívia KITOKA": "bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300",
+  "Lixívia Multiuso": "bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300",
   "Detergente":     "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300",
   "Água Tratada":   "bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300",
 };

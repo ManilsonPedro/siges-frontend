@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { BarChart3, Info, TrendingUp, TrendingDown, Minus, Download, Filter } from "lucide-react";
 
-const CENTROS = ["CC001 – Produção NaOCl", "CC002 – Produção KITOKA", "CC003 – Logística", "CC004 – Administração", "CC005 – Comercial"];
+const CENTROS = ["CC001 – Produção NaOCl", "CC002 – Produção Multiuso", "CC003 – Logística", "CC004 – Administração", "CC005 – Comercial"];
 
 const ANALISES = [
   {
@@ -17,7 +17,7 @@ const ANALISES = [
     ],
   },
   {
-    centro: "CC002 – Produção KITOKA",
+    centro: "CC002 – Produção Multiuso",
     linhas: [
       { descricao: "Matérias-primas",           mesActual: 3310000, mesAnterior: 3450000, orcamento: 3400000 },
       { descricao: "Mão-de-obra directa",       mesActual: 1680000, mesAnterior: 1680000, orcamento: 1680000 },
@@ -119,7 +119,7 @@ export default function AnalisesContabilisticasPage() {
             </h1>
           </div>
           <p className="mt-1 text-sm text-ink-mid/70 dark:text-ink-mid/60">
-            Comparativo: Março 2026 vs Fevereiro 2026 vs Orçamento — Aquasan Angola
+            Comparativo: Março 2026 vs Fevereiro 2026 vs Orçamento
           </p>
         </div>
         <button className="flex items-center gap-2 rounded-lg border border-ink-ghost/60 bg-panel px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-surface dark:border-gray-700 dark:bg-panel dark:text-gray-200 dark:hover:bg-gray-700">

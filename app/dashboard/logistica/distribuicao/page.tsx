@@ -65,7 +65,7 @@ const PLANO: Record<DiaSemana, EntregaPlano[]> = {
     {
       id: "s3",
       cliente: "Kero Viana",
-      produto: "Lixívia KITOKA 1L",
+      produto: "Lixívia Multiuso 1L",
       quantidade: "360 un",
       motorista: "Armando Lopes",
       veiculo: "LD-45-78-XA",
@@ -77,7 +77,7 @@ const PLANO: Record<DiaSemana, EntregaPlano[]> = {
     {
       id: "t1",
       cliente: "Hotel Trópico",
-      produto: "Lixívia KITOKA 5L",
+      produto: "Lixívia Multiuso 5L",
       quantidade: "80 un",
       motorista: "Hélder Nascimento",
       veiculo: "LD-88-21-KC",
@@ -87,7 +87,7 @@ const PLANO: Record<DiaSemana, EntregaPlano[]> = {
     {
       id: "t2",
       cliente: "Nosso Super Rocha Pinto",
-      produto: "Lixívia KITOKA 1L",
+      produto: "Lixívia Multiuso 1L",
       quantidade: "240 un",
       motorista: "Carlos Domingos",
       veiculo: "LD-12-33-MB",
@@ -99,7 +99,7 @@ const PLANO: Record<DiaSemana, EntregaPlano[]> = {
     {
       id: "q1",
       cliente: "Supermercado Líder",
-      produto: "Lixívia KITOKA 1L",
+      produto: "Lixívia Multiuso 1L",
       quantidade: "240 un",
       motorista: "Armando Lopes",
       veiculo: "LD-45-78-XA",
@@ -119,7 +119,7 @@ const PLANO: Record<DiaSemana, EntregaPlano[]> = {
     {
       id: "q3",
       cliente: "Escola Lar do Patriota",
-      produto: "Lixívia KITOKA 1L",
+      produto: "Lixívia Multiuso 1L",
       quantidade: "120 un",
       motorista: "Félix Sebastião",
       veiculo: "LD-77-55-PB",
@@ -141,7 +141,7 @@ const PLANO: Record<DiaSemana, EntregaPlano[]> = {
     {
       id: "qu1",
       cliente: "Kero Hiper Viana",
-      produto: "Lixívia KITOKA 1L",
+      produto: "Lixívia Multiuso 1L",
       quantidade: "480 un",
       motorista: "Armando Lopes",
       veiculo: "LD-45-78-XA",
@@ -151,7 +151,7 @@ const PLANO: Record<DiaSemana, EntregaPlano[]> = {
     {
       id: "qu2",
       cliente: "Mercado Livre Palanca",
-      produto: "Lixívia KITOKA 500ml",
+      produto: "Lixívia Multiuso 500ml",
       quantidade: "600 un",
       motorista: "Félix Sebastião",
       veiculo: "LD-77-55-PB",
@@ -163,7 +163,7 @@ const PLANO: Record<DiaSemana, EntregaPlano[]> = {
     {
       id: "sx1",
       cliente: "Nosso Super Talatona",
-      produto: "Lixívia KITOKA 5L",
+      produto: "Lixívia Multiuso 5L",
       quantidade: "180 un",
       motorista: "Armando Lopes",
       veiculo: "LD-45-78-XA",
@@ -183,7 +183,7 @@ const PLANO: Record<DiaSemana, EntregaPlano[]> = {
     {
       id: "sx3",
       cliente: "Escola 23 de Março",
-      produto: "Lixívia KITOKA 1L",
+      produto: "Lixívia Multiuso 1L",
       quantidade: "96 un",
       motorista: "Hélder Nascimento",
       veiculo: "LD-88-21-KC",

@@ -151,7 +151,7 @@ export function mockBalancete(filters: BalanceteFilters): Balancete {
     tipo: filters.tipo ?? "geral",
     periodo_inicio: filters.periodo_inicio ?? "2026-01-01",
     periodo_fim: filters.periodo_fim ?? "2026-01-31",
-    empresa: filters.empresa ?? "Aquasan",
+    empresa: filters.empresa ?? "Empresa",
     gerado_em: new Date().toISOString(),
     fonte: "primavera",
     linhas,

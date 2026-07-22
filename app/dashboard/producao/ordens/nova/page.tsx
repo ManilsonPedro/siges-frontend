@@ -46,35 +46,35 @@ interface LinhaMateria {
 const PRODUTOS: Produto[] = [
   {
     id: "HIPO-5L",
-    nome: "Hipoclorito de Sódio KITOKA 5L",
+    nome: "Hipoclorito de Sódio Multiuso 5L",
     unidade: "L",
     capacidade_tanque_l: 5000,
     concentracao_pct: 4,
   },
   {
     id: "HIPO-20L",
-    nome: "Hipoclorito de Sódio KITOKA 20L",
+    nome: "Hipoclorito de Sódio Multiuso 20L",
     unidade: "L",
     capacidade_tanque_l: 10000,
     concentracao_pct: 4,
   },
   {
     id: "LIXIVIA-1L",
-    nome: "Lixívia KITOKA 1L",
+    nome: "Lixívia Multiuso 1L",
     unidade: "L",
     capacidade_tanque_l: 3000,
     concentracao_pct: 3.5,
   },
   {
     id: "LIXIVIA-5L",
-    nome: "Lixívia KITOKA 5L",
+    nome: "Lixívia Multiuso 5L",
     unidade: "L",
     capacidade_tanque_l: 5000,
     concentracao_pct: 3.5,
   },
   {
     id: "LIXIVIA-20L",
-    nome: "Lixívia KITOKA 20L",
+    nome: "Lixívia Multiuso 20L",
     unidade: "L",
     capacidade_tanque_l: 10000,
     concentracao_pct: 3.5,
@@ -247,7 +247,7 @@ export default function NovaOrdemProducaoPage() {
             Nova Ordem de Produção
           </h1>
           <p className="mt-1 text-sm text-ink-mid/70 dark:text-ink-mid/60">
-            Crie uma ordem de produção de hipoclorito ou lixívia KITOKA para a linha Aquasan Angola.
+            Crie uma ordem de produção de hipoclorito ou lixívia multiuso para a linha de produção.
           </p>
         </div>
         <span className="inline-flex shrink-0 items-center rounded-full bg-violet-100 dark:bg-violet-900/40 px-3 py-1 text-xs font-semibold text-violet-700 dark:text-violet-300">
@@ -528,7 +528,7 @@ export default function NovaOrdemProducaoPage() {
               </table>
             </div>
             <div className="px-5 py-3 bg-surface dark:bg-gray-800/30 text-xs text-ink-mid/50 dark:text-gray-500">
-              Valores calculados automaticamente com base na fórmula padrão Aquasan — sujeitos a confirmação laboratorial.
+              Valores calculados automaticamente com base na fórmula padrão da empresa — sujeitos a confirmação laboratorial.
             </div>
           </div>
         )}

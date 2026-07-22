@@ -224,7 +224,7 @@ export default function ConfiguracoesPage() {
             <input
               {...register("nome")}
               className="w-full rounded-lg border border-ink-ghost/80 dark:border-gray-600 px-3 py-2.5 text-sm bg-panel dark:bg-ink-ghost/20 text-ink dark:text-white focus:outline-none focus:ring-2 focus:ring-ink"
-              placeholder="AQUASAN, Lda"
+              placeholder="Nome da Empresa, Lda"
             />
             {errors.nome && <p className="text-danger text-xs mt-1">{errors.nome.message}</p>}
           </div>
@@ -253,7 +253,7 @@ export default function ConfiguracoesPage() {
               {...register("email")}
               type="email"
               className="w-full rounded-lg border border-ink-ghost/80 dark:border-gray-600 px-3 py-2.5 text-sm bg-panel dark:bg-ink-ghost/20 text-ink dark:text-white focus:outline-none focus:ring-2 focus:ring-ink"
-              placeholder="geral@aquasan.co.ao"
+              placeholder="geral@empresa.co.ao"
             />
             {errors.email && <p className="text-danger text-xs mt-1">{errors.email.message}</p>}
           </div>
@@ -264,7 +264,7 @@ export default function ConfiguracoesPage() {
               {...register("morada")}
               rows={2}
               className="w-full rounded-lg border border-ink-ghost/80 dark:border-gray-600 px-3 py-2 text-sm bg-panel dark:bg-ink-ghost/20 text-ink dark:text-white focus:outline-none focus:ring-2 focus:ring-ink"
-              placeholder="Rua de Aquasan, Luanda, Angola"
+              placeholder="Rua Principal, Luanda, Angola"
             />
           </div>
 

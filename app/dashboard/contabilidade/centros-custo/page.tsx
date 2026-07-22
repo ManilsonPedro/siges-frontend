@@ -19,7 +19,7 @@ const CENTROS_CUSTO = [
   },
   {
     codigo: "CC002",
-    descricao: "Produção Lixívia KITOKA",
+    descricao: "Produção Lixívia Multiuso",
     responsavel: "Eng. Filomena Nsimba",
     ativo: true,
     contas: [
@@ -127,7 +127,7 @@ export default function CentrosCustoPage() {
             </h1>
           </div>
           <p className="mt-1 text-sm text-ink-mid/70 dark:text-ink-mid/60">
-            Gastos por conta contabilística agrupados por centro de custo — Aquasan Angola
+            Gastos por conta contabilística agrupados por centro de custo
           </p>
         </div>
         <button className="flex items-center gap-2 rounded-lg border border-ink-ghost/60 bg-panel px-4 py-2 text-sm font-medium text-ink-mid shadow-sm hover:bg-surface dark:border-ink-ghost/20 dark:bg-panel dark:text-gray-200 dark:hover:bg-ink-ghost/20">

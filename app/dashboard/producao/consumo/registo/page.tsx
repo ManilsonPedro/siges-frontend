@@ -61,7 +61,7 @@ const MATERIAS_PRIMAS: MateriaPrima[] = [
 const ORDENS_ABERTAS: OrdemProducao[] = [
   {
     id: "OP-2026-0641",
-    produto: "Lixívia KITOKA 5L",
+    produto: "Lixívia Multiuso 5L",
     qtdOrdenada: 800,
     unidade: "un",
     dataInicio: "2026-06-19",
@@ -69,7 +69,7 @@ const ORDENS_ABERTAS: OrdemProducao[] = [
   },
   {
     id: "OP-2026-0638",
-    produto: "Lixívia KITOKA 1L",
+    produto: "Lixívia Multiuso 1L",
     qtdOrdenada: 2000,
     unidade: "un",
     dataInicio: "2026-06-18",
@@ -93,7 +93,7 @@ const ORDENS_ABERTAS: OrdemProducao[] = [
   },
   {
     id: "OP-2026-0625",
-    produto: "Lixívia KITOKA 20L",
+    produto: "Lixívia Multiuso 20L",
     qtdOrdenada: 300,
     unidade: "un",
     dataInicio: "2026-06-15",
@@ -201,7 +201,7 @@ export default function RegistoConsumoPage() {
             Registo de Consumo
           </h1>
           <p className="mt-1 text-sm text-ink-mid/70 dark:text-ink-mid/60">
-            Registe o consumo de matérias-primas para ordens de produção em curso — Aquasan Angola / KITOKA.
+            Registe o consumo de matérias-primas para ordens de produção em curso.
           </p>
         </div>
         <span className="inline-flex items-center rounded-full bg-violet-100 dark:bg-violet-900/40 px-3 py-1 text-xs font-semibold text-violet-700 dark:text-violet-300">

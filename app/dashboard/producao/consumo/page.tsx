@@ -32,15 +32,15 @@ interface ConsumoRecord {
 }
 
 // ---------------------------------------------------------------------------
-// Mock data — Angolan water-treatment company (Aquasan / KITOKA)
+// Mock data — empresa de tratamento de água angolana
 // ---------------------------------------------------------------------------
 
 const CONSUMOS: ConsumoRecord[] = [
-  // OP-2026-0631  –  Lixívia KITOKA 5L  –  Junho 2026
+  // OP-2026-0631  –  Lixívia Multiuso 5L  –  Junho 2026
   {
     id: "C-001",
     ordemProducao: "OP-2026-0631",
-    produto: "Lixívia KITOKA 5L",
+    produto: "Lixívia Multiuso 5L",
     materiaPrima: "Hipoclorito de Sódio 12%",
     unidade: "L",
     qtdPrevista: 2750,
@@ -53,7 +53,7 @@ const CONSUMOS: ConsumoRecord[] = [
   {
     id: "C-002",
     ordemProducao: "OP-2026-0631",
-    produto: "Lixívia KITOKA 5L",
+    produto: "Lixívia Multiuso 5L",
     materiaPrima: "Surfactante aniónico",
     unidade: "kg",
     qtdPrevista: 32,
@@ -66,7 +66,7 @@ const CONSUMOS: ConsumoRecord[] = [
   {
     id: "C-003",
     ordemProducao: "OP-2026-0631",
-    produto: "Lixívia KITOKA 5L",
+    produto: "Lixívia Multiuso 5L",
     materiaPrima: "Corante azul alimentar",
     unidade: "g",
     qtdPrevista: 2100,
@@ -79,7 +79,7 @@ const CONSUMOS: ConsumoRecord[] = [
   {
     id: "C-004",
     ordemProducao: "OP-2026-0631",
-    produto: "Lixívia KITOKA 5L",
+    produto: "Lixívia Multiuso 5L",
     materiaPrima: "Embalagem PEAD 5L",
     unidade: "un",
     qtdPrevista: 700,
@@ -142,11 +142,11 @@ const CONSUMOS: ConsumoRecord[] = [
     data: "10/06/2026",
     periodo: "Jun 2026",
   },
-  // OP-2026-0598  –  Lixívia KITOKA 1L  –  Junho 2026
+  // OP-2026-0598  –  Lixívia Multiuso 1L  –  Junho 2026
   {
     id: "C-009",
     ordemProducao: "OP-2026-0598",
-    produto: "Lixívia KITOKA 1L",
+    produto: "Lixívia Multiuso 1L",
     materiaPrima: "Hipoclorito de Sódio 12%",
     unidade: "L",
     qtdPrevista: 1200,
@@ -159,7 +159,7 @@ const CONSUMOS: ConsumoRecord[] = [
   {
     id: "C-010",
     ordemProducao: "OP-2026-0598",
-    produto: "Lixívia KITOKA 1L",
+    produto: "Lixívia Multiuso 1L",
     materiaPrima: "Surfactante aniónico",
     unidade: "kg",
     qtdPrevista: 14,
@@ -172,7 +172,7 @@ const CONSUMOS: ConsumoRecord[] = [
   {
     id: "C-011",
     ordemProducao: "OP-2026-0598",
-    produto: "Lixívia KITOKA 1L",
+    produto: "Lixívia Multiuso 1L",
     materiaPrima: "Embalagem PEAD 1L",
     unidade: "un",
     qtdPrevista: 1200,
@@ -235,11 +235,11 @@ const CONSUMOS: ConsumoRecord[] = [
     data: "01/06/2026",
     periodo: "Jun 2026",
   },
-  // OP-2026-0571  –  Lixívia KITOKA 5L  –  Maio 2026
+  // OP-2026-0571  –  Lixívia Multiuso 5L  –  Maio 2026
   {
     id: "C-016",
     ordemProducao: "OP-2026-0571",
-    produto: "Lixívia KITOKA 5L",
+    produto: "Lixívia Multiuso 5L",
     materiaPrima: "Hipoclorito de Sódio 12%",
     unidade: "L",
     qtdPrevista: 2600,
@@ -252,7 +252,7 @@ const CONSUMOS: ConsumoRecord[] = [
   {
     id: "C-017",
     ordemProducao: "OP-2026-0571",
-    produto: "Lixívia KITOKA 5L",
+    produto: "Lixívia Multiuso 5L",
     materiaPrima: "Surfactante aniónico",
     unidade: "kg",
     qtdPrevista: 30,
@@ -265,7 +265,7 @@ const CONSUMOS: ConsumoRecord[] = [
   {
     id: "C-018",
     ordemProducao: "OP-2026-0571",
-    produto: "Lixívia KITOKA 5L",
+    produto: "Lixívia Multiuso 5L",
     materiaPrima: "Embalagem PEAD 5L",
     unidade: "un",
     qtdPrevista: 660,
@@ -280,8 +280,8 @@ const CONSUMOS: ConsumoRecord[] = [
 const PERIODOS = ["Todos", "Jun 2026", "Mai 2026"];
 const PRODUTOS = [
   "Todos",
-  "Lixívia KITOKA 5L",
-  "Lixívia KITOKA 1L",
+  "Lixívia Multiuso 5L",
+  "Lixívia Multiuso 1L",
   "Hipoclorito de Sódio 20L",
   "Hipoclorito de Sódio 5L",
 ];
@@ -437,7 +437,7 @@ export default function ProducaoConsumoPage() {
             </h1>
             <p className="mt-0.5 text-sm text-ink-mid/70 dark:text-ink-mid/60">
               Consumo de matérias-primas por ordem de produção e período —
-              Produção KITOKA / Aquasan
+              Produção
             </p>
           </div>
         </div>

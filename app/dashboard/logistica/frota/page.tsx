@@ -257,7 +257,7 @@ export default function FrotaPage() {
           <div>
             <h1 className="text-2xl font-bold">Frota de Veículos</h1>
             <p className="text-sm text-ink-mid/70 dark:text-ink-mid/60">
-              Gestão da frota de distribuição da Aquasan Angola
+              Gestão da frota de distribuição
             </p>
           </div>
         </div>

@@ -273,7 +273,7 @@ export function EnterpriseHeader() {
           href="/dashboard"
           className="hover:text-ink dark:hover:text-white shrink-0 transition-colors font-medium"
         >
-          Aquasan
+          SIGES BI JENNOS
         </Link>
         {crumbs.map((crumb, i) => (
           <span key={i} className="flex items-center gap-1.5 min-w-0">

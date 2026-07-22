@@ -293,7 +293,7 @@ export function ExtratoReport({ tipo }: Props) {
                     <img src={empresa.logo_url} alt="logo" className="w-16 h-16 object-contain rounded border border-gray-200" />
                   )}
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900 dark:text-white">{empresa?.nome || "AQUASAN"}</h2>
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-white">{empresa?.nome || "EMPRESA"}</h2>
                     {empresa?.nif && <p className="text-xs text-gray-500">NIF: {empresa.nif}</p>}
                     {empresa?.morada && <p className="text-xs text-gray-500">{empresa.morada}</p>}
                     {(empresa?.telefone || empresa?.email) && (

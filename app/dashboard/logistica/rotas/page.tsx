@@ -44,7 +44,7 @@ const ROTAS: Rota[] = [
     frequencia: "Diária",
     activa: true,
     paragens: [
-      { ordem: 1, local: "Fábrica Aquasan", bairro: "Viana", tempoParagem: "30min (carga)" },
+      { ordem: 1, local: "Fábrica (sede)", bairro: "Viana", tempoParagem: "30min (carga)" },
       { ordem: 2, local: "Nosso Super Cacuaco", bairro: "Cacuaco", tempoParagem: "20min" },
       { ordem: 3, local: "Mercado Asa Branca", bairro: "Asa Branca", tempoParagem: "15min" },
       { ordem: 4, local: "Distribuidora Kikuxi", bairro: "Kikuxi", tempoParagem: "25min" },
@@ -61,7 +61,7 @@ const ROTAS: Rota[] = [
     frequencia: "Diária",
     activa: true,
     paragens: [
-      { ordem: 1, local: "Fábrica Aquasan", bairro: "Viana", tempoParagem: "30min (carga)" },
+      { ordem: 1, local: "Fábrica (sede)", bairro: "Viana", tempoParagem: "30min (carga)" },
       { ordem: 2, local: "Nosso Super Talatona", bairro: "Talatona", tempoParagem: "25min" },
       { ordem: 3, local: "Mercado Benfica", bairro: "Benfica", tempoParagem: "20min" },
       { ordem: 4, local: "Kero Patriota", bairro: "Patriota", tempoParagem: "20min" },
@@ -77,7 +77,7 @@ const ROTAS: Rota[] = [
     frequencia: "Diária",
     activa: true,
     paragens: [
-      { ordem: 1, local: "Fábrica Aquasan", bairro: "Viana", tempoParagem: "30min (carga)" },
+      { ordem: 1, local: "Fábrica (sede)", bairro: "Viana", tempoParagem: "30min (carga)" },
       { ordem: 2, local: "Hotel Trópico", bairro: "Alvalade", tempoParagem: "15min" },
       { ordem: 3, local: "Clínica Sagrada Esperança", bairro: "Miramar", tempoParagem: "15min" },
       { ordem: 4, local: "Supermercado Líder Ingombota", bairro: "Ingombota", tempoParagem: "20min" },
@@ -95,7 +95,7 @@ const ROTAS: Rota[] = [
     frequencia: "Semanal",
     activa: true,
     paragens: [
-      { ordem: 1, local: "Fábrica Aquasan", bairro: "Viana", tempoParagem: "30min (carga)" },
+      { ordem: 1, local: "Fábrica (sede)", bairro: "Viana", tempoParagem: "30min (carga)" },
       { ordem: 2, local: "Distribuidora Kilamba", bairro: "Kilamba", tempoParagem: "30min" },
       { ordem: 3, local: "Mercado Camama", bairro: "Camama", tempoParagem: "20min" },
       { ordem: 4, local: "Polo Industrial Viana", bairro: "Viana", tempoParagem: "25min" },
@@ -111,7 +111,7 @@ const ROTAS: Rota[] = [
     frequencia: "Semanal",
     activa: true,
     paragens: [
-      { ordem: 1, local: "Fábrica Aquasan", bairro: "Viana", tempoParagem: "45min (carga)" },
+      { ordem: 1, local: "Fábrica (sede)", bairro: "Viana", tempoParagem: "45min (carga)" },
       { ordem: 2, local: "Distribuidora Benguela Central", bairro: "Centro Benguela", tempoParagem: "40min" },
       { ordem: 3, local: "Supermercado Benguela", bairro: "Bairro Popular", tempoParagem: "30min" },
       { ordem: 4, local: "Hospital Geral de Benguela", bairro: "Benguela", tempoParagem: "20min" },
@@ -127,7 +127,7 @@ const ROTAS: Rota[] = [
     frequencia: "Quinzenal",
     activa: false,
     paragens: [
-      { ordem: 1, local: "Fábrica Aquasan", bairro: "Viana", tempoParagem: "45min (carga)" },
+      { ordem: 1, local: "Fábrica (sede)", bairro: "Viana", tempoParagem: "45min (carga)" },
       { ordem: 2, local: "Distribuidora Huambo Norte", bairro: "Huambo Centro", tempoParagem: "45min" },
       { ordem: 3, local: "Mercado Huambo", bairro: "Bairro Académico", tempoParagem: "30min" },
     ],
@@ -250,7 +250,7 @@ export default function RotasPage() {
           <div>
             <h1 className="text-2xl font-bold">Rotas de Distribuição</h1>
             <p className="text-sm text-ink-mid/70 dark:text-ink-mid/60">
-              Planeamento e gestão das rotas de entrega da Aquasan Angola
+              Planeamento e gestão das rotas de entrega
             </p>
           </div>
         </div>

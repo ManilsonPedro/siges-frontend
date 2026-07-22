@@ -175,7 +175,7 @@ export default function ExtratoMovimentosPage() {
               <div className="flex items-start gap-3">
                 {empresa?.logo_url && <img src={empresa.logo_url} alt="logo" className="w-16 h-16 object-contain rounded border border-ink-ghost/60" />}
                 <div>
-                  <h2 className="text-xl font-bold text-ink dark:text-white">{empresa?.nome || "AQUASAN"}</h2>
+                  <h2 className="text-xl font-bold text-ink dark:text-white">{empresa?.nome || "EMPRESA"}</h2>
                   {empresa?.nif && <p className="text-xs text-ink-mid/70">NIF: {empresa.nif}</p>}
                   {empresa?.morada && <p className="text-xs text-ink-mid/70">{empresa.morada}</p>}
                 </div>

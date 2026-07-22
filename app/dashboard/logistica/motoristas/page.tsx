@@ -175,7 +175,7 @@ export default function MotoristasPage() {
           <div>
             <h1 className="text-2xl font-bold">Motoristas</h1>
             <p className="text-sm text-ink-mid/70 dark:text-ink-mid/60">
-              Equipa de condutores e distribuição da Aquasan Angola
+              Equipa de condutores e distribuição
             </p>
           </div>
         </div>

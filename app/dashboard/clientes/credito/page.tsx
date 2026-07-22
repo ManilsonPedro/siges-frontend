@@ -122,7 +122,7 @@ export default function CreditoPage() {
             </span>
           </div>
           <p className="mt-1 text-sm text-ink-mid/70 dark:text-ink-mid/60">
-            Exposição de crédito e situação de cobranças — Aquasan Angola · Junho 2026
+            Exposição de crédito e situação de cobranças · Junho 2026
           </p>
         </div>
       </div>

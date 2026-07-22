@@ -277,7 +277,7 @@ export default function CobrancasPage() {
               </span>
             </div>
             <p className="text-sm text-ink-mid/70 dark:text-ink-mid/60 mt-0.5">
-              Controlo de cobranças e dívidas de clientes — Aquasan Angola
+              Controlo de cobranças e dívidas de clientes
             </p>
           </div>
         </div>

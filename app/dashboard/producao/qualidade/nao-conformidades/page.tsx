@@ -154,7 +154,7 @@ export default function NaoConformidadesPage() {
             Não Conformidades
           </h1>
           <p className="mt-1 text-sm text-ink-mid/70 dark:text-ink-mid/60">
-            Gestão de ocorrências de não conformidade nos produtos, processos e equipamentos da Aquasan Angola.
+            Gestão de ocorrências de não conformidade nos produtos, processos e equipamentos da empresa.
           </p>
         </div>
         <div className="flex items-center gap-2">

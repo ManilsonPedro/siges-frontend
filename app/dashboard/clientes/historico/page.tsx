@@ -21,7 +21,7 @@ const CLIENTES_HISTORICO = [
     totalCompras: 9,
     totalGasto: 2_340_000,
     ultimaCompra: "2026-06-05",
-    produtoMaisComprado: "Lixívia KITOKA 1L",
+    produtoMaisComprado: "Lixívia Multiuso 1L",
     qtdProduto: 1200,
     ultimaFatura: "FT 2026/1098",
   },
@@ -32,7 +32,7 @@ const CLIENTES_HISTORICO = [
     totalCompras: 24,
     totalGasto: 18_720_000,
     ultimaCompra: "2026-06-14",
-    produtoMaisComprado: "Lixívia KITOKA 5L",
+    produtoMaisComprado: "Lixívia Multiuso 5L",
     qtdProduto: 3600,
     ultimaFatura: "FT 2026/1155",
   },
@@ -54,7 +54,7 @@ const CLIENTES_HISTORICO = [
     totalCompras: 18,
     totalGasto: 9_450_000,
     ultimaCompra: "2026-06-12",
-    produtoMaisComprado: "Lixívia KITOKA 1L",
+    produtoMaisComprado: "Lixívia Multiuso 1L",
     qtdProduto: 5400,
     ultimaFatura: "FT 2026/1148",
   },
@@ -87,7 +87,7 @@ const CLIENTES_HISTORICO = [
     totalCompras: 15,
     totalGasto: 6_300_000,
     ultimaCompra: "2026-06-16",
-    produtoMaisComprado: "Lixívia KITOKA 5L",
+    produtoMaisComprado: "Lixívia Multiuso 5L",
     qtdProduto: 1800,
     ultimaFatura: "FT 2026/1160",
   },
@@ -142,7 +142,7 @@ export default function HistoricoComercialPage() {
             </span>
           </div>
           <p className="mt-1 text-sm text-ink-mid/70 dark:text-ink-mid/60">
-            Resumo de compras por cliente — Aquasan Angola · Exercício 2026
+            Resumo de compras por cliente · Exercício 2026
           </p>
         </div>
         <span className="text-sm text-ink-mid/50 dark:text-ink-mid/40">

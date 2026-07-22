@@ -17,7 +17,7 @@ const apis = [
   {
     id: 1,
     nome: "Primavera ERP Gateway",
-    urlBase: "https://erp.aquasan.ao/api/v2",
+    urlBase: "https://erp.empresa.ao/api/v2",
     versao: "v2.4.1",
     autenticacao: "Bearer",
     estado: "Activa",
@@ -60,8 +60,8 @@ const apis = [
   },
   {
     id: 5,
-    nome: "Serviço de Email — SMTP Aquasan",
-    urlBase: "smtp://mail.aquasan.ao",
+    nome: "Serviço de Email — SMTP",
+    urlBase: "smtp://mail.empresa.ao",
     versao: "SMTP",
     autenticacao: "Bearer",
     estado: "Activa",
@@ -72,7 +72,7 @@ const apis = [
   {
     id: 6,
     nome: "Webhooks Internos — Financ-BI",
-    urlBase: "https://financbi.aquasan.ao/webhooks",
+    urlBase: "https://financbi.empresa.ao/webhooks",
     versao: "v1.0",
     autenticacao: "Bearer",
     estado: "Activa",

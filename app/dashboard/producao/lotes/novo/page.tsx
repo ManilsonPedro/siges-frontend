@@ -16,9 +16,9 @@ import {
 const PRODUTOS = [
   { id: "HIPO-5L", nome: "Hipoclorito de Sódio 5L", unidade: "L" },
   { id: "HIPO-20L", nome: "Hipoclorito de Sódio 20L", unidade: "L" },
-  { id: "KITOKA-1L", nome: "Lixívia KITOKA 1L", unidade: "L" },
-  { id: "KITOKA-5L", nome: "Lixívia KITOKA 5L", unidade: "L" },
-  { id: "KITOKA-20L", nome: "Lixívia KITOKA 20L", unidade: "L" },
+  { id: "MULTI-1L", nome: "Lixívia Multiuso 1L", unidade: "L" },
+  { id: "MULTI-5L", nome: "Lixívia Multiuso 5L", unidade: "L" },
+  { id: "MULTI-20L", nome: "Lixívia Multiuso 20L", unidade: "L" },
 ];
 
 const ARMAZENS = [
@@ -42,7 +42,7 @@ function gerarNumeroLote(produtoId: string): string {
   const mes = String(now.getMonth() + 1).padStart(2, "0");
   const dia = String(now.getDate()).padStart(2, "0");
   const seq = Math.floor(Math.random() * 900) + 100;
-  const prefix = produtoId.startsWith("KITOKA") ? "KTK" : "HIP";
+  const prefix = produtoId.startsWith("MULTI") ? "KTK" : "HIP";
   return `${prefix}-${ano}${mes}${dia}-${seq}`;
 }
 
@@ -79,7 +79,7 @@ export default function NovoLoteProducaoPage() {
             Novo Lote de Produção
           </h1>
           <p className="mt-1 text-sm text-ink-mid/70 dark:text-ink-mid/60">
-            Registe um novo lote fabricado na linha de produção da Aquasan Angola.
+            Registe um novo lote fabricado na linha de produção.
           </p>
         </div>
         <span className="inline-flex items-center rounded-full bg-violet-100 dark:bg-violet-900/40 px-3 py-1 text-xs font-semibold text-violet-700 dark:text-violet-300">

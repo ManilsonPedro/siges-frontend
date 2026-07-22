@@ -138,7 +138,7 @@ export default function PrimaveraPage() {
             </span>
           </div>
           <p className="text-sm text-ink-mid/70 dark:text-ink-mid/60">
-            Estado dos módulos sincronizados com o Primavera ERP — Aquasan Angola
+            Estado dos módulos sincronizados com o Primavera ERP
           </p>
         </div>
         <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium transition-colors self-start sm:self-auto">

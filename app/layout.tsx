@@ -18,8 +18,8 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Financ-BI | Aquasan Angola",
-  description: "Sistema de Gestão Financeira e ERP Industrial — Aquasan Angola",
+  title: "SIGES BI JENNOS",
+  description: "Sistema Integrado de Gestão — Comercial, Financeiro e Operacional",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

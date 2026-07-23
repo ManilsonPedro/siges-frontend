@@ -2,7 +2,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { operacoesLavagemService } from "@/shared/services/operacoes.service";
 import { toast } from "sonner";
-import { ListOrdered, Loader2, PlayCircle, CalendarClock, Car } from "lucide-react";
+import { ListOrdered, Loader2, PlayCircle, CalendarClock, Car, UserX } from "lucide-react";
 import Link from "next/link";
 
 const PRIORIDADE_LABEL: Record<number, string> = {
@@ -29,6 +29,16 @@ export default function FilaAtendimentoPage() {
     mutationFn: (id: string) => operacoesLavagemService.checkin(id),
     onSuccess: () => {
       toast.success("Check-in efectuado");
+      qc.invalidateQueries({ queryKey: ["lavagem-fila"] });
+      qc.invalidateQueries({ queryKey: ["lavagem-ordens"] });
+    },
+    onError: (e: any) => toast.error(e?.response?.data?.detail || "Erro"),
+  });
+
+  const noShowMut = useMutation({
+    mutationFn: (id: string) => operacoesLavagemService.marcarNoShow(id),
+    onSuccess: () => {
+      toast.success("Marcado como não compareceu");
       qc.invalidateQueries({ queryKey: ["lavagem-fila"] });
       qc.invalidateQueries({ queryKey: ["lavagem-ordens"] });
     },
@@ -79,10 +89,18 @@ export default function FilaAtendimentoPage() {
                   {f.slot_hora ? new Date(f.slot_hora).toLocaleTimeString("pt-PT", { hour: "2-digit", minute: "2-digit" }) : new Date(f.espera_desde).toLocaleTimeString("pt-PT", { hour: "2-digit", minute: "2-digit" })}
                 </td>
                 <td className="px-4 py-3 text-right">
-                  <button onClick={() => checkinMut.mutate(f.ordem_id)} disabled={checkinMut.isPending}
-                    className="inline-flex items-center gap-1 text-xs px-3 py-1.5 bg-ink text-white rounded-lg hover:bg-ink/90 disabled:opacity-50">
-                    <PlayCircle className="h-3.5 w-3.5" /> Check-in
-                  </button>
+                  <div className="inline-flex gap-2">
+                    {f.prioridade !== 3 && (
+                      <button onClick={() => confirm("Confirmar que o cliente não compareceu?") && noShowMut.mutate(f.ordem_id)} disabled={noShowMut.isPending}
+                        className="inline-flex items-center gap-1 text-xs px-3 py-1.5 border border-danger/40 text-danger rounded-lg hover:bg-danger/10 disabled:opacity-50">
+                        <UserX className="h-3.5 w-3.5" /> Não compareceu
+                      </button>
+                    )}
+                    <button onClick={() => checkinMut.mutate(f.ordem_id)} disabled={checkinMut.isPending}
+                      className="inline-flex items-center gap-1 text-xs px-3 py-1.5 bg-ink text-white rounded-lg hover:bg-ink/90 disabled:opacity-50">
+                      <PlayCircle className="h-3.5 w-3.5" /> Check-in
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

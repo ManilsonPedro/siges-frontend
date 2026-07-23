@@ -25,6 +25,7 @@ export const biService = {
     lavagem_top_clientes: { cliente_id: string; cliente_nome: string; n_lavagens: number }[];
     lavagem_avaliacao_media: number;
     lavagem_cancelamentos_hoje: number;
+    lavagem_no_show_hoje: number;
     lavagem_taxa_retrabalho_pct: number;
     lavagem_top_extras: { extra_id: string; extra_nome: string; n_vendas: number }[];
     lavagem_tempo_medio_atendimento_minutos: number;

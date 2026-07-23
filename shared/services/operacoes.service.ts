@@ -153,6 +153,10 @@ export const operacoesLavagemService = {
     const { data } = await api.post<OrdemLavagem>(`/operacoes/lavagem/ordens/${id}/checkin`);
     return data;
   },
+  async marcarNoShow(id: string): Promise<OrdemLavagem> {
+    const { data } = await api.post<OrdemLavagem>(`/operacoes/lavagem/ordens/${id}/no-show`);
+    return data;
+  },
   async iniciar(id: string, box_id?: string, colaborador_responsavel_id?: string): Promise<OrdemLavagem> {
     const { data } = await api.post<OrdemLavagem>(`/operacoes/lavagem/ordens/${id}/iniciar`, null, { params: { box_id, colaborador_responsavel_id } });
     return data;

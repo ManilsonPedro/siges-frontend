@@ -793,6 +793,7 @@ export interface OrdemLavagem {
   id: string; company_id: string; cliente_id?: string | null; viatura_id?: string | null;
   tipo_lavagem_id: string; box_id?: string | null; slot_id?: string | null; estado: string;
   origem: OrigemOrdemLavagem; equipa?: string | null; colaborador_responsavel_id?: string | null;
+  no_show?: boolean;
   agua_consumida_litros?: number | null; re_lavagem_de_id?: string | null;
   preco_total?: number | null; extras: ExtraAplicado[]; created_at: string;
 }

@@ -1,7 +1,8 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { biService } from "@/shared/services/bi.service";
-import { BarChart3, Loader2, Wallet, ShoppingCart, Droplets, Users } from "lucide-react";
+import { biLavagemAvancadoService } from "@/shared/services/bi-lavagem-avancado.service";
+import { BarChart3, Loader2, Wallet, ShoppingCart, Droplets, Users, TrendingUp } from "lucide-react";
 
 function Card({ icon: Icon, label, value, sub }: { icon: any; label: string; value: string; sub?: string }) {
   return (
@@ -21,8 +22,15 @@ export default function DashboardExecutivoPage() {
   const { data: comercial, isLoading: l2 } = useQuery({ queryKey: ["bi-comercial"], queryFn: biService.dashboardComercial });
   const { data: operacional, isLoading: l3 } = useQuery({ queryKey: ["bi-operacional"], queryFn: biService.dashboardOperacional });
   const { data: rh, isLoading: l4 } = useQuery({ queryKey: ["bi-rh"], queryFn: biService.dashboardRh });
+  const { data: heatmap, isLoading: l5 } = useQuery({ queryKey: ["bi-heatmap"], queryFn: () => biLavagemAvancadoService.heatmapMovimento() });
+  const { data: valorCliente, isLoading: l6 } = useQuery({ queryKey: ["bi-valor-cliente"], queryFn: biLavagemAvancadoService.valorPorCliente });
+  const { data: crossSelling, isLoading: l7 } = useQuery({ queryKey: ["bi-cross-selling"], queryFn: biLavagemAvancadoService.crossSelling });
 
-  const isLoading = l1 || l2 || l3 || l4;
+  const isLoading = l1 || l2 || l3 || l4 || l5 || l6 || l7;
+
+  const heatmapMax = heatmap ? Math.max(1, ...heatmap.celulas.map((c) => c.n_checkins)) : 1;
+  const DIAS_SEMANA = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
+  const HORAS = Array.from({ length: 24 }, (_, i) => i);
 
   return (
     <div className="p-6 space-y-6">
@@ -72,6 +80,7 @@ export default function DashboardExecutivoPage() {
               <Card icon={Droplets} label="Ocupação de Boxes" value={`${operacional?.lavagem_taxa_ocupacao_boxes_pct || 0}%`} />
               <Card icon={Droplets} label="Avaliação Média" value={operacional?.lavagem_avaliacao_media ? `${operacional.lavagem_avaliacao_media.toFixed(1)} / 5` : "—"} />
               <Card icon={Droplets} label="Cancelamentos Hoje" value={String(operacional?.lavagem_cancelamentos_hoje || 0)} />
+              <Card icon={Droplets} label="Não Comparências Hoje" value={String(operacional?.lavagem_no_show_hoje || 0)} />
               <Card icon={Droplets} label="Taxa de Retrabalho" value={`${operacional?.lavagem_taxa_retrabalho_pct || 0}%`} sub="re-lavagens oferecidas" />
               <Card icon={Droplets} label="Tempo Médio de Atendimento" value={operacional?.lavagem_tempo_medio_atendimento_minutos ? `${operacional.lavagem_tempo_medio_atendimento_minutos.toFixed(0)} min` : "—"} sub="check-in → conclusão" />
               <Card icon={Droplets} label="Tempo Médio de Espera" value={operacional?.lavagem_tempo_medio_espera_minutos ? `${operacional.lavagem_tempo_medio_espera_minutos.toFixed(0)} min` : "—"} sub="na fila" />
@@ -139,6 +148,66 @@ export default function DashboardExecutivoPage() {
                       <li key={f.filial_id} className="flex justify-between">
                         <span>{f.filial_nome}</span>
                         <span>{f.n_lavagens} lavagens · {f.receita.toLocaleString("pt-AO")} Kz</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-sm font-semibold text-ink-mid/70 uppercase mb-2 flex items-center gap-2"><TrendingUp className="h-4 w-4" /> Analytics Avançado · Lavagem</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Card icon={TrendingUp} label="Valor Médio por Cliente (LTV)" value={`${(valorCliente?.valor_medio_por_cliente || 0).toLocaleString("pt-AO")} Kz`} />
+              <Card icon={TrendingUp} label="Clientes com Lavagem" value={String(crossSelling?.clientes_com_lavagem || 0)} />
+              <Card icon={TrendingUp} label="Cross-selling" value={`${crossSelling?.taxa_conversao_pct || 0}%`} sub={`${crossSelling?.clientes_com_compra_cruzada || 0} clientes com compra cruzada`} />
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4 mt-3">
+              {heatmap && heatmap.celulas.length > 0 && (
+                <div className="bg-panel dark:bg-panel rounded-xl shadow p-4 overflow-x-auto">
+                  <p className="text-xs text-ink-mid/70 mb-2">Heatmap de Movimento ({heatmap.periodo_dias} dias)</p>
+                  <table className="text-[10px] border-collapse">
+                    <thead>
+                      <tr>
+                        <th className="p-0.5"></th>
+                        {HORAS.map((h) => <th key={h} className="p-0.5 text-ink-mid/50 font-normal">{h}</th>)}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {DIAS_SEMANA.map((dia) => (
+                        <tr key={dia}>
+                          <td className="p-0.5 pr-2 text-ink-mid/70 whitespace-nowrap">{dia.slice(0, 3)}</td>
+                          {HORAS.map((h) => {
+                            const cel = heatmap.celulas.find((c) => c.dia_semana === dia && c.hora === h);
+                            const n = cel?.n_checkins || 0;
+                            const intensidade = n / heatmapMax;
+                            return (
+                              <td key={h} className="p-0.5">
+                                <div
+                                  className="w-3 h-3 rounded-sm"
+                                  style={{ backgroundColor: n === 0 ? "var(--surface, #eee)" : `rgba(37, 99, 235, ${0.15 + intensidade * 0.85})` }}
+                                  title={`${dia} ${h}h — ${n} check-ins`}
+                                />
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              {valorCliente && valorCliente.clientes.length > 0 && (
+                <div className="bg-panel dark:bg-panel rounded-xl shadow p-4">
+                  <p className="text-xs text-ink-mid/70 mb-2">Top Clientes por Lifetime Value</p>
+                  <ul className="text-sm space-y-1">
+                    {valorCliente.clientes.slice(0, 10).map((c) => (
+                      <li key={c.cliente_id} className="flex justify-between">
+                        <span>{c.cliente_nome}</span>
+                        <span>{c.lifetime_value.toLocaleString("pt-AO")} Kz · {c.n_lavagens}x</span>
                       </li>
                     ))}
                   </ul>

@@ -2,6 +2,8 @@ import api from "./api";
 import type {
   Fornecedor,
   Cliente,
+  HistoricoCliente,
+  LancamentoContaCorrente,
   Conceito,
   Fundo,
   FundoSet,
@@ -110,6 +112,18 @@ export const clienteService = {
   },
   async tornarFornecedor(id: string): Promise<{ fornecedor_id: string; cliente_id: string }> {
     const { data } = await api.post(`/clientes/${id}/tornar-fornecedor`);
+    return data;
+  },
+  async historico(id: string): Promise<HistoricoCliente> {
+    const { data } = await api.get<HistoricoCliente>(`/clientes/${id}/historico`);
+    return data;
+  },
+  async historicoComercialGeral(): Promise<(HistoricoCliente & { cliente_id: string; cliente_nome: string })[]> {
+    const { data } = await api.get(`/clientes/historico-comercial`);
+    return data;
+  },
+  async contaCorrente(id: string): Promise<LancamentoContaCorrente[]> {
+    const { data } = await api.get<LancamentoContaCorrente[]>(`/clientes/${id}/conta-corrente`);
     return data;
   },
 };

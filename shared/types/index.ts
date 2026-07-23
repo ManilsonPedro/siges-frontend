@@ -46,6 +46,23 @@ export interface Cliente {
   deleted_at?: string;
   fornecedor_id?: string | null;
 }
+export interface HistoricoCliente {
+  total_compras: number;
+  total_gasto: number;
+  ultima_compra?: string | null;
+  produto_mais_comprado?: string | null;
+  qtd_produto_mais_comprado: number;
+  ultima_fatura?: string | null;
+}
+export interface LancamentoContaCorrente {
+  id: string;
+  data: string;
+  documento: string;
+  descricao: string;
+  debito: number;
+  credito: number;
+  saldo: number;
+}
 
 export interface Conceito {
   id: string;

@@ -14,12 +14,19 @@ export const biService = {
     return data;
   },
   async dashboardOperacional(): Promise<{
-    litros_vendidos_24h: number;
     ordens_lavagem_em_curso: number;
     lavagem_walkins_hoje: number;
     lavagem_reservas_hoje: number;
     lavagem_taxa_ocupacao_boxes_pct: number;
     lavagem_agua_por_categoria_litros: Record<string, number>;
+    lavagem_hoje: number;
+    lavagem_agendadas_hoje: number;
+    lavagem_concluidas_hoje: number;
+    lavagem_top_clientes: { cliente_id: string; cliente_nome: string; n_lavagens: number }[];
+    lavagem_avaliacao_media: number;
+    lavagem_cancelamentos_hoje: number;
+    lavagem_taxa_retrabalho_pct: number;
+    lavagem_top_extras: { extra_id: string; extra_nome: string; n_vendas: number }[];
   }> {
     const { data } = await api.get("/bi/dashboards/operacional");
     return data;

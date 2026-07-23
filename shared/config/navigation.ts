@@ -153,7 +153,7 @@ export const NAV_CONFIG: NavItem[] = [
         icon: ShoppingCart,
         children: [
           { type: "leaf", key: "vnd-orcamentos",   label: "Orçamentos",        href: "/dashboard/orcamentos",               permission: "orcamentos.ver" },
-          { type: "leaf", key: "vnd-encomendas",   label: "Encomendas",        href: "/dashboard/vendas/encomendas",        permission: "caixa.ver" },
+          { type: "leaf", key: "vnd-encomendas",   label: "Encomendas",        href: "/dashboard/ecommerce/pedidos",        permission: "ecommerce.view" },
           { type: "leaf", key: "vnd-caixa",        label: "Caixa / PDV",       href: "/dashboard/caixa",                    permission: "caixa.ver" },
           { type: "leaf", key: "vnd-historico",    label: "Histórico",         href: "/dashboard/caixa/vendas",             permission: "caixa.ver" },
           { type: "leaf", key: "vnd-fiscalizacao", label: "Faturação",        href: "/dashboard/caixa/fiscalizacao",       permission: "caixa.fiscalizacao.ver" },

@@ -64,26 +64,57 @@ export default function DashboardExecutivoPage() {
           </div>
 
           <div>
-            <h2 className="text-sm font-semibold text-ink-mid/70 uppercase mb-2 flex items-center gap-2"><Droplets className="h-4 w-4" /> Operações</h2>
+            <h2 className="text-sm font-semibold text-ink-mid/70 uppercase mb-2 flex items-center gap-2"><Droplets className="h-4 w-4" /> Operações · Lavagem</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Card icon={Droplets} label="Litros Vendidos (24h)" value={`${(operacional?.litros_vendidos_24h || 0).toLocaleString("pt-AO")} L`} />
+              <Card icon={Droplets} label="Lavagens Hoje" value={String(operacional?.lavagem_hoje || 0)} sub={`${operacional?.lavagem_agendadas_hoje || 0} agendadas · ${operacional?.lavagem_concluidas_hoje || 0} concluídas`} />
               <Card icon={Droplets} label="Lavagens em Curso" value={String(operacional?.ordens_lavagem_em_curso || 0)} />
               <Card icon={Droplets} label="Walk-ins Hoje" value={String(operacional?.lavagem_walkins_hoje || 0)} sub={`${operacional?.lavagem_reservas_hoje || 0} reservas hoje`} />
               <Card icon={Droplets} label="Ocupação de Boxes" value={`${operacional?.lavagem_taxa_ocupacao_boxes_pct || 0}%`} />
+              <Card icon={Droplets} label="Avaliação Média" value={operacional?.lavagem_avaliacao_media ? `${operacional.lavagem_avaliacao_media.toFixed(1)} / 5` : "—"} />
+              <Card icon={Droplets} label="Cancelamentos Hoje" value={String(operacional?.lavagem_cancelamentos_hoje || 0)} />
+              <Card icon={Droplets} label="Taxa de Retrabalho" value={`${operacional?.lavagem_taxa_retrabalho_pct || 0}%`} sub="re-lavagens oferecidas" />
             </div>
-            {operacional && Object.keys(operacional.lavagem_agua_por_categoria_litros).length > 0 && (
-              <div className="mt-3 bg-panel dark:bg-panel rounded-xl shadow p-4">
-                <p className="text-xs text-ink-mid/70 mb-2">Água Consumida por Categoria de Veículo</p>
-                <ul className="text-sm space-y-1">
-                  {Object.entries(operacional.lavagem_agua_por_categoria_litros).map(([cat, litros]) => (
-                    <li key={cat} className="flex justify-between">
-                      <span>{cat}</span>
-                      <span>{litros.toLocaleString("pt-AO")} L</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            <div className="grid md:grid-cols-3 gap-4 mt-3">
+              {operacional && Object.keys(operacional.lavagem_agua_por_categoria_litros).length > 0 && (
+                <div className="bg-panel dark:bg-panel rounded-xl shadow p-4">
+                  <p className="text-xs text-ink-mid/70 mb-2">Água Consumida por Categoria de Veículo</p>
+                  <ul className="text-sm space-y-1">
+                    {Object.entries(operacional.lavagem_agua_por_categoria_litros).map(([cat, litros]) => (
+                      <li key={cat} className="flex justify-between">
+                        <span>{cat}</span>
+                        <span>{litros.toLocaleString("pt-AO")} L</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {operacional && operacional.lavagem_top_clientes.length > 0 && (
+                <div className="bg-panel dark:bg-panel rounded-xl shadow p-4">
+                  <p className="text-xs text-ink-mid/70 mb-2">Top Clientes (nº de lavagens)</p>
+                  <ul className="text-sm space-y-1">
+                    {operacional.lavagem_top_clientes.map((c) => (
+                      <li key={c.cliente_id} className="flex justify-between">
+                        <span>{c.cliente_nome}</span>
+                        <span>{c.n_lavagens}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {operacional && operacional.lavagem_top_extras.length > 0 && (
+                <div className="bg-panel dark:bg-panel rounded-xl shadow p-4">
+                  <p className="text-xs text-ink-mid/70 mb-2">Extras Mais Vendidos</p>
+                  <ul className="text-sm space-y-1">
+                    {operacional.lavagem_top_extras.map((e) => (
+                      <li key={e.extra_id} className="flex justify-between">
+                        <span>{e.extra_nome}</span>
+                        <span>{e.n_vendas}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
 
           <div>

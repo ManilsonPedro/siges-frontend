@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { operacoesLavagemService, operacoesEstacaoService } from "@/shared/services/operacoes.service";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Droplets, Plus, X, Loader2, PlayCircle, CheckCircle2, Star } from "lucide-react";
+import { Droplets, Plus, X, Loader2, PlayCircle, CheckCircle2, Star, Camera } from "lucide-react";
 import type { OrdemLavagem } from "@/shared/types";
 
 function Modal({ open, onClose, title, children }: { open: boolean; onClose: () => void; title: string; children: React.ReactNode }) {
@@ -98,6 +98,17 @@ export default function LavagemPage() {
     mutationFn: (id: string) => operacoesLavagemService.iniciar(id, boxes[0]?.id),
     onSuccess: () => { toast.success("Lavagem iniciada"); qc.invalidateQueries({ queryKey: ["lavagem-ordens"] }); },
     onError: (e: any) => toast.error(e?.response?.data?.detail || "Erro"),
+  });
+  const { data: fotosOrdem } = useQuery({
+    queryKey: ["lavagem-fotos", qualidadeOrdem?.id],
+    queryFn: () => operacoesLavagemService.getFotos(qualidadeOrdem!.id),
+    enabled: !!qualidadeOrdem,
+  });
+  const uploadFotoMut = useMutation({
+    mutationFn: ({ momento, file }: { momento: "antes" | "depois"; file: File }) =>
+      operacoesLavagemService.uploadFoto(qualidadeOrdem!.id, momento, file),
+    onSuccess: () => { toast.success("Foto carregada"); qc.invalidateQueries({ queryKey: ["lavagem-fotos", qualidadeOrdem?.id] }); },
+    onError: (e: any) => toast.error(e?.response?.data?.detail || "Erro ao carregar foto"),
   });
   const qualidadeMut = useMutation({
     mutationFn: () => operacoesLavagemService.controloQualidade(qualidadeOrdem!.id, { pontuacao }),
@@ -353,23 +364,50 @@ export default function LavagemPage() {
       </Modal>
 
       <Modal open={!!qualidadeOrdem} onClose={() => setQualidadeOrdem(null)} title="Controlo de Qualidade">
-        <form onSubmit={(e) => { e.preventDefault(); qualidadeMut.mutate(); }} className="space-y-4">
+        <div className="space-y-5">
           <div>
-            <label className="block text-sm font-medium mb-2">Pontuação (1-5)</label>
-            <div className="flex gap-1">
-              {[1, 2, 3, 4, 5].map((n) => (
-                <button key={n} type="button" onClick={() => setPontuacao(n)}>
-                  <Star className={`h-6 w-6 ${n <= pontuacao ? "fill-amber-400 text-amber-400" : "text-ink-ghost"}`} />
-                </button>
+            <label className="block text-sm font-medium mb-2 flex items-center gap-1.5"><Camera className="h-4 w-4" /> Fotos Antes / Depois</label>
+            <div className="grid grid-cols-2 gap-3">
+              {(["antes", "depois"] as const).map((momento) => (
+                <div key={momento}>
+                  <p className="text-xs text-ink-mid/70 mb-1 capitalize">{momento}</p>
+                  <div className="grid grid-cols-3 gap-1.5 mb-2">
+                    {(momento === "antes" ? fotosOrdem?.fotos_antes : fotosOrdem?.fotos_depois)?.map((url, i) => (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img key={i} src={url} alt={`Foto ${momento} ${i + 1}`} className="w-full aspect-square object-cover rounded-lg border border-ink-ghost/40 dark:border-ink-ghost/20" />
+                    ))}
+                  </div>
+                  <input
+                    type="file" accept="image/png,image/jpeg,image/jpg"
+                    id={`foto-${momento}`} className="hidden"
+                    onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadFotoMut.mutate({ momento, file: f }); }}
+                  />
+                  <label htmlFor={`foto-${momento}`} className="inline-flex items-center gap-1 text-xs px-2 py-1 border rounded-lg hover:bg-surface dark:hover:bg-ink-ghost/20 cursor-pointer">
+                    {uploadFotoMut.isPending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Camera className="h-3.5 w-3.5" />} Carregar
+                  </label>
+                </div>
               ))}
             </div>
-            {pontuacao < 3 && <p className="text-xs text-danger mt-2">Pontuação baixa — considere oferecer re-lavagem ao cliente.</p>}
           </div>
-          <div className="flex justify-end gap-2 pt-2">
-            <button type="button" onClick={() => setQualidadeOrdem(null)} className="px-4 py-2 border rounded-lg">Cancelar</button>
-            <button type="submit" disabled={qualidadeMut.isPending} className="px-4 py-2 bg-ink text-white rounded-lg disabled:opacity-50">{qualidadeMut.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Registar"}</button>
-          </div>
-        </form>
+
+          <form onSubmit={(e) => { e.preventDefault(); qualidadeMut.mutate(); }} className="space-y-4 pt-2 border-t border-ink-ghost/40 dark:border-ink-ghost/15">
+            <div>
+              <label className="block text-sm font-medium mb-2">Pontuação (1-5)</label>
+              <div className="flex gap-1">
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <button key={n} type="button" onClick={() => setPontuacao(n)}>
+                    <Star className={`h-6 w-6 ${n <= pontuacao ? "fill-amber-400 text-amber-400" : "text-ink-ghost"}`} />
+                  </button>
+                ))}
+              </div>
+              {pontuacao < 3 && <p className="text-xs text-danger mt-2">Pontuação baixa — considere oferecer re-lavagem ao cliente.</p>}
+            </div>
+            <div className="flex justify-end gap-2 pt-2">
+              <button type="button" onClick={() => setQualidadeOrdem(null)} className="px-4 py-2 border rounded-lg">Cancelar</button>
+              <button type="submit" disabled={qualidadeMut.isPending} className="px-4 py-2 bg-ink text-white rounded-lg disabled:opacity-50">{qualidadeMut.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Registar"}</button>
+            </div>
+          </form>
+        </div>
       </Modal>
     </div>
   );

@@ -173,6 +173,18 @@ export const operacoesLavagemService = {
     const { data } = await api.post<OrdemLavagem>(`/operacoes/lavagem/ordens/${id}/controlo-qualidade`, dto);
     return data;
   },
+  async getFotos(id: string): Promise<{ fotos_antes: string[]; fotos_depois: string[] }> {
+    const { data } = await api.get(`/operacoes/lavagem/ordens/${id}/fotos`);
+    return data;
+  },
+  async uploadFoto(id: string, momento: "antes" | "depois", file: File): Promise<void> {
+    const form = new FormData();
+    form.append("file", file);
+    await api.post(`/operacoes/lavagem/ordens/${id}/fotos`, form, {
+      params: { momento },
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  },
   async oferecerRelavagem(id: string): Promise<OrdemLavagem> {
     const { data } = await api.post<OrdemLavagem>(`/operacoes/lavagem/ordens/${id}/oferecer-re-lavagem`);
     return data;

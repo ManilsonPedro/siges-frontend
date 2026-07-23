@@ -13,7 +13,14 @@ export const biService = {
     const { data } = await api.get("/bi/dashboards/comercial");
     return data;
   },
-  async dashboardOperacional(): Promise<{ litros_vendidos_24h: number; ordens_lavagem_em_curso: number }> {
+  async dashboardOperacional(): Promise<{
+    litros_vendidos_24h: number;
+    ordens_lavagem_em_curso: number;
+    lavagem_walkins_hoje: number;
+    lavagem_reservas_hoje: number;
+    lavagem_taxa_ocupacao_boxes_pct: number;
+    lavagem_agua_por_categoria_litros: Record<string, number>;
+  }> {
     const { data } = await api.get("/bi/dashboards/operacional");
     return data;
   },

@@ -85,8 +85,8 @@ export default function CaixaPage() {
             <Link href="/dashboard/caixa/fiscalizacao"
               className="bg-panel dark:bg-panel rounded-xl p-6 shadow flex flex-col items-start gap-3 hover:shadow-md">
               <FileText className="h-8 w-8 text-amber" />
-              <span className="font-semibold">Fila Primavera</span>
-              <span className="text-sm text-ink-mid">Vendas por marcar como fiscalizadas</span>
+              <span className="font-semibold">Faturação</span>
+              <span className="text-sm text-ink-mid">Vendas por marcar como faturadas</span>
             </Link>
           </div>
 

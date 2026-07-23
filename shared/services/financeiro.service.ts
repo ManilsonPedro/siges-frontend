@@ -1262,7 +1262,7 @@ export const caixaService = {
     const { data } = await api.post<Venda>(`/caixa/vendas/${vendaId}/anular`);
     return data;
   },
-  async listVendas(params?: { estado?: string; sessao_id?: string; pendente_primavera?: boolean; page?: number; page_size?: number }): Promise<Venda[]> {
+  async listVendas(params?: { estado?: string; sessao_id?: string; pendente_faturacao?: boolean; page?: number; page_size?: number }): Promise<Venda[]> {
     const { data } = await api.get<Venda[]>("/caixa/vendas", { params });
     return data;
   },
@@ -1290,8 +1290,8 @@ export const caixaService = {
     a.click();
     URL.revokeObjectURL(url);
   },
-  async marcarFiscalizada(id: string, ref_primavera: string): Promise<Venda> {
-    const { data } = await api.post<Venda>(`/caixa/vendas/${id}/marcar-fiscalizada`, { ref_primavera });
+  async marcarFaturada(id: string, numero_fatura_interna: string): Promise<Venda> {
+    const { data } = await api.post<Venda>(`/caixa/vendas/${id}/marcar-faturada`, { numero_fatura_interna });
     return data;
   },
 };

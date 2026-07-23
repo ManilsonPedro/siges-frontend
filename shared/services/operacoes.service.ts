@@ -1,12 +1,13 @@
 import api from "./api";
 import type {
   AreaServico, Equipamento, TurnoOperacional,
-  TanqueCombustivel, Bomba, Bico, Abastecimento,
   TipoLavagem, BoxLavagem, SlotLavagem, OrdemLavagem,
   CategoriaVeiculo, CreateCategoriaVeiculoDTO,
   ExtraLavagem, CreateExtraLavagemDTO,
   Viatura, CreateViaturaDTO,
   CreateWalkinDTO, FilaItem,
+  EquipaLavagem, CreateEquipaLavagemDTO,
+  EscalaTurno, CreateEscalaTurnoDTO,
   TanqueAgua, ConsumoAgua,
 } from "@/shared/types";
 
@@ -44,49 +45,6 @@ export const operacoesEstacaoService = {
   },
   async deleteTurno(id: string): Promise<void> {
     await api.delete(`/operacoes/estacao/turnos/${id}`);
-  },
-};
-
-export const operacoesCombustivelService = {
-  async listTanques(): Promise<TanqueCombustivel[]> {
-    const { data } = await api.get<TanqueCombustivel[]>("/operacoes/combustivel/tanques");
-    return data;
-  },
-  async createTanque(dto: { codigo: string; tipo_combustivel: string; capacidade_litros: number; nivel_atual_litros?: number; nivel_minimo_litros?: number; nivel_reordenamento_litros?: number }): Promise<TanqueCombustivel> {
-    const { data } = await api.post<TanqueCombustivel>("/operacoes/combustivel/tanques", dto);
-    return data;
-  },
-  async registarLeitura(id: string, dto: { nivel_litros: number; temperatura?: number; origem?: string }): Promise<any> {
-    const { data } = await api.post(`/operacoes/combustivel/tanques/${id}/leitura`, dto);
-    return data;
-  },
-  async calcularVariacao(id: string, teorico_final_litros: number): Promise<any> {
-    const { data } = await api.get(`/operacoes/combustivel/tanques/${id}/variacao`, { params: { teorico_final_litros } });
-    return data;
-  },
-  async listBombas(): Promise<Bomba[]> {
-    const { data } = await api.get<Bomba[]>("/operacoes/combustivel/bombas");
-    return data;
-  },
-  async createBomba(dto: { area_servico_id?: string; codigo: string; tanque_id: string }): Promise<Bomba> {
-    const { data } = await api.post<Bomba>("/operacoes/combustivel/bombas", dto);
-    return data;
-  },
-  async listBicos(bomba_id?: string): Promise<Bico[]> {
-    const { data } = await api.get<Bico[]>("/operacoes/combustivel/bicos", { params: { bomba_id } });
-    return data;
-  },
-  async createBico(dto: { bomba_id: string; codigo: string; tipo_combustivel: string }): Promise<Bico> {
-    const { data } = await api.post<Bico>("/operacoes/combustivel/bicos", dto);
-    return data;
-  },
-  async listAbastecimentos(): Promise<Abastecimento[]> {
-    const { data } = await api.get<Abastecimento[]>("/operacoes/combustivel/abastecimentos");
-    return data;
-  },
-  async registarAbastecimento(dto: { bico_id: string; volume_litros: number; preco_unitario: number; cliente_id?: string; forma_pagamento: string }): Promise<Abastecimento> {
-    const { data } = await api.post<Abastecimento>("/operacoes/combustivel/abastecimentos", dto);
-    return data;
   },
 };
 
@@ -199,6 +157,41 @@ export const operacoesLavagemService = {
   async concluir(id: string): Promise<OrdemLavagem> {
     const { data } = await api.post<OrdemLavagem>(`/operacoes/lavagem/ordens/${id}/concluir`);
     return data;
+  },
+  // Equipas
+  async listEquipas(): Promise<EquipaLavagem[]> {
+    const { data } = await api.get<EquipaLavagem[]>("/operacoes/lavagem/equipas");
+    return data;
+  },
+  async createEquipa(dto: CreateEquipaLavagemDTO): Promise<EquipaLavagem> {
+    const { data } = await api.post<EquipaLavagem>("/operacoes/lavagem/equipas", dto);
+    return data;
+  },
+  async updateEquipa(id: string, dto: Partial<CreateEquipaLavagemDTO>): Promise<EquipaLavagem> {
+    const { data } = await api.patch<EquipaLavagem>(`/operacoes/lavagem/equipas/${id}`, dto);
+    return data;
+  },
+  async deleteEquipa(id: string): Promise<void> {
+    await api.delete(`/operacoes/lavagem/equipas/${id}`);
+  },
+  async addMembroEquipa(id: string, user_id: string): Promise<EquipaLavagem> {
+    const { data } = await api.post<EquipaLavagem>(`/operacoes/lavagem/equipas/${id}/membros`, { user_id });
+    return data;
+  },
+  async removeMembroEquipa(id: string, user_id: string): Promise<void> {
+    await api.delete(`/operacoes/lavagem/equipas/${id}/membros/${user_id}`);
+  },
+  // Escalas
+  async listEscalas(params?: { data?: string; box_id?: string }): Promise<EscalaTurno[]> {
+    const { data } = await api.get<EscalaTurno[]>("/operacoes/lavagem/escalas", { params });
+    return data;
+  },
+  async createEscala(dto: CreateEscalaTurnoDTO): Promise<EscalaTurno> {
+    const { data } = await api.post<EscalaTurno>("/operacoes/lavagem/escalas", dto);
+    return data;
+  },
+  async deleteEscala(id: string): Promise<void> {
+    await api.delete(`/operacoes/lavagem/escalas/${id}`);
   },
 };
 

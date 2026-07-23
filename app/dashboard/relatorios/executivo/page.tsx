@@ -68,7 +68,22 @@ export default function DashboardExecutivoPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <Card icon={Droplets} label="Litros Vendidos (24h)" value={`${(operacional?.litros_vendidos_24h || 0).toLocaleString("pt-AO")} L`} />
               <Card icon={Droplets} label="Lavagens em Curso" value={String(operacional?.ordens_lavagem_em_curso || 0)} />
+              <Card icon={Droplets} label="Walk-ins Hoje" value={String(operacional?.lavagem_walkins_hoje || 0)} sub={`${operacional?.lavagem_reservas_hoje || 0} reservas hoje`} />
+              <Card icon={Droplets} label="Ocupação de Boxes" value={`${operacional?.lavagem_taxa_ocupacao_boxes_pct || 0}%`} />
             </div>
+            {operacional && Object.keys(operacional.lavagem_agua_por_categoria_litros).length > 0 && (
+              <div className="mt-3 bg-panel dark:bg-panel rounded-xl shadow p-4">
+                <p className="text-xs text-ink-mid/70 mb-2">Água Consumida por Categoria de Veículo</p>
+                <ul className="text-sm space-y-1">
+                  {Object.entries(operacional.lavagem_agua_por_categoria_litros).map(([cat, litros]) => (
+                    <li key={cat} className="flex justify-between">
+                      <span>{cat}</span>
+                      <span>{litros.toLocaleString("pt-AO")} L</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
           <div>

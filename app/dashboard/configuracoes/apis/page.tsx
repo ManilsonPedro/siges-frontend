@@ -16,8 +16,8 @@ import {
 const apis = [
   {
     id: 1,
-    nome: "Primavera ERP Gateway",
-    urlBase: "https://erp.empresa.ao/api/v2",
+    nome: "API Interna SIGES",
+    urlBase: "https://api.siges.local/v1",
     versao: "v2.4.1",
     autenticacao: "Bearer",
     estado: "Activa",

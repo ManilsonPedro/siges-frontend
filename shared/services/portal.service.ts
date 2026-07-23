@@ -9,6 +9,25 @@ export interface ReservaPortal {
   id: string; viatura_id?: string | null; tipo_lavagem_id: string; box_id?: string | null; slot_id?: string | null;
   estado: string; preco_total?: number | null; extras: ExtraAplicadoPortal[]; created_at: string;
 }
+export interface ControloQualidadePortal { pontuacao: number; observacoes?: string | null; data: string; }
+export interface ReservaDetalhePortal extends ReservaPortal {
+  tipo_lavagem_nome: string;
+  viatura_matricula?: string | null;
+  viatura_marca?: string | null;
+  viatura_modelo?: string | null;
+  controlo_qualidade?: ControloQualidadePortal | null;
+  fotos_antes: string[];
+  fotos_depois: string[];
+  re_lavagem_de_id?: string | null;
+}
+export interface ResumoClientePortal {
+  total_lavagens: number;
+  valor_total_gasto: number;
+  tipo_lavagem_mais_frequente?: string | null;
+}
+
+const ESTADOS_ACTIVOS = "rascunho,agendada,confirmada,checkin,em_curso,controlo_qualidade";
+const ESTADOS_HISTORICO = "concluida,paga,cancelada";
 
 function salvarTokens(tokens: PortalTokens) {
   localStorage.setItem("portal_access_token", tokens.access_token);
@@ -53,12 +72,28 @@ export const portalReservaService = {
     const { data } = await portalApi.post<ViaturaPortal>("/portal/viaturas", dto);
     return data;
   },
-  async minhasReservas(): Promise<ReservaPortal[]> {
-    const { data } = await portalApi.get<ReservaPortal[]>("/portal/reservas/minhas");
+  async minhasReservas(estado?: string): Promise<ReservaPortal[]> {
+    const { data } = await portalApi.get<ReservaPortal[]>("/portal/reservas/minhas", { params: { estado } });
+    return data;
+  },
+  async reservasActivas(): Promise<ReservaPortal[]> {
+    const { data } = await portalApi.get<ReservaPortal[]>("/portal/reservas/minhas", { params: { estado: ESTADOS_ACTIVOS } });
+    return data;
+  },
+  async historico(): Promise<ReservaPortal[]> {
+    const { data } = await portalApi.get<ReservaPortal[]>("/portal/reservas/minhas", { params: { estado: ESTADOS_HISTORICO } });
     return data;
   },
   async getReserva(id: string): Promise<ReservaPortal> {
     const { data } = await portalApi.get<ReservaPortal>(`/portal/reservas/${id}`);
+    return data;
+  },
+  async detalheReserva(id: string): Promise<ReservaDetalhePortal> {
+    const { data } = await portalApi.get<ReservaDetalhePortal>(`/portal/reservas/${id}/detalhe`);
+    return data;
+  },
+  async resumo(): Promise<ResumoClientePortal> {
+    const { data } = await portalApi.get<ResumoClientePortal>("/portal/reservas/minhas/resumo");
     return data;
   },
   async criarReserva(dto: { viatura_id: string; tipo_lavagem_id: string; slot_id: string; extra_ids?: string[] }): Promise<ReservaPortal> {

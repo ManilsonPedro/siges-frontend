@@ -29,8 +29,8 @@ export default function EstacaoPage() {
   const { data: equipamentos = [] } = useQuery({ queryKey: ["operacoes-equipamentos"], queryFn: operacoesEstacaoService.listEquipamentos });
   const { data: turnos = [] } = useQuery({ queryKey: ["operacoes-turnos"], queryFn: operacoesEstacaoService.listTurnos });
 
-  const [areaForm, setAreaForm] = useState({ nome: "", tipo: "bomba" });
-  const [equipForm, setEquipForm] = useState({ nome: "", tipo: "bomba_combustivel", area_servico_id: "" });
+  const [areaForm, setAreaForm] = useState({ nome: "", tipo: "lavagem" });
+  const [equipForm, setEquipForm] = useState({ nome: "", tipo: "maquina_lavagem", area_servico_id: "" });
   const [turnoForm, setTurnoForm] = useState({ nome: "", hora_inicio: "08:00", hora_fim: "16:00" });
 
   const createAreaMut = useMutation({
@@ -113,7 +113,7 @@ export default function EstacaoPage() {
               {equipamentos.map((e) => (
                 <tr key={e.id}>
                   <td className="px-4 py-3 text-sm">{e.nome}</td>
-                  <td className="px-4 py-3 text-sm">{e.tipo === "bomba_combustivel" ? "Bomba de Combustível" : e.tipo === "maquina_lavagem" ? "Máquina de Lavagem" : "Outro"}</td>
+                  <td className="px-4 py-3 text-sm">{e.tipo === "maquina_lavagem" ? "Máquina de Lavagem" : "Outro"}</td>
                   <td className="px-4 py-3"><span className={`text-xs px-2 py-1 rounded ${e.estado === "operacional" ? "bg-live-dim text-live" : "bg-amber-100 text-amber-700"}`}>{e.estado}</span></td>
                   <td className="px-4 py-3 text-sm text-ink-mid">{e.ultima_manutencao ? new Date(e.ultima_manutencao).toLocaleDateString("pt-PT") : "—"}</td>
                   <td className="px-4 py-3 text-right">
@@ -158,7 +158,7 @@ export default function EstacaoPage() {
               <input value={areaForm.nome} onChange={(e) => setAreaForm({ ...areaForm, nome: e.target.value })} required className="w-full border rounded-lg px-3 py-2 dark:bg-ink-ghost/20 dark:border-ink-ghost/20" /></div>
             <div><label className="block text-sm font-medium mb-1">Tipo</label>
               <select value={areaForm.tipo} onChange={(e) => setAreaForm({ ...areaForm, tipo: e.target.value })} className="w-full border rounded-lg px-3 py-2 dark:bg-ink-ghost/20 dark:border-ink-ghost/20">
-                <option value="bomba">Bomba</option><option value="lavagem">Lavagem</option><option value="loja">Loja</option><option value="restauracao">Restauração</option>
+                <option value="lavagem">Lavagem</option><option value="loja">Loja</option><option value="restauracao">Restauração</option>
               </select></div>
             <div className="flex justify-end gap-2 pt-2">
               <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 border rounded-lg">Cancelar</button>
@@ -172,7 +172,7 @@ export default function EstacaoPage() {
               <input value={equipForm.nome} onChange={(e) => setEquipForm({ ...equipForm, nome: e.target.value })} required className="w-full border rounded-lg px-3 py-2 dark:bg-ink-ghost/20 dark:border-ink-ghost/20" /></div>
             <div><label className="block text-sm font-medium mb-1">Tipo</label>
               <select value={equipForm.tipo} onChange={(e) => setEquipForm({ ...equipForm, tipo: e.target.value })} className="w-full border rounded-lg px-3 py-2 dark:bg-ink-ghost/20 dark:border-ink-ghost/20">
-                <option value="bomba_combustivel">Bomba de Combustível</option><option value="maquina_lavagem">Máquina de Lavagem</option><option value="outro">Outro</option>
+                <option value="maquina_lavagem">Máquina de Lavagem</option><option value="outro">Outro</option>
               </select></div>
             <div><label className="block text-sm font-medium mb-1">Área de Serviço</label>
               <select value={equipForm.area_servico_id} onChange={(e) => setEquipForm({ ...equipForm, area_servico_id: e.target.value })} className="w-full border rounded-lg px-3 py-2 dark:bg-ink-ghost/20 dark:border-ink-ghost/20">

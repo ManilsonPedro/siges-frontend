@@ -1,7 +1,6 @@
 /**
- * Configuração central de navegação enterprise — SIGES BI JENNOS + Primavera ERP
+ * Configuração central de navegação enterprise — SIGES
  * Formato de permissão: dominio.recurso.acao
- * Itens marcados com primavera: true são sincronizados / lidos do Primavera ERP
  */
 
 import {
@@ -15,9 +14,7 @@ import {
   Settings2,
   type LucideIcon,
   ClipboardList,
-  CalendarRange,
   Leaf,
-  BadgeCheck,
   Boxes,
   Warehouse,
   ArrowLeftRight,
@@ -41,8 +38,6 @@ import {
   Plug,
   Trash2,
   Building,
-  Truck,
-  MapPin,
   Car,
   UserCheck,
   Package2,
@@ -64,12 +59,10 @@ import {
   Briefcase,
   Clock,
   Award,
-  DollarSign,
   BookMarked,
   Calculator,
   FileBarChart,
   Layers,
-  Zap,
   Link2,
   Shield,
   FlaskConical,
@@ -86,8 +79,6 @@ export interface NavLeaf {
   icon?: LucideIcon;
   permission?: string;
   isNew?: boolean;
-  primavera?: boolean; // dado vem do / vai para Primavera ERP
-  readOnly?: boolean;  // apenas leitura do Primavera
 }
 
 export interface NavSection {
@@ -96,7 +87,6 @@ export interface NavSection {
   label: string;
   icon: LucideIcon;
   permission?: string;
-  primavera?: boolean;
   children: (NavLeaf | NavGroup)[];
 }
 
@@ -135,7 +125,7 @@ export const NAV_CONFIG: NavItem[] = [
   { type: "divider", key: "div-1" },
 
   // ═══════════════════════════════════════════════════════
-  // 🤝 COMERCIAL (integrado Primavera)
+  // 🤝 COMERCIAL
   // ═══════════════════════════════════════════════════════
   {
     type: "section",
@@ -150,10 +140,10 @@ export const NAV_CONFIG: NavItem[] = [
         label: "Clientes",
         icon: UserRound,
         children: [
-          { type: "leaf", key: "cli-lista",        label: "Cadastro",          href: "/dashboard/clientes",                  permission: "clientes.listar",          primavera: true },
+          { type: "leaf", key: "cli-lista",        label: "Cadastro",          href: "/dashboard/clientes",                  permission: "clientes.listar" },
           { type: "leaf", key: "cli-historico",    label: "Histórico Comercial",href: "/dashboard/clientes/historico",        permission: "clientes.ver" },
-          { type: "leaf", key: "cli-credito",      label: "Limite de Crédito", href: "/dashboard/clientes/credito",          permission: "clientes.ver",             primavera: true },
-          { type: "leaf", key: "cli-conta",        label: "Conta Corrente",    href: "/dashboard/clientes/conta-corrente",   permission: "clientes.ver",             primavera: true },
+          { type: "leaf", key: "cli-credito",      label: "Limite de Crédito", href: "/dashboard/clientes/credito",          permission: "clientes.ver" },
+          { type: "leaf", key: "cli-conta",        label: "Conta Corrente",    href: "/dashboard/clientes/conta-corrente",   permission: "clientes.ver" },
         ],
       },
       {
@@ -166,8 +156,8 @@ export const NAV_CONFIG: NavItem[] = [
           { type: "leaf", key: "vnd-encomendas",   label: "Encomendas",        href: "/dashboard/vendas/encomendas",        permission: "caixa.ver" },
           { type: "leaf", key: "vnd-caixa",        label: "Caixa / PDV",       href: "/dashboard/caixa",                    permission: "caixa.ver" },
           { type: "leaf", key: "vnd-historico",    label: "Histórico",         href: "/dashboard/caixa/vendas",             permission: "caixa.ver" },
-          { type: "leaf", key: "vnd-fiscalizacao", label: "Faturas Primavera", href: "/dashboard/caixa/fiscalizacao",       permission: "caixa.fiscalizacao.ver",   primavera: true },
-          { type: "leaf", key: "vnd-cobrancas",    label: "Cobranças",         href: "/dashboard/vendas/cobrancas",         permission: "comercial.cobrancas.ver",  primavera: true },
+          { type: "leaf", key: "vnd-fiscalizacao", label: "Faturação",        href: "/dashboard/caixa/fiscalizacao",       permission: "caixa.fiscalizacao.ver" },
+          { type: "leaf", key: "vnd-cobrancas",    label: "Cobranças",         href: "/dashboard/vendas/cobrancas",         permission: "comercial.cobrancas.ver" },
           { type: "leaf", key: "vnd-devolucoes",   label: "Devoluções",        href: "/dashboard/caixa/devolucoes",         permission: "caixa.ver",                isNew: true },
         ],
       },
@@ -212,7 +202,7 @@ export const NAV_CONFIG: NavItem[] = [
   { type: "divider", key: "div-2" },
 
   // ═══════════════════════════════════════════════════════
-  // 💰 FINANCEIRO (integrado Primavera)
+  // 💰 FINANCEIRO
   // ═══════════════════════════════════════════════════════
   {
     type: "section",
@@ -227,11 +217,11 @@ export const NAV_CONFIG: NavItem[] = [
         label: "Tesouraria",
         icon: Wallet,
         children: [
-          { type: "leaf", key: "tes-fluxo",        label: "Fluxo de Caixa",   href: "/dashboard/financeiro/fluxo-caixa",   permission: "financeiro.ver",           primavera: true },
+          { type: "leaf", key: "tes-fluxo",        label: "Fluxo de Caixa",   href: "/dashboard/financeiro/fluxo-caixa",   permission: "financeiro.ver" },
           { type: "leaf", key: "tes-caixa",        label: "Caixa Diário",     href: "/dashboard/caixa",                    permission: "caixa.ver" },
-          { type: "leaf", key: "tes-bancos",        label: "Bancos",           href: "/dashboard/financeiro/bancos",        permission: "financeiro.ver",           primavera: true },
-          { type: "leaf", key: "tes-recebimentos",  label: "Recebimentos",     href: "/dashboard/movimentos?tipo=entrada",  permission: "movimentos.listar",        primavera: true },
-          { type: "leaf", key: "tes-pagamentos",    label: "Pagamentos",       href: "/dashboard/movimentos?tipo=saida",    permission: "movimentos.listar",        primavera: true },
+          { type: "leaf", key: "tes-bancos",        label: "Bancos",           href: "/dashboard/financeiro/bancos",        permission: "financeiro.ver" },
+          { type: "leaf", key: "tes-recebimentos",  label: "Recebimentos",     href: "/dashboard/movimentos?tipo=entrada",  permission: "movimentos.listar" },
+          { type: "leaf", key: "tes-pagamentos",    label: "Pagamentos",       href: "/dashboard/movimentos?tipo=saida",    permission: "movimentos.listar" },
           { type: "leaf", key: "tes-contas-receber",label: "Contas a Receber", href: "/dashboard/financeiro/contas-receber", permission: "financeiro.contas_receber.view", isNew: true },
           { type: "leaf", key: "tes-contas-pagar",  label: "Contas a Pagar",   href: "/dashboard/financeiro/contas-pagar",  permission: "financeiro.contas_pagar.view",   isNew: true },
         ],
@@ -307,15 +297,6 @@ export const NAV_CONFIG: NavItem[] = [
       },
       {
         type: "group",
-        key: "op-combustivel",
-        label: "Combustível",
-        icon: Zap,
-        children: [
-          { type: "leaf", key: "op-combustivel-page", label: "Tanques & Bombas", href: "/dashboard/operacoes/combustivel",  permission: "operacoes.combustivel.view", isNew: true },
-        ],
-      },
-      {
-        type: "group",
         key: "op-lavagem",
         label: "Lavagem Automóvel",
         icon: Car,
@@ -323,6 +304,8 @@ export const NAV_CONFIG: NavItem[] = [
           { type: "leaf", key: "op-lavagem-page",  label: "Ordens & Boxes",   href: "/dashboard/operacoes/lavagem",        permission: "operacoes.lavagem.view",   isNew: true },
           { type: "leaf", key: "op-lavagem-fila",  label: "Fila de Atendimento", href: "/dashboard/operacoes/lavagem/fila", permission: "operacoes.lavagem.view",   isNew: true },
           { type: "leaf", key: "op-lavagem-walkin",label: "Novo Walk-in",     href: "/dashboard/operacoes/lavagem/walkin/novo", permission: "operacoes.lavagem.agendar", isNew: true },
+          { type: "leaf", key: "op-lavagem-equipas",label: "Equipas",        href: "/dashboard/operacoes/lavagem/equipas", permission: "operacoes.lavagem.view",   isNew: true },
+          { type: "leaf", key: "op-lavagem-escalas",label: "Escalas de Turno", href: "/dashboard/operacoes/lavagem/escalas", permission: "operacoes.lavagem.view",   isNew: true },
         ],
       },
       {
@@ -394,7 +377,7 @@ export const NAV_CONFIG: NavItem[] = [
   { type: "divider", key: "div-3" },
 
   // ═══════════════════════════════════════════════════════
-  // 📚 CONTABILIDADE (leitura Primavera — sem edição)
+  // 📚 CONTABILIDADE
   // ═══════════════════════════════════════════════════════
   {
     type: "section",
@@ -402,7 +385,7 @@ export const NAV_CONFIG: NavItem[] = [
     label: "Contabilidade",
     icon: BookMarked,
     permission: "contabilidade.ver",
-    primavera: true,
+    
     children: [
       {
         type: "group",
@@ -410,9 +393,9 @@ export const NAV_CONFIG: NavItem[] = [
         label: "Contabilidade Geral",
         icon: Calculator,
         children: [
-          { type: "leaf", key: "cont-balancetes", label: "Balancetes",   href: "/dashboard/contabilidade/balancetes",  permission: "contabilidade.ver", readOnly: true, primavera: true },
-          { type: "leaf", key: "cont-razao",      label: "Razão",        href: "/dashboard/contabilidade/razao",       permission: "contabilidade.ver", readOnly: true, primavera: true },
-          { type: "leaf", key: "cont-diario",     label: "Diário",       href: "/dashboard/contabilidade/diario",      permission: "contabilidade.ver", readOnly: true, primavera: true },
+          { type: "leaf", key: "cont-balancetes", label: "Balancetes",   href: "/dashboard/contabilidade/balancetes",  permission: "contabilidade.ver" },
+          { type: "leaf", key: "cont-razao",      label: "Razão",        href: "/dashboard/contabilidade/razao",       permission: "contabilidade.ver" },
+          { type: "leaf", key: "cont-diario",     label: "Diário",       href: "/dashboard/contabilidade/diario",      permission: "contabilidade.ver" },
         ],
       },
       {
@@ -421,8 +404,8 @@ export const NAV_CONFIG: NavItem[] = [
         label: "Contabilidade Analítica",
         icon: FileBarChart,
         children: [
-          { type: "leaf", key: "cont-centros",    label: "Centros de Custo", href: "/dashboard/contabilidade/centros-custo", permission: "contabilidade.ver", readOnly: true, primavera: true },
-          { type: "leaf", key: "cont-analises",   label: "Análises",         href: "/dashboard/contabilidade/analises",      permission: "contabilidade.ver", readOnly: true, primavera: true },
+          { type: "leaf", key: "cont-centros",    label: "Centros de Custo", href: "/dashboard/contabilidade/centros-custo", permission: "contabilidade.ver" },
+          { type: "leaf", key: "cont-analises",   label: "Análises",         href: "/dashboard/contabilidade/analises",      permission: "contabilidade.ver" },
         ],
       },
       {
@@ -431,8 +414,8 @@ export const NAV_CONFIG: NavItem[] = [
         label: "Fiscalidade",
         icon: Scale,
         children: [
-          { type: "leaf", key: "fis-iva",         label: "IVA",              href: "/dashboard/contabilidade/iva",           permission: "contabilidade.ver", readOnly: true, primavera: true },
-          { type: "leaf", key: "fis-obrigacoes",  label: "Obrigações Fiscais",href: "/dashboard/contabilidade/obrigacoes",   permission: "contabilidade.ver", readOnly: true, primavera: true },
+          { type: "leaf", key: "fis-iva",         label: "IVA",              href: "/dashboard/contabilidade/iva",           permission: "contabilidade.ver" },
+          { type: "leaf", key: "fis-obrigacoes",  label: "Obrigações Fiscais",href: "/dashboard/contabilidade/obrigacoes",   permission: "contabilidade.ver" },
         ],
       },
     ],
@@ -441,7 +424,7 @@ export const NAV_CONFIG: NavItem[] = [
   { type: "divider", key: "div-4" },
 
   // ═══════════════════════════════════════════════════════
-  // 👥 RECURSOS HUMANOS (integrado Primavera RH)
+  // 👥 RECURSOS HUMANOS
   // ═══════════════════════════════════════════════════════
   {
     type: "section",
@@ -456,7 +439,7 @@ export const NAV_CONFIG: NavItem[] = [
         label: "Colaboradores",
         icon: UserCheck,
         children: [
-          { type: "leaf", key: "rh-cadastro",     label: "Cadastro",          href: "/dashboard/rh/colaboradores",        permission: "rh.view",   primavera: true },
+          { type: "leaf", key: "rh-cadastro",     label: "Cadastro",          href: "/dashboard/rh/colaboradores",        permission: "rh.view" },
           { type: "leaf", key: "rh-organograma",  label: "Organograma",       href: "/dashboard/rh/organograma",          permission: "rh.view",   isNew: true },
         ],
       },
@@ -466,9 +449,9 @@ export const NAV_CONFIG: NavItem[] = [
         label: "Gestão RH",
         icon: Briefcase,
         children: [
-          { type: "leaf", key: "rh-ferias",       label: "Férias",            href: "/dashboard/rh/ferias",               permission: "rh.view",   primavera: true },
-          { type: "leaf", key: "rh-faltas",       label: "Faltas",            href: "/dashboard/rh/faltas",               permission: "rh.view",   primavera: true },
-          { type: "leaf", key: "rh-horarios",     label: "Horários",          href: "/dashboard/rh/horarios",             permission: "rh.view",   primavera: true },
+          { type: "leaf", key: "rh-ferias",       label: "Férias",            href: "/dashboard/rh/ferias",               permission: "rh.view" },
+          { type: "leaf", key: "rh-faltas",       label: "Faltas",            href: "/dashboard/rh/faltas",               permission: "rh.view" },
+          { type: "leaf", key: "rh-horarios",     label: "Horários",          href: "/dashboard/rh/horarios",             permission: "rh.view" },
           { type: "leaf", key: "rh-avaliacoes",   label: "Avaliações",        href: "/dashboard/rh/avaliacoes",           permission: "rh.view",   isNew: true },
         ],
       },
@@ -480,7 +463,7 @@ export const NAV_CONFIG: NavItem[] = [
         children: [
           { type: "leaf", key: "rh-assiduidade",  label: "Assiduidade",       href: "/dashboard/rh/assiduidade",          permission: "rh.view" },
           { type: "leaf", key: "rh-produtividade",label: "Produtividade",     href: "/dashboard/rh/produtividade",        permission: "rh.view" },
-          { type: "leaf", key: "rh-custos",       label: "Custos",            href: "/dashboard/rh/custos",               permission: "rh.view",   primavera: true },
+          { type: "leaf", key: "rh-custos",       label: "Custos",            href: "/dashboard/rh/custos",               permission: "rh.view" },
         ],
       },
     ],
@@ -489,7 +472,7 @@ export const NAV_CONFIG: NavItem[] = [
   { type: "divider", key: "div-5" },
 
   // ═══════════════════════════════════════════════════════
-  // 🛒 COMPRAS (integrado Primavera)
+  // 🛒 COMPRAS
   // ═══════════════════════════════════════════════════════
   {
     type: "section",
@@ -504,7 +487,7 @@ export const NAV_CONFIG: NavItem[] = [
         label: "Fornecedores",
         icon: Building2,
         children: [
-          { type: "leaf", key: "forn-lista",      label: "Cadastro",          href: "/dashboard/fornecedores",            permission: "fornecedores.listar",  primavera: true },
+          { type: "leaf", key: "forn-lista",      label: "Cadastro",          href: "/dashboard/fornecedores",            permission: "fornecedores.listar" },
           { type: "leaf", key: "forn-avaliacao",  label: "Avaliação",         href: "/dashboard/fornecedores/avaliacao",  permission: "fornecedores.listar",  isNew: true },
         ],
       },
@@ -516,8 +499,8 @@ export const NAV_CONFIG: NavItem[] = [
         children: [
           { type: "leaf", key: "cmp-requisicoes", label: "Requisições",       href: "/dashboard/compras/requisicoes",     permission: "compras.ver",  isNew: true },
           { type: "leaf", key: "cmp-aprovacoes",  label: "Aprovações",        href: "/dashboard/compras/aprovacoes",      permission: "compras.ver",  isNew: true },
-          { type: "leaf", key: "cmp-pedidos",     label: "Pedidos",           href: "/dashboard/compras/pedidos",         permission: "compras.ver",  isNew: true, primavera: true },
-          { type: "leaf", key: "cmp-recepcao",    label: "Receção",           href: "/dashboard/compras/recepcao",        permission: "compras.ver",  isNew: true, primavera: true },
+          { type: "leaf", key: "cmp-pedidos",     label: "Pedidos",           href: "/dashboard/compras/pedidos",         permission: "compras.ver",  isNew: true },
+          { type: "leaf", key: "cmp-recepcao",    label: "Receção",           href: "/dashboard/compras/recepcao",        permission: "compras.ver",  isNew: true },
           { type: "leaf", key: "cmp-movimentos",  label: "Movimentos",        href: "/dashboard/movimentos",              permission: "movimentos.listar" },
         ],
       },
@@ -527,7 +510,7 @@ export const NAV_CONFIG: NavItem[] = [
   { type: "divider", key: "div-6" },
 
   // ═══════════════════════════════════════════════════════
-  // 📦 ARMAZÉNS & INVENTÁRIO (integrado Primavera)
+  // 📦 ARMAZÉNS & INVENTÁRIO
   // ═══════════════════════════════════════════════════════
   {
     type: "section",
@@ -542,7 +525,7 @@ export const NAV_CONFIG: NavItem[] = [
         label: "Produtos",
         icon: Package,
         children: [
-          { type: "leaf", key: "prod-lista",      label: "Catálogo",          href: "/dashboard/produtos",                permission: "produtos.listar",  primavera: true },
+          { type: "leaf", key: "prod-lista",      label: "Catálogo",          href: "/dashboard/produtos",                permission: "produtos.listar" },
           { type: "leaf", key: "prod-categorias", label: "Categorias",        href: "/dashboard/produtos?tab=categorias", permission: "produtos.listar" },
         ],
       },
@@ -552,7 +535,7 @@ export const NAV_CONFIG: NavItem[] = [
         label: "Armazéns",
         icon: Warehouse,
         children: [
-          { type: "leaf", key: "arm-lista",       label: "Armazéns",          href: "/dashboard/estoque/armazens",        permission: "estoque.ver",      primavera: true },
+          { type: "leaf", key: "arm-lista",       label: "Armazéns",          href: "/dashboard/estoque/armazens",        permission: "estoque.ver" },
           { type: "leaf", key: "arm-localizacoes",label: "Localizações",      href: "/dashboard/estoque/localizacoes",    permission: "estoque.ver",      isNew: true },
           { type: "leaf", key: "arm-inventarios", label: "Inventários",       href: "/dashboard/estoque/inventarios",     permission: "estoque.ver",      isNew: true },
         ],
@@ -564,8 +547,8 @@ export const NAV_CONFIG: NavItem[] = [
         icon: Layers,
         children: [
           { type: "leaf", key: "stk-atual",       label: "Stock Atual",       href: "/dashboard/estoque/saldos",          permission: "estoque.ver" },
-          { type: "leaf", key: "stk-entradas",    label: "Entradas",          href: "/dashboard/estoque/movimentos?tipo=entrada", permission: "estoque.ver", primavera: true },
-          { type: "leaf", key: "stk-saidas",      label: "Saídas",            href: "/dashboard/estoque/movimentos?tipo=saida",   permission: "estoque.ver", primavera: true },
+          { type: "leaf", key: "stk-entradas",    label: "Entradas",          href: "/dashboard/estoque/movimentos?tipo=entrada", permission: "estoque.ver" },
+          { type: "leaf", key: "stk-saidas",      label: "Saídas",            href: "/dashboard/estoque/movimentos?tipo=saida",   permission: "estoque.ver" },
           { type: "leaf", key: "stk-transferencias",label: "Transferências",  href: "/dashboard/estoque/movimentos",      permission: "estoque.ver" },
           { type: "leaf", key: "stk-alertas",     label: "Alertas",           href: "/dashboard/estoque/alertas",         permission: "estoque.ver", icon: AlertTriangle },
         ],
@@ -574,103 +557,6 @@ export const NAV_CONFIG: NavItem[] = [
   },
 
   { type: "divider", key: "div-7" },
-
-  // ═══════════════════════════════════════════════════════
-  // 🏭 PRODUÇÃO INDUSTRIAL (módulo diferencial)
-  // ═══════════════════════════════════════════════════════
-  {
-    type: "section",
-    key: "producao",
-    label: "Produção",
-    icon: Factory,
-    permission: "producao.ver",
-    children: [
-      {
-        type: "group",
-        key: "prod-planeamento",
-        label: "Planeamento",
-        icon: CalendarRange,
-        children: [
-          { type: "leaf", key: "plan-diario",     label: "Produção Diária",   href: "/dashboard/producao/planeamento/diario",  permission: "producao.planeamento.ver" },
-          { type: "leaf", key: "plan-semanal",    label: "Produção Semanal",  href: "/dashboard/producao/planeamento/semanal", permission: "producao.planeamento.ver" },
-        ],
-      },
-      {
-        type: "group",
-        key: "prod-ordens",
-        label: "Ordens de Produção",
-        icon: ClipboardList,
-        children: [
-          { type: "leaf", key: "ord-hipoclorito", label: "Hipoclorito de Sódio", href: "/dashboard/producao/ordens?produto=hipoclorito", permission: "producao.ordens.listar" },
-          { type: "leaf", key: "ord-multiuso",    label: "Lixívia Multiuso",     href: "/dashboard/producao/ordens?produto=multiuso",     permission: "producao.ordens.listar" },
-          { type: "leaf", key: "ord-nova",        label: "Nova Ordem",           href: "/dashboard/producao/ordens/nova",                 permission: "producao.ordens.criar" },
-          { type: "leaf", key: "ord-lista",       label: "Todas as Ordens",      href: "/dashboard/producao/ordens",                      permission: "producao.ordens.listar" },
-        ],
-      },
-      {
-        type: "group",
-        key: "prod-materias",
-        label: "Matérias-Primas",
-        icon: FlaskConical,
-        children: [
-          { type: "leaf", key: "mp-consumo",      label: "Registo de Consumo",href: "/dashboard/producao/consumo/registo",  permission: "producao.consumo.criar" },
-          { type: "leaf", key: "mp-historico",    label: "Histórico",         href: "/dashboard/producao/consumo",          permission: "producao.consumo.ver" },
-        ],
-      },
-      {
-        type: "group",
-        key: "prod-lotes",
-        label: "Lotes",
-        icon: Package2,
-        children: [
-          { type: "leaf", key: "lot-criar",       label: "Criar Lote",        href: "/dashboard/producao/lotes/novo",       permission: "producao.lotes.criar" },
-          { type: "leaf", key: "lot-historico",   label: "Histórico",         href: "/dashboard/producao/lotes",            permission: "producao.lotes.ver" },
-          { type: "leaf", key: "lot-rastreabilidade",label: "Rastreabilidade",href: "/dashboard/producao/lotes/rastreabilidade", permission: "producao.lotes.ver", isNew: true },
-        ],
-      },
-      {
-        type: "group",
-        key: "prod-qualidade",
-        label: "Qualidade",
-        icon: BadgeCheck,
-        children: [
-          { type: "leaf", key: "qua-inspecoes",   label: "Inspeções",         href: "/dashboard/producao/qualidade/inspecoes",         permission: "producao.qualidade.ver" },
-          { type: "leaf", key: "qua-nc",          label: "Não Conformidades", href: "/dashboard/producao/qualidade/nao-conformidades", permission: "producao.qualidade.ver" },
-        ],
-      },
-      {
-        type: "group",
-        key: "prod-custos",
-        label: "Custos Industriais",
-        icon: DollarSign,
-        children: [
-          { type: "leaf", key: "cus-consumo",     label: "Consumo",           href: "/dashboard/producao/custos/consumo",   permission: "producao.ver", isNew: true },
-          { type: "leaf", key: "cus-eficiencia",  label: "Eficiência",        href: "/dashboard/producao/custos/eficiencia",permission: "producao.ver", isNew: true },
-          { type: "leaf", key: "cus-perdas",      label: "Perdas",            href: "/dashboard/producao/custos/perdas",    permission: "producao.ver", isNew: true },
-        ],
-      },
-    ],
-  },
-
-  { type: "divider", key: "div-8" },
-
-  // ═══════════════════════════════════════════════════════
-  // 🚚 LOGÍSTICA
-  // ═══════════════════════════════════════════════════════
-  {
-    type: "section",
-    key: "logistica",
-    label: "Logística",
-    icon: Truck,
-    permission: "logistica.ver",
-    children: [
-      { type: "leaf", key: "log-entregas",    label: "Entregas",        href: "/dashboard/logistica/entregas",    permission: "logistica.ver", isNew: true },
-      { type: "leaf", key: "log-rotas",       label: "Rotas",           href: "/dashboard/logistica/rotas",       permission: "logistica.ver", isNew: true, icon: MapPin },
-      { type: "leaf", key: "log-frota",       label: "Frota",           href: "/dashboard/logistica/frota",       permission: "logistica.ver", isNew: true, icon: Car },
-      { type: "leaf", key: "log-motoristas",  label: "Motoristas",      href: "/dashboard/logistica/motoristas",  permission: "logistica.ver", isNew: true, icon: UserCheck },
-      { type: "leaf", key: "log-distribuicao",label: "Distribuição",    href: "/dashboard/logistica/distribuicao",permission: "logistica.ver", isNew: true },
-    ],
-  },
 
   { type: "divider", key: "div-9" },
 
@@ -704,17 +590,6 @@ export const NAV_CONFIG: NavItem[] = [
         children: [
           { type: "leaf", key: "bic-vendas",      label: "Vendas",            href: "/dashboard/relatorios/vendas",       permission: "relatorios.ver", isNew: true },
           { type: "leaf", key: "bic-compras",     label: "Compras",           href: "/dashboard/relatorios/compras",      permission: "relatorios.ver", isNew: true },
-        ],
-      },
-      {
-        type: "group",
-        key: "bi-producao",
-        label: "Produção",
-        icon: Factory,
-        children: [
-          { type: "leaf", key: "bip-diaria",      label: "Produção Diária",   href: "/dashboard/producao/planeamento/diario",  permission: "producao.ver" },
-          { type: "leaf", key: "bip-eficiencia",  label: "Eficiência",        href: "/dashboard/producao/custos/eficiencia",   permission: "producao.ver", isNew: true },
-          { type: "leaf", key: "bip-consumo",     label: "Consumo",           href: "/dashboard/producao/consumo",             permission: "producao.ver" },
         ],
       },
       {
@@ -781,7 +656,6 @@ export const NAV_CONFIG: NavItem[] = [
         label: "Integrações",
         icon: Network,
         children: [
-          { type: "leaf", key: "int-primavera",   label: "Primavera ERP",     href: "/dashboard/integracoes/primavera",             permission: "empresa.gerir", isNew: true, primavera: true },
           { type: "leaf", key: "int-catalogo",    label: "Catálogo API",      href: "/dashboard/configuracoes/catalogo",            permission: "empresa.gerir" },
         ],
       },

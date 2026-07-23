@@ -230,7 +230,6 @@ export interface Produto {
   iva_pct: string | number;
   descricao?: string | null;
   activo: boolean;
-  ref_primavera?: string | null;
   created_at: string;
   updated_at: string;
   deleted_at?: string | null;
@@ -262,7 +261,6 @@ export interface Armazem {
   nome: string;
   morada?: string | null;
   activo: boolean;
-  ref_primavera?: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -635,7 +633,7 @@ export interface Venda {
   total_liquido: number;
   estado: "rascunho" | "concluida" | "anulada";
   correlation_id: string;
-  ref_primavera?: string | null;
+  numero_fatura_interna?: string | null;
   observacao?: string | null;
   linhas: VendaLinha[];
   pagamentos: VendaPagamento[];
@@ -741,23 +739,10 @@ export interface AreaServico {
 }
 export interface Equipamento {
   id: string; company_id: string; area_servico_id?: string | null;
-  nome: string; tipo: "bomba_combustivel" | "maquina_lavagem" | "outro"; estado: string;
+  nome: string; tipo: "maquina_lavagem" | "outro"; estado: string;
   ultima_manutencao?: string | null; proxima_manutencao_prevista?: string | null; created_at: string;
 }
 export interface TurnoOperacional { id: string; company_id: string; nome: string; hora_inicio: string; hora_fim: string; }
-
-export interface TanqueCombustivel {
-  id: string; company_id: string; codigo: string;
-  tipo_combustivel: "gasolina" | "gasoleo" | "gpl" | "outro";
-  capacidade_litros: number; nivel_atual_litros: number; nivel_minimo_litros: number;
-  nivel_reordenamento_litros: number; activo: boolean;
-}
-export interface Bomba { id: string; company_id: string; area_servico_id?: string | null; codigo: string; tanque_id: string; estado: string; }
-export interface Bico { id: string; bomba_id: string; codigo: string; tipo_combustivel: string; }
-export interface Abastecimento {
-  id: string; company_id: string; bico_id: string; tanque_id: string; tipo_combustivel: string;
-  volume_litros: number; preco_unitario: number; total: number; forma_pagamento: string; created_at: string;
-}
 
 export interface TipoLavagem {
   id: string; company_id: string; codigo: string; nome: string; descricao?: string | null;
@@ -787,7 +772,7 @@ export type OrigemOrdemLavagem = "portal_cliente" | "backoffice_walkin" | "backo
 export interface OrdemLavagem {
   id: string; company_id: string; cliente_id?: string | null; viatura_id?: string | null;
   tipo_lavagem_id: string; box_id?: string | null; slot_id?: string | null; estado: string;
-  origem: OrigemOrdemLavagem;
+  origem: OrigemOrdemLavagem; equipa?: string | null;
   agua_consumida_litros?: number | null; re_lavagem_de_id?: string | null;
   preco_total?: number | null; extras: ExtraAplicado[]; created_at: string;
 }
@@ -801,6 +786,15 @@ export interface FilaItem {
   matricula?: string | null; tipo_lavagem_nome: string;
   slot_hora?: string | null; espera_desde: string;
 }
+export interface EquipaLavagem {
+  id: string; company_id: string; nome: string; activo: boolean; membro_user_ids: string[];
+}
+export interface CreateEquipaLavagemDTO { nome: string; activo?: boolean; membro_user_ids?: string[]; }
+export interface EscalaTurno {
+  id: string; company_id: string; equipa_id: string; box_id: string; turno_id: string;
+  data: string; activo: boolean;
+}
+export interface CreateEscalaTurnoDTO { equipa_id: string; box_id: string; turno_id: string; data: string; activo?: boolean; }
 
 export interface TanqueAgua {
   id: string; company_id: string; codigo: string; nome: string;

@@ -12,7 +12,6 @@ import {
   ChevronDown,
   Calendar,
   User,
-  RefreshCw,
   FileText,
 } from "lucide-react";
 
@@ -272,28 +271,19 @@ export default function CobrancasPage() {
               <h1 className="text-2xl font-bold text-ink dark:text-white">
                 Cobranças
               </h1>
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-300">
-                Primavera
-              </span>
             </div>
             <p className="text-sm text-ink-mid/70 dark:text-ink-mid/60 mt-0.5">
               Controlo de cobranças e dívidas de clientes
             </p>
           </div>
         </div>
-
-        <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-ink-ghost/60 dark:border-ink-ghost/20 bg-panel dark:bg-panel text-gray-700 dark:text-gray-200 text-sm font-medium hover:bg-surface dark:hover:bg-gray-700 transition-colors shadow-sm">
-          <RefreshCw className="w-4 h-4" />
-          Sincronizar
-        </button>
       </div>
 
-      {/* Banner Primavera */}
-      <div className="flex items-center gap-3 p-3 rounded-lg bg-sky-50 border border-sky-200 dark:bg-sky-950/30 dark:border-sky-800">
-        <FileText className="w-5 h-5 text-sky-600 dark:text-sky-400 shrink-0" />
-        <p className="text-sm text-sky-800 dark:text-sky-300">
-          Dados sincronizados do Primavera ERP — apenas leitura. Para lançar
-          pagamentos aceda ao Primavera directamente.
+      {/* Aviso: dados de demonstração até o endpoint real ser ligado (ver PROMPT_SISTEMA_SIGES_SPRINTS.md, Sprint 5) */}
+      <div className="flex items-center gap-3 p-3 rounded-lg bg-amber-50 border border-amber-200 dark:bg-amber-950/30 dark:border-amber-800">
+        <FileText className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" />
+        <p className="text-sm text-amber-800 dark:text-amber-300">
+          Dados de demonstração — ainda não ligado à base de dados real
         </p>
       </div>
 

@@ -87,17 +87,13 @@ export default function BancosPage() {
             Posição bancária consolidada — Junho 2026
           </p>
         </div>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-100 dark:bg-blue-900/40 px-3 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-          <Database size={12} />
-          Primavera ERP
-        </span>
       </div>
 
-      {/* Banner Primavera */}
-      <div className="flex items-center gap-3 rounded-lg border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-950/40 px-4 py-3">
-        <Database size={16} className="text-ink dark:text-blue-400 shrink-0" />
-        <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">
-          Dados sincronizados do Primavera ERP — apenas leitura
+      {/* Aviso: dados de demonstração até o endpoint real ser ligado (ver PROMPT_SISTEMA_SIGES_SPRINTS.md, Sprint 2.1) */}
+      <div className="flex items-center gap-3 rounded-lg border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/40 px-4 py-3">
+        <Database size={16} className="text-ink dark:text-amber-400 shrink-0" />
+        <p className="text-sm text-amber-700 dark:text-amber-300 font-medium">
+          Dados de demonstração — ainda não ligado à base de dados real
         </p>
       </div>
 

@@ -70,7 +70,7 @@ const webhooks = [
     id: 6,
     urlDestino: "https://erp.empresa.ao/webhooks/compras",
     evento: "aprovacao.pendente",
-    descricaoEvento: "Notificação de OC pendente no Primavera",
+    descricaoEvento: "Notificação de OC pendente de aprovação",
     estado: "Activo",
     ultimaExecucao: "18/06/2026 às 18:32",
     httpStatus: 200,

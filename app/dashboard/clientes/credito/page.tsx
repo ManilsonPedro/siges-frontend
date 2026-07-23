@@ -102,11 +102,11 @@ export default function CreditoPage() {
 
   return (
     <div className="space-y-6 p-6">
-      {/* Banner Primavera */}
-      <div className="flex items-center gap-3 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 dark:border-blue-800 dark:bg-blue-950/40">
-        <Database className="h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400" />
-        <span className="text-sm font-medium text-blue-700 dark:text-blue-300">
-          Dados sincronizados do Primavera ERP — apenas leitura
+      {/* Aviso: dados de demonstração até o endpoint real ser ligado (ver PROMPT_SISTEMA_SIGES_SPRINTS.md, Sprint 1.2) */}
+      <div className="flex items-center gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 dark:border-amber-800 dark:bg-amber-950/40">
+        <Database className="h-5 w-5 shrink-0 text-amber-600 dark:text-amber-400" />
+        <span className="text-sm font-medium text-amber-700 dark:text-amber-300">
+          Dados de demonstração — ainda não ligado à base de dados real
         </span>
       </div>
 
@@ -117,9 +117,6 @@ export default function CreditoPage() {
             <h1 className="text-2xl font-bold text-ink dark:text-white">
               Limite de Crédito
             </h1>
-            <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
-              Primavera
-            </span>
           </div>
           <p className="mt-1 text-sm text-ink-mid/70 dark:text-ink-mid/60">
             Exposição de crédito e situação de cobranças · Junho 2026

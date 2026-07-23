@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { CalendarClock, Plus, LogOut, Loader2 } from "lucide-react";
+import { CalendarClock, Plus, LogOut, Loader2, History } from "lucide-react";
 import { portalAuthService, portalReservaService } from "@/shared/services/portal.service";
 import { operacoesLavagemService } from "@/shared/services/operacoes.service";
 
@@ -28,12 +28,16 @@ export default function MinhasReservasPage() {
     if (!portalAuthService.isAuthenticated()) router.push("/portal/login");
   }, [router]);
 
-  const { data: reservas = [], isLoading } = useQuery({ queryKey: ["portal-minhas-reservas"], queryFn: portalReservaService.minhasReservas });
+  const { data: reservas = [], isLoading } = useQuery({
+    queryKey: ["portal-reservas-activas"],
+    queryFn: portalReservaService.reservasActivas,
+    refetchInterval: 20_000,
+  });
   const { data: tipos = [] } = useQuery({ queryKey: ["portal-tipos"], queryFn: operacoesLavagemService.listTipos });
 
   const cancelarMut = useMutation({
     mutationFn: (id: string) => portalReservaService.cancelarReserva(id),
-    onSuccess: () => { toast.success("Reserva cancelada"); qc.invalidateQueries({ queryKey: ["portal-minhas-reservas"] }); },
+    onSuccess: () => { toast.success("Reserva cancelada"); qc.invalidateQueries({ queryKey: ["portal-reservas-activas"] }); },
     onError: (e: any) => toast.error(e?.response?.data?.detail || "Erro ao cancelar"),
   });
 
@@ -57,10 +61,14 @@ export default function MinhasReservasPage() {
         </div>
       </div>
 
+      <Link href="/portal/historico" className="inline-flex items-center gap-2 text-sm text-ink dark:text-white font-medium hover:underline">
+        <History className="h-4 w-4" /> Ver histórico completo
+      </Link>
+
       {isLoading && <Loader2 className="h-5 w-5 animate-spin" />}
       {!isLoading && reservas.length === 0 && (
         <div className="bg-panel dark:bg-panel rounded-xl shadow p-8 text-center text-ink-mid/70">
-          Ainda não tem nenhuma reserva. <Link href="/portal/reservar" className="text-ink dark:text-white font-medium hover:underline">Reservar agora</Link>
+          Ainda não tem nenhuma reserva activa. <Link href="/portal/reservar" className="text-ink dark:text-white font-medium hover:underline">Reservar agora</Link>
         </div>
       )}
       <div className="space-y-3">

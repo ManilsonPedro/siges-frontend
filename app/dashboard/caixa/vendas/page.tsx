@@ -43,7 +43,7 @@ export default function VendasPage() {
               <th className="px-4 py-3">Data</th>
               <th className="px-4 py-3 text-right">Total</th>
               <th className="px-4 py-3">Estado</th>
-              <th className="px-4 py-3">Primavera</th>
+              <th className="px-4 py-3">Fatura</th>
               <th className="px-4 py-3 text-right">Acções</th>
             </tr>
           </thead>
@@ -59,7 +59,7 @@ export default function VendasPage() {
                   <span className={`text-xs px-2 py-1 rounded ${v.estado === "concluida" ? "bg-live-dim text-live" : v.estado === "anulada" ? "bg-danger/10 text-danger" : "bg-surface text-ink-mid"}`}>{v.estado}</span>
                 </td>
                 <td className="px-4 py-2 text-xs">
-                  {v.ref_primavera ? <span className="text-live">✓ {v.ref_primavera}</span> : v.estado === "concluida" ? <span className="text-amber">Pendente</span> : "—"}
+                  {v.numero_fatura_interna ? <span className="text-live">✓ {v.numero_fatura_interna}</span> : v.estado === "concluida" ? <span className="text-amber">Pendente</span> : "—"}
                 </td>
                 <td className="px-4 py-2 text-right space-x-1">
                   {v.numero_proforma && (

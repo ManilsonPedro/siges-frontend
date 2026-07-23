@@ -263,12 +263,12 @@ export default function AlertasStockPage() {
 
   return (
     <div className="space-y-6 p-6">
-      {/* Banner Primavera */}
-      <div className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 dark:border-blue-800 dark:bg-blue-950/40">
+      {/* Aviso: dados de demonstração até o endpoint real ser ligado (ver PROMPT_SISTEMA_SIGES_SPRINTS.md, Sprint 7) */}
+      <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 dark:border-amber-800 dark:bg-amber-950/40">
         <div className="flex items-center gap-2">
-          <RefreshCw className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-          <p className="text-sm font-medium text-blue-700 dark:text-blue-300">
-            Dados sincronizados do Primavera ERP — apenas leitura
+          <RefreshCw className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+          <p className="text-sm font-medium text-amber-700 dark:text-amber-300">
+            Dados de demonstração — ainda não ligado à base de dados real
           </p>
         </div>
       </div>
@@ -482,7 +482,7 @@ export default function AlertasStockPage() {
             </span>
           </div>
           <p className="text-xs text-slate-400 dark:text-slate-500">
-            Fonte: Primavera ERP · Sincronizado em 18/06/2026
+            Fonte: Estoque
           </p>
         </div>
       </div>

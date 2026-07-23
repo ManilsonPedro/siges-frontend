@@ -98,14 +98,11 @@ export default function AnalisesContabilisticasPage() {
 
   return (
     <div className="space-y-6 p-6">
-      {/* Banner Primavera */}
-      <div className="flex items-center gap-3 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-blue-800 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-200">
+      {/* Aviso: dados de demonstração até o endpoint real ser ligado (ver PROMPT_SISTEMA_SIGES_SPRINTS.md, Sprint 3) */}
+      <div className="flex items-center gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-200">
         <Info className="h-5 w-5 shrink-0" />
         <span className="text-sm font-medium">
-          Dados sincronizados do Primavera ERP — apenas leitura
-        </span>
-        <span className="ml-auto rounded-full bg-blue-100 px-2 py-0.5 text-xs font-semibold dark:bg-blue-900">
-          Primavera
+          Dados de demonstração — ainda não ligado à base de dados real
         </span>
       </div>
 
@@ -269,7 +266,7 @@ export default function AnalisesContabilisticasPage() {
       </div>
 
       <p className="text-xs text-ink-mid/50 dark:text-gray-600">
-        Última sincronização com Primavera ERP: 18/06/2026 às 08:30 • Período de análise: Março 2026
+        Período de análise: Março 2026
       </p>
     </div>
   );

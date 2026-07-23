@@ -36,7 +36,7 @@ export default function VendaDetailPage() {
         <div><b>Total:</b> {v.total_liquido} AOA</div>
         <div><b>IVA:</b> {v.total_iva} AOA</div>
         <div><b>Correlation:</b> <span className="font-mono text-xs">{v.correlation_id}</span></div>
-        <div><b>Primavera:</b> {v.ref_primavera || <span className="text-amber">pendente</span>}</div>
+        <div><b>Fatura:</b> {v.numero_fatura_interna || <span className="text-amber">pendente</span>}</div>
       </div>
 
       <div className="bg-panel dark:bg-panel rounded-xl shadow overflow-auto">

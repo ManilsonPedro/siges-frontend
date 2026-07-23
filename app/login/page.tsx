@@ -94,11 +94,11 @@ function LoginPageInner() {
             className="text-white font-semibold leading-tight mb-4"
             style={{ fontSize: "1.875rem", letterSpacing: "-0.03em" }}
           >
-            Gestão financeira<br />com precisão industrial.
+            A sua estação de serviço,<br />numa só plataforma.
           </h1>
           <p className="text-white/50 text-[0.875rem] leading-relaxed">
-            Controlo de movimentos, caixa, stocks e relatórios para
-            a operação comercial e financeira da sua empresa.
+            Lavagem automóvel, caixa e vendas, stocks, compras, RH e
+            finanças — gestão completa e integrada da sua operação.
           </p>
         </div>
 

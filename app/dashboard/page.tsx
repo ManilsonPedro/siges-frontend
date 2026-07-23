@@ -1,42 +1,23 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { relatoriosService, estoqueService, caixaService } from "@/shared/services/financeiro.service";
-import { usePermissions } from "@/shared/hooks/use-permissions";
-import { formatCurrency } from "@/shared/utils";
-import { EvolucaoDiariaChart }  from "@/shared/ui/evolucao-diaria-chart";
-import { EvolucaoSaldoChart }   from "@/shared/ui/evolucao-saldo-chart";
-import { ProdutividadeUsersWidget } from "@/shared/ui/produtividade-users-widget";
+import { biService } from "@/shared/services/bi.service";
+import { estoqueService, caixaService } from "@/shared/services/financeiro.service";
+import { formatCurrency, cn } from "@/shared/utils";
 import {
-  WidgetRelatorioFundos,
-  WidgetUltimosCarregamentos,
-  WidgetPorFornecedor,
-  WidgetPorConceito,
-} from "@/shared/ui/dashboard-widgets";
-import {
-  Wallet, TrendingDown, TrendingUp, Clock, CheckCircle,
-  AlertTriangle, ShoppingCart, ArrowUpRight, ArrowDownRight,
-  Factory, Boxes, Users, CalendarDays, RefreshCw, Filter, X,
+  Droplets, ShoppingCart, Wallet, Users, AlertTriangle,
+  Car, Star, RefreshCw, Clock, UserX, RotateCcw,
 } from "lucide-react";
 import Link from "next/link";
-import { cn } from "@/shared/utils";
-import {
-  ResponsiveContainer, BarChart, Bar, XAxis, YAxis,
-  CartesianGrid, Tooltip, Legend,
-} from "recharts";
 
 /* ── KPI Card ── */
 function KpiCard({
-  title, value, subtitle, icon: Icon, colorClass, trend, trendPct, href,
+  title, value, subtitle, icon: Icon, colorClass, href,
 }: {
   title: string;
   value: string | number;
   subtitle?: string;
   icon: React.ElementType;
   colorClass: string;
-  trend?: number | null;
-  trendPct?: number | null;
   href?: string;
 }) {
   const content = (
@@ -51,18 +32,6 @@ function KpiCard({
         <p className="text-xs text-ink-mid/70 dark:text-ink-mid/60 truncate">{title}</p>
         <p className="text-xl font-bold text-ink dark:text-white mt-0.5 truncate">{value}</p>
         {subtitle && <p className="text-[11px] text-ink-mid/50 mt-0.5 truncate">{subtitle}</p>}
-        {trend !== undefined && trend !== null && trendPct !== undefined && trendPct !== null && (
-          <span className={cn(
-            "inline-flex items-center gap-0.5 text-xs font-medium mt-1",
-            trend >= 0 ? "text-live" : "text-danger"
-          )}>
-            {trend >= 0
-              ? <ArrowUpRight className="h-3 w-3" />
-              : <ArrowDownRight className="h-3 w-3" />}
-            {trendPct > 0 ? "+" : ""}{trendPct}%
-            <span className="text-ink-mid/50 font-normal ml-0.5">vs período ant.</span>
-          </span>
-        )}
       </div>
     </div>
   );
@@ -181,31 +150,14 @@ function RecentSalesWidget() {
   );
 }
 
-/* ── Dashboard Page ── */
+/* ── Dashboard Page — foco na Operação (Lavagem) ── */
 export default function DashboardPage() {
-  const router = useRouter();
-  const { has, isLoading: permsLoading } = usePermissions();
+  const { data: operacional, isLoading: l1 } = useQuery({ queryKey: ["bi-operacional"], queryFn: biService.dashboardOperacional });
+  const { data: comercial, isLoading: l2 } = useQuery({ queryKey: ["bi-comercial"], queryFn: biService.dashboardComercial });
+  const { data: financeiro, isLoading: l3 } = useQuery({ queryKey: ["bi-financeiro"], queryFn: biService.dashboardFinanceiro });
+  const { data: rh, isLoading: l4 } = useQuery({ queryKey: ["bi-rh"], queryFn: biService.dashboardRh });
 
-  const [dateFilter, setDateFilter] = useState({ data_inicio: "", data_fim: "" });
-  const [applied,    setApplied]    = useState<{ data_inicio?: string; data_fim?: string }>({});
-  const isFiltered = !!(applied.data_inicio || applied.data_fim);
-
-  const { data, isLoading } = useQuery({
-    queryKey: ["dashboard", applied],
-    queryFn:  () => relatoriosService.dashboard(applied.data_inicio, applied.data_fim),
-  });
-
-  const { data: mensal } = useQuery({
-    queryKey: ["relatorio-mensal"],
-    queryFn:  () => relatoriosService.mensal(new Date().getFullYear(), new Date().getMonth() + 1),
-  });
-
-  const chartData = (mensal?.resumo ?? []).map((r: any) => ({
-    name: `${r.tipo}`,
-    total: r.total,
-  }));
-
-  const mv = data?.movimentos;
+  const isLoading = l1 || l2 || l3 || l4;
 
   return (
     <div className="space-y-6 max-w-screen-2xl">
@@ -213,217 +165,184 @@ export default function DashboardPage() {
       {/* ── Cabeçalho ── */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-ink dark:text-white">Dashboard Executivo</h1>
+          <h1 className="text-2xl font-bold text-ink dark:text-white">Dashboard Operacional</h1>
           <p className="text-sm text-ink-mid/70 dark:text-ink-mid/60 mt-0.5">
-            {data?.periodo?.data_inicio
-              ? `${data.periodo.data_inicio.slice(0, 10)} → ${data.periodo.data_fim?.slice(0, 10)}`
-              : new Date().toLocaleDateString("pt-AO", { month: "long", year: "numeric" })}
+            {new Date().toLocaleDateString("pt-AO", { day: "2-digit", month: "long", year: "numeric" })}
           </p>
         </div>
-
-        <div className="flex items-end gap-2 flex-wrap">
-          <div className="flex items-end gap-2 bg-panel dark:bg-panel border border-ink-ghost/60 dark:border-ink-ghost/20 rounded-xl px-3 py-2">
-            <Filter className="h-3.5 w-3.5 text-ink-mid/50 mb-1.5" />
-            <div>
-              <label className="block text-[10px] text-ink-mid/50 mb-0.5">De</label>
-              <input type="date" value={dateFilter.data_inicio}
-                onChange={(e) => setDateFilter((f) => ({ ...f, data_inicio: e.target.value }))}
-                className="text-xs bg-transparent text-ink dark:text-white outline-none" />
-            </div>
-            <div>
-              <label className="block text-[10px] text-ink-mid/50 mb-0.5">Até</label>
-              <input type="date" value={dateFilter.data_fim}
-                onChange={(e) => setDateFilter((f) => ({ ...f, data_fim: e.target.value }))}
-                className="text-xs bg-transparent text-ink dark:text-white outline-none" />
-            </div>
-          </div>
-          <button
-            onClick={() => setApplied({ data_inicio: dateFilter.data_inicio || undefined, data_fim: dateFilter.data_fim || undefined })}
-            className="flex items-center gap-1.5 bg-ink hover:bg-ink/90 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors"
-          >
-            <CalendarDays className="h-3.5 w-3.5" /> Filtrar
-          </button>
-          {isFiltered && (
-            <button
-              onClick={() => { setDateFilter({ data_inicio: "", data_fim: "" }); setApplied({}); }}
-              className="flex items-center gap-1.5 px-4 py-2 border border-ink-ghost/60 dark:border-ink-ghost/20 rounded-xl text-sm text-ink-mid/70 hover:bg-surface dark:hover:bg-ink-ghost/20 transition-colors"
-            >
-              <X className="h-3.5 w-3.5" /> Limpar
-            </button>
-          )}
-          <button
-            onClick={() => window.location.reload()}
-            className="p-2 rounded-xl border border-ink-ghost/60 dark:border-ink-ghost/20 text-ink-mid/70 hover:bg-surface dark:hover:bg-ink-ghost/20 transition-colors"
-            title="Actualizar"
-          >
-            <RefreshCw className="h-4 w-4" />
-          </button>
-        </div>
+        <button
+          onClick={() => window.location.reload()}
+          className="p-2 rounded-xl border border-ink-ghost/60 dark:border-ink-ghost/20 text-ink-mid/70 hover:bg-surface dark:hover:bg-ink-ghost/20 transition-colors self-start sm:self-auto"
+          title="Actualizar"
+        >
+          <RefreshCw className="h-4 w-4" />
+        </button>
       </div>
 
-      {/* ── KPIs Financeiros ── */}
+      {/* ── Operação · Lavagem ── */}
       <div>
-        <SectionHeader
-          title="Fundos"
-          subtitle="Posição financeira actual"
-        />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+        <SectionHeader title="Operação · Lavagem" subtitle="Estado geral da operação hoje" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {isLoading ? (
-            Array.from({ length: 6 }).map((_, i) => <KpiSkeleton key={i} />)
-          ) : (
-            <>
-              <KpiCard title="Disponível BCS"   value={formatCurrency(data?.fundo?.bcs?.valor_disponivel ?? 0)} icon={Wallet}     colorClass="bg-ink"    href="/dashboard/fundos" />
-              <KpiCard title="Saldo BCS"        value={formatCurrency(data?.fundo?.bcs?.saldo_atual ?? 0)}      icon={TrendingUp}  colorClass="bg-live" href="/dashboard/fundos" />
-              <KpiCard title="Acumulado BCS"    value={formatCurrency(data?.fundo?.bcs?.acumulado ?? 0)}        icon={TrendingDown} colorClass="bg-orange-500"  href="/dashboard/fundos" />
-              <KpiCard title="Disponível BFA"   value={formatCurrency(data?.fundo?.bfa?.valor_disponivel ?? 0)} icon={Wallet}     colorClass="bg-purple-600"  href="/dashboard/fundos" />
-              <KpiCard title="Saldo BFA"        value={formatCurrency(data?.fundo?.bfa?.saldo_atual ?? 0)}      icon={TrendingUp}  colorClass="bg-live" href="/dashboard/fundos" />
-              <KpiCard title="Acumulado BFA"    value={formatCurrency(data?.fundo?.bfa?.acumulado ?? 0)}        icon={TrendingDown} colorClass="bg-danger"     href="/dashboard/fundos" />
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* ── KPIs Movimentos ── */}
-      <div>
-        <SectionHeader
-          title="Movimentos Financeiros"
-          subtitle={isFiltered ? "Período seleccionado" : "Mês actual"}
-        />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {isLoading ? (
-            Array.from({ length: 4 }).map((_, i) => <KpiSkeleton key={i} />)
+            Array.from({ length: 8 }).map((_, i) => <KpiSkeleton key={i} />)
           ) : (
             <>
               <KpiCard
-                title="Total Entradas"
-                value={formatCurrency(mv?.total_entradas?.valor ?? 0)}
-                icon={TrendingUp}
-                colorClass="bg-live"
-                trend={mv?.total_entradas?.delta}
-                trendPct={mv?.total_entradas?.pct}
-                href="/dashboard/movimentos?tipo=entrada"
+                title="Lavagens Hoje"
+                value={operacional?.lavagem_hoje ?? 0}
+                subtitle={`${operacional?.lavagem_agendadas_hoje ?? 0} agendadas · ${operacional?.lavagem_concluidas_hoje ?? 0} concluídas`}
+                icon={Droplets} colorClass="bg-ink"
+                href="/dashboard/operacoes/lavagem"
               />
               <KpiCard
-                title="Total Saídas"
-                value={formatCurrency(mv?.total_gastos?.valor ?? 0)}
-                icon={TrendingDown}
-                colorClass="bg-danger"
-                trend={mv?.total_gastos?.delta ? -mv.total_gastos.delta : null}
-                trendPct={mv?.total_gastos?.pct}
-                href="/dashboard/movimentos?tipo=saida"
+                title="Em Curso"
+                value={operacional?.ordens_lavagem_em_curso ?? 0}
+                subtitle="ordens neste momento"
+                icon={Car} colorClass="bg-live"
+                href="/dashboard/operacoes/lavagem/fila"
               />
               <KpiCard
-                title="Valor Pendente"
-                value={formatCurrency(mv?.valor_pendentes?.valor ?? 0)}
-                subtitle={`${mv?.count_pendentes ?? 0} movimentos`}
-                icon={Clock}
-                colorClass="bg-amber"
-                href="/dashboard/movimentos"
+                title="Ocupação de Boxes"
+                value={`${operacional?.lavagem_taxa_ocupacao_boxes_pct ?? 0}%`}
+                icon={Droplets} colorClass="bg-indigo-600"
+                href="/dashboard/operacoes/estacao"
               />
               <KpiCard
-                title="Movimentos Pagos"
-                value={mv?.count_pagos ?? 0}
-                icon={CheckCircle}
-                colorClass="bg-ink"
-                href="/dashboard/movimentos"
+                title="Walk-ins / Reservas"
+                value={`${operacional?.lavagem_walkins_hoje ?? 0} / ${operacional?.lavagem_reservas_hoje ?? 0}`}
+                icon={Clock} colorClass="bg-cyan-600"
+                href="/dashboard/operacoes/lavagem/fila"
+              />
+              <KpiCard
+                title="Avaliação Média"
+                value={operacional?.lavagem_avaliacao_media ? `${operacional.lavagem_avaliacao_media.toFixed(1)} / 5` : "—"}
+                icon={Star} colorClass="bg-amber-500"
+              />
+              <KpiCard
+                title="Cancelamentos / No-Show"
+                value={`${operacional?.lavagem_cancelamentos_hoje ?? 0} / ${operacional?.lavagem_no_show_hoje ?? 0}`}
+                icon={UserX} colorClass="bg-danger"
+              />
+              <KpiCard
+                title="Taxa de Retrabalho"
+                value={`${operacional?.lavagem_taxa_retrabalho_pct ?? 0}%`}
+                icon={RotateCcw} colorClass="bg-orange-500"
+              />
+              <KpiCard
+                title="Receita da Lavagem Hoje"
+                value={formatCurrency(operacional?.lavagem_receita_hoje ?? 0)}
+                subtitle={`Ticket médio ${formatCurrency(operacional?.lavagem_ticket_medio ?? 0)}`}
+                icon={Wallet} colorClass="bg-purple-600"
+                href="/dashboard/relatorios/executivo"
               />
             </>
           )}
         </div>
       </div>
 
-      {/* ── KPIs Operacionais ── */}
+      {/* ── Comercial ── */}
       <div>
-        <SectionHeader title="Operacional" subtitle="Estado geral da operação" />
+        <SectionHeader title="Comercial" subtitle="Loja, restaurante, bar e e-commerce" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {isLoading ? (
             Array.from({ length: 4 }).map((_, i) => <KpiSkeleton key={i} />)
           ) : (
             <>
-              <KpiCard title="Fornecedores Activos" value={data?.fornecedores ?? 0} icon={Users}    colorClass="bg-indigo-600"  href="/dashboard/fornecedores" />
-              <KpiCard title="Conceitos"            value={data?.conceitos ?? 0}    icon={Factory}  colorClass="bg-pink-600"    href="/dashboard/conceitos" />
-              <KpiCard title="Produtos em Stock"    value="—"                       icon={Boxes}    colorClass="bg-teal-600"    href="/dashboard/estoque/saldos" />
-              <KpiCard title="Vendas do Mês"        value="—"                       icon={ShoppingCart} colorClass="bg-cyan-600" href="/dashboard/caixa/vendas" />
+              <KpiCard
+                title="Vendas Hoje"
+                value={formatCurrency(comercial?.vendas_hoje.total ?? 0)}
+                subtitle={`${comercial?.vendas_hoje.n_vendas ?? 0} vendas`}
+                icon={ShoppingCart} colorClass="bg-cyan-600"
+                href="/dashboard/caixa/vendas"
+              />
+              <KpiCard
+                title="Ticket Médio"
+                value={formatCurrency(comercial?.vendas_hoje.ticket_medio ?? 0)}
+                icon={ShoppingCart} colorClass="bg-teal-600"
+              />
+              <KpiCard
+                title="Pedidos Online Pendentes"
+                value={comercial?.pedidos_ecommerce_pendentes ?? 0}
+                icon={ShoppingCart} colorClass="bg-pink-600"
+                href="/dashboard/ecommerce/pedidos"
+              />
+              <KpiCard
+                title="Colaboradores Activos"
+                value={rh?.colaboradores_ativos ?? 0}
+                subtitle={`${rh?.ferias_em_curso ?? 0} em férias · ${rh?.assiduidade_media_pct ?? 0}% assiduidade`}
+                icon={Users} colorClass="bg-indigo-600"
+                href="/dashboard/rh"
+              />
             </>
           )}
         </div>
+        {comercial && comercial.top_produtos.length > 0 && (
+          <div className="mt-4 bg-panel dark:bg-panel rounded-xl border border-ink-ghost/60 dark:border-ink-ghost/20 shadow-sm p-4">
+            <p className="text-xs text-ink-mid/70 mb-2">Top Produtos</p>
+            <ul className="text-sm space-y-1">
+              {comercial.top_produtos.map((p) => <li key={p.produto_id}>{p.nome} — {p.n_vendas} vendas</li>)}
+            </ul>
+          </div>
+        )}
       </div>
 
-      {/* ── Linha principal: Gráficos + Widgets ── */}
+      {/* ── Linha: Top Clientes / Extras + Widgets ── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Coluna esquerda: Gráficos (2/3) */}
         <div className="lg:col-span-2 space-y-6">
-
-          <div className="bg-panel dark:bg-panel rounded-xl border border-ink-ghost/60 dark:border-ink-ghost/20 shadow-sm p-5">
-            <SectionHeader title="Evolução Diária" subtitle="BCS vs BFA — mês actual" />
-            <EvolucaoDiariaChart />
+          <div className="grid md:grid-cols-2 gap-4">
+            {operacional && operacional.lavagem_top_clientes.length > 0 && (
+              <div className="bg-panel dark:bg-panel rounded-xl border border-ink-ghost/60 dark:border-ink-ghost/20 shadow-sm p-4">
+                <p className="text-xs text-ink-mid/70 mb-2">Top Clientes (nº de lavagens)</p>
+                <ul className="text-sm space-y-1">
+                  {operacional.lavagem_top_clientes.map((c) => (
+                    <li key={c.cliente_id} className="flex justify-between">
+                      <span>{c.cliente_nome}</span>
+                      <span>{c.n_lavagens}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {operacional && operacional.lavagem_top_extras.length > 0 && (
+              <div className="bg-panel dark:bg-panel rounded-xl border border-ink-ghost/60 dark:border-ink-ghost/20 shadow-sm p-4">
+                <p className="text-xs text-ink-mid/70 mb-2">Extras Mais Vendidos</p>
+                <ul className="text-sm space-y-1">
+                  {operacional.lavagem_top_extras.map((e) => (
+                    <li key={e.extra_id} className="flex justify-between">
+                      <span>{e.extra_nome}</span>
+                      <span>{e.n_vendas}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
-          <div className="bg-panel dark:bg-panel rounded-xl border border-ink-ghost/60 dark:border-ink-ghost/20 shadow-sm p-5">
-            <SectionHeader title="Evolução de Saldo" subtitle="Últimos 6 meses" />
-            <EvolucaoSaldoChart meses={6} />
-          </div>
-
-          {chartData.length > 0 && (
-            <div className="bg-panel dark:bg-panel rounded-xl border border-ink-ghost/60 dark:border-ink-ghost/20 shadow-sm p-5">
-              <SectionHeader title="Movimentos do Mês" />
-              <ResponsiveContainer width="100%" height={240}>
-                <BarChart data={chartData} barSize={28}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(150,150,150,0.1)" />
-                  <XAxis dataKey="name" tick={{ fontSize: 11 }} />
-                  <YAxis tick={{ fontSize: 11 }} />
-                  <Tooltip formatter={(v: number) => formatCurrency(v)} contentStyle={{ fontSize: 12 }} />
-                  <Legend />
-                  <Bar dataKey="total" fill="#3b82f6" name="Total (AOA)" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
+          {financeiro && financeiro.saldos_fundos.length > 0 && (
+            <div className="bg-panel dark:bg-panel rounded-xl border border-ink-ghost/60 dark:border-ink-ghost/20 shadow-sm p-4">
+              <p className="text-xs text-ink-mid/70 mb-2">Tesouraria — Saldos por Fundo</p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {financeiro.saldos_fundos.map((f) => (
+                  <div key={f.tipo} className="flex items-center gap-2">
+                    <Wallet className="h-4 w-4 text-ink-mid/50" />
+                    <div>
+                      <p className="text-[11px] text-ink-mid/50">{f.tipo}</p>
+                      <p className="text-sm font-semibold">{formatCurrency(f.saldo_atual)}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className="text-[11px] text-ink-mid/50 mt-2">
+                Movimentos do mês: {formatCurrency(financeiro.movimentos_mes.entradas)} entradas / {formatCurrency(financeiro.movimentos_mes.saidas)} saídas
+              </p>
             </div>
           )}
         </div>
 
-        {/* Coluna direita: Widgets (1/3) */}
         <div className="space-y-4">
           <StockAlertsWidget />
           <RecentSalesWidget />
-
-          <div className="bg-panel dark:bg-panel rounded-xl border border-ink-ghost/60 dark:border-ink-ghost/20 shadow-sm overflow-hidden">
-            <div className="px-4 py-3 border-b border-ink-ghost/40 dark:border-ink-ghost/15">
-              <p className="text-sm font-semibold text-ink dark:text-white">Relatório de Fundos</p>
-            </div>
-            <WidgetRelatorioFundos />
-          </div>
-
-          <div className="bg-panel dark:bg-panel rounded-xl border border-ink-ghost/60 dark:border-ink-ghost/20 shadow-sm overflow-hidden">
-            <div className="px-4 py-3 border-b border-ink-ghost/40 dark:border-ink-ghost/15">
-              <p className="text-sm font-semibold text-ink dark:text-white">Últimos Carregamentos</p>
-            </div>
-            <WidgetUltimosCarregamentos />
-          </div>
         </div>
-      </div>
-
-      {/* ── Análises por Fornecedor / Conceito ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-panel dark:bg-panel rounded-xl border border-ink-ghost/60 dark:border-ink-ghost/20 shadow-sm overflow-hidden">
-          <div className="px-4 py-3 border-b border-ink-ghost/40 dark:border-ink-ghost/15 flex items-center justify-between">
-            <p className="text-sm font-semibold text-ink dark:text-white">Top Fornecedores</p>
-            <Link href="/dashboard/relatorios/fornecedor" className="text-xs text-ink hover:underline">Detalhe →</Link>
-          </div>
-          <WidgetPorFornecedor />
-        </div>
-        <div className="bg-panel dark:bg-panel rounded-xl border border-ink-ghost/60 dark:border-ink-ghost/20 shadow-sm overflow-hidden">
-          <div className="px-4 py-3 border-b border-ink-ghost/40 dark:border-ink-ghost/15 flex items-center justify-between">
-            <p className="text-sm font-semibold text-ink dark:text-white">Por Conceito</p>
-            <Link href="/dashboard/relatorios/conceito" className="text-xs text-ink hover:underline">Detalhe →</Link>
-          </div>
-          <WidgetPorConceito />
-        </div>
-      </div>
-
-      {/* ── Produtividade ── */}
-      <div className="bg-panel dark:bg-panel rounded-xl border border-ink-ghost/60 dark:border-ink-ghost/20 shadow-sm p-5">
-        <SectionHeader title="Produtividade por Utilizador" subtitle="Actividade no sistema" />
-        <ProdutividadeUsersWidget />
       </div>
 
     </div>

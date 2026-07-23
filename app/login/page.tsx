@@ -97,8 +97,13 @@ function LoginPageInner() {
             A sua estação de serviço,<br />numa só plataforma.
           </h1>
           <p className="text-white/50 text-[0.875rem] leading-relaxed">
-            Lavagem automóvel, caixa e vendas, stocks, compras, RH e
-            finanças — gestão completa e integrada da sua operação.
+            O SIGES centraliza toda a gestão do seu negócio numa única
+            plataforma integrada. Controle a lavagem de automóvel,
+            restaurante, bar, loja, vendas, stock, compras, clientes,
+            recursos humanos, contabilidade e finanças em tempo real.
+            Simplifique processos, aumente a produtividade e tome
+            decisões mais inteligentes com informação fiável e sempre
+            disponível.
           </p>
         </div>
 

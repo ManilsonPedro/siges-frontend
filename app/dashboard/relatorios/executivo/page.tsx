@@ -73,6 +73,10 @@ export default function DashboardExecutivoPage() {
               <Card icon={Droplets} label="Avaliação Média" value={operacional?.lavagem_avaliacao_media ? `${operacional.lavagem_avaliacao_media.toFixed(1)} / 5` : "—"} />
               <Card icon={Droplets} label="Cancelamentos Hoje" value={String(operacional?.lavagem_cancelamentos_hoje || 0)} />
               <Card icon={Droplets} label="Taxa de Retrabalho" value={`${operacional?.lavagem_taxa_retrabalho_pct || 0}%`} sub="re-lavagens oferecidas" />
+              <Card icon={Droplets} label="Tempo Médio de Atendimento" value={operacional?.lavagem_tempo_medio_atendimento_minutos ? `${operacional.lavagem_tempo_medio_atendimento_minutos.toFixed(0)} min` : "—"} sub="check-in → conclusão" />
+              <Card icon={Droplets} label="Tempo Médio de Espera" value={operacional?.lavagem_tempo_medio_espera_minutos ? `${operacional.lavagem_tempo_medio_espera_minutos.toFixed(0)} min` : "—"} sub="na fila" />
+              <Card icon={Droplets} label="Receita da Lavagem Hoje" value={`${(operacional?.lavagem_receita_hoje || 0).toLocaleString("pt-AO")} Kz`} />
+              <Card icon={Droplets} label="Ticket Médio da Lavagem" value={`${(operacional?.lavagem_ticket_medio || 0).toLocaleString("pt-AO")} Kz`} />
             </div>
             <div className="grid md:grid-cols-3 gap-4 mt-3">
               {operacional && Object.keys(operacional.lavagem_agua_por_categoria_litros).length > 0 && (

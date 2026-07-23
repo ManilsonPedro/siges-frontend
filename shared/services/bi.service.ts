@@ -27,6 +27,11 @@ export const biService = {
     lavagem_cancelamentos_hoje: number;
     lavagem_taxa_retrabalho_pct: number;
     lavagem_top_extras: { extra_id: string; extra_nome: string; n_vendas: number }[];
+    lavagem_tempo_medio_atendimento_minutos: number;
+    lavagem_tempo_medio_espera_minutos: number;
+    lavagem_receita_total: number;
+    lavagem_receita_hoje: number;
+    lavagem_ticket_medio: number;
   }> {
     const { data } = await api.get("/bi/dashboards/operacional");
     return data;

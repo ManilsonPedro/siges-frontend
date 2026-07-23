@@ -2,7 +2,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { biService } from "@/shared/services/bi.service";
 import { biLavagemAvancadoService } from "@/shared/services/bi-lavagem-avancado.service";
-import { BarChart3, Loader2, Wallet, ShoppingCart, Droplets, Users, TrendingUp } from "lucide-react";
+import { biAguaService } from "@/shared/services/bi-agua.service";
+import { BarChart3, Loader2, Wallet, ShoppingCart, Droplets, Users, TrendingUp, Waves } from "lucide-react";
 
 function Card({ icon: Icon, label, value, sub }: { icon: any; label: string; value: string; sub?: string }) {
   return (
@@ -25,8 +26,11 @@ export default function DashboardExecutivoPage() {
   const { data: heatmap, isLoading: l5 } = useQuery({ queryKey: ["bi-heatmap"], queryFn: () => biLavagemAvancadoService.heatmapMovimento() });
   const { data: valorCliente, isLoading: l6 } = useQuery({ queryKey: ["bi-valor-cliente"], queryFn: biLavagemAvancadoService.valorPorCliente });
   const { data: crossSelling, isLoading: l7 } = useQuery({ queryKey: ["bi-cross-selling"], queryFn: biLavagemAvancadoService.crossSelling });
+  const { data: dashAgua, isLoading: l8 } = useQuery({ queryKey: ["bi-agua-dashboard"], queryFn: biAguaService.dashboard });
+  const { data: rankingFornecedoresAgua, isLoading: l9 } = useQuery({ queryKey: ["bi-agua-ranking-fornecedores"], queryFn: biAguaService.rankingFornecedores });
+  const { data: rankingFiliaisAgua, isLoading: l10 } = useQuery({ queryKey: ["bi-agua-ranking-filiais"], queryFn: biAguaService.rankingFiliais });
 
-  const isLoading = l1 || l2 || l3 || l4 || l5 || l6 || l7;
+  const isLoading = l1 || l2 || l3 || l4 || l5 || l6 || l7 || l8 || l9 || l10;
 
   const heatmapMax = heatmap ? Math.max(1, ...heatmap.celulas.map((c) => c.n_checkins)) : 1;
   const DIAS_SEMANA = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
@@ -208,6 +212,46 @@ export default function DashboardExecutivoPage() {
                       <li key={c.cliente_id} className="flex justify-between">
                         <span>{c.cliente_nome}</span>
                         <span>{c.lifetime_value.toLocaleString("pt-AO")} Kz · {c.n_lavagens}x</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-sm font-semibold text-ink-mid/70 uppercase mb-2 flex items-center gap-2"><Waves className="h-4 w-4" /> Gestão da Água</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Card icon={Waves} label="Água Disponível" value={`${(dashAgua?.agua_disponivel_litros || 0).toLocaleString("pt-AO")} L`} />
+              <Card icon={Waves} label="Consumida Hoje" value={`${(dashAgua?.agua_consumida_hoje_litros || 0).toLocaleString("pt-AO")} L`} sub={`${(dashAgua?.agua_consumida_mes_litros || 0).toLocaleString("pt-AO")} L no mês`} />
+              <Card icon={Wallet} label="Custo Total da Água" value={`${(dashAgua?.custo_total_agua || 0).toLocaleString("pt-AO")} Kz`} sub={`Médio ${(dashAgua?.custo_medio_por_litro || 0).toFixed(4)} Kz/L`} />
+              <Card icon={Wallet} label="Custo por Lavagem" value={`${(dashAgua?.custo_por_lavagem || 0).toLocaleString("pt-AO")} Kz`} sub={`${(dashAgua?.eficiencia_hidrica_litros_por_lavagem || 0).toFixed(1)} L/lavagem`} />
+              <Card icon={Waves} label="% Reutilização" value={`${dashAgua?.percentual_reutilizacao || 0}%`} />
+              <Card icon={Waves} label="Abastecimentos" value={String(dashAgua?.numero_abastecimentos || 0)} sub={`${(dashAgua?.valor_gasto_abastecimentos || 0).toLocaleString("pt-AO")} Kz gastos`} />
+            </div>
+            <div className="grid md:grid-cols-2 gap-4 mt-3">
+              {rankingFornecedoresAgua && rankingFornecedoresAgua.fornecedores.length > 0 && (
+                <div className="bg-panel dark:bg-panel rounded-xl shadow p-4">
+                  <p className="text-xs text-ink-mid/70 mb-2">Ranking de Fornecedores de Água</p>
+                  <ul className="text-sm space-y-1">
+                    {rankingFornecedoresAgua.fornecedores.slice(0, 5).map((f) => (
+                      <li key={f.fornecedor_id} className="flex justify-between">
+                        <span>{f.fornecedor_nome}</span>
+                        <span>{f.quantidade_total_litros.toLocaleString("pt-AO")} L · {f.faturacao_total.toLocaleString("pt-AO")} Kz</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {rankingFiliaisAgua && rankingFiliaisAgua.filiais.length > 0 && (
+                <div className="bg-panel dark:bg-panel rounded-xl shadow p-4">
+                  <p className="text-xs text-ink-mid/70 mb-2">Consumo de Água por Filial</p>
+                  <ul className="text-sm space-y-1">
+                    {rankingFiliaisAgua.filiais.map((f) => (
+                      <li key={f.filial_id} className="flex justify-between">
+                        <span>{f.filial_nome}</span>
+                        <span>{f.consumo_total_litros.toLocaleString("pt-AO")} L</span>
                       </li>
                     ))}
                   </ul>

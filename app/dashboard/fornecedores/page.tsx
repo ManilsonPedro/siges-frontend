@@ -19,6 +19,7 @@ const schema = z.object({
   email: z.string().email("Email inválido").optional().or(z.literal("")),
   endereco: z.string().optional(),
   estado: z.enum(["ativo", "inativo", "suspenso"]),
+  tipo_pessoa: z.enum(["singular", "empresa"]).optional().or(z.literal("")),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -124,6 +125,7 @@ export default function FornecedoresPage() {
       email: formData.email || undefined,
       endereco: formData.endereco || undefined,
       estado: formData.estado,
+      tipo_pessoa: formData.tipo_pessoa || undefined,
     };
     if (editing) {
       updateMutation.mutate({ id: editing.id, dto });
@@ -141,6 +143,7 @@ export default function FornecedoresPage() {
       email: f.email || "",
       endereco: f.endereco || "",
       estado: f.estado,
+      tipo_pessoa: (f.tipo_pessoa as any) || "",
     });
   };
 
@@ -179,6 +182,17 @@ export default function FornecedoresPage() {
           <option value="ativo">Ativo</option>
           <option value="inativo">Inativo</option>
           <option value="suspenso">Suspenso</option>
+        </select>
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo de Pessoa</label>
+        <select
+          {...register("tipo_pessoa")}
+          className="w-full rounded-lg border border-ink-ghost/80 dark:border-gray-600 px-3 py-2 text-sm bg-panel dark:bg-ink-ghost/20 text-ink dark:text-white focus:outline-none focus:ring-2 focus:ring-ink"
+        >
+          <option value="">— Não especificado —</option>
+          <option value="singular">Pessoa Singular</option>
+          <option value="empresa">Empresa</option>
         </select>
       </div>
       <div className="flex gap-2 pt-2">

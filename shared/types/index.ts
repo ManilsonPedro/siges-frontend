@@ -26,6 +26,7 @@ export interface Fornecedor {
   email?: string;
   endereco?: string;
   estado: "ativo" | "inativo" | "suspenso";
+  tipo_pessoa?: "singular" | "empresa" | null;
   created_at: string;
   updated_at: string;
   deleted_at?: string;
@@ -208,6 +209,7 @@ export interface CreateFornecedorDTO {
   email?: string;
   endereco?: string;
   estado: string;
+  tipo_pessoa?: string;
 }
 
 export interface CreateClienteDTO {
@@ -818,15 +820,32 @@ export interface EscalaTurno {
 export interface CreateEscalaTurnoDTO { equipa_id: string; box_id: string; turno_id: string; data: string; activo?: boolean; }
 
 export interface TanqueAgua {
-  id: string; company_id: string; codigo: string; nome: string;
+  id: string; company_id: string; filial_id?: string | null; codigo: string; nome: string;
   tipo: "limpa" | "reciclada" | "tratada" | "pluvial";
   capacidade_litros: number; nivel_atual_litros: number; nivel_minimo_litros: number;
   ph?: number | null; turbidez?: number | null; condutividade?: number | null;
   tem_sensor: boolean; sensor_id?: string | null;
+  estado: "activo" | "manutencao" | "inactivo";
 }
 export interface ConsumoAgua {
   id: string; company_id: string; tanque_agua_id: string; litros_consumidos: number;
   tipo: "lavagem" | "limpeza" | "outro"; custo_por_litro?: number | null; custo_total?: number | null; data: string;
+}
+export interface AbastecimentoAgua {
+  id: string; company_id: string; numero?: string | null;
+  tanque_agua_id: string; fornecedor_id: string; filial_id?: string | null; equipamento_id?: string | null;
+  quantidade_litros: number; valor_por_litro: number; custo_total: number;
+  metodo_pagamento?: string | null; observacoes?: string | null;
+  registado_por_id: string; recebido_por_id?: string | null;
+  estado: "registado" | "aprovado" | "documentado" | "pago" | "concluido";
+  data: string;
+}
+export interface MovimentoTanqueAgua {
+  id: string; company_id: string; tanque_agua_id: string;
+  tipo: "entrada" | "saida" | "ajuste" | "ajuste_positivo" | "transferencia" | "perda" | "evaporacao" | "vazamento";
+  quantidade_litros: number; nivel_antes: number; nivel_depois: number;
+  referencia_tipo?: string | null; referencia_id?: string | null; observacoes?: string | null;
+  registado_por_id: string; created_at: string;
 }
 
 // ══════════════════════════════════════════════════════════════════

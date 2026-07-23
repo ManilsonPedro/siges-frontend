@@ -8,7 +8,7 @@ import type {
   CreateWalkinDTO, FilaItem,
   EquipaLavagem, CreateEquipaLavagemDTO,
   EscalaTurno, CreateEscalaTurnoDTO,
-  TanqueAgua, ConsumoAgua,
+  TanqueAgua, ConsumoAgua, AbastecimentoAgua, MovimentoTanqueAgua,
 } from "@/shared/types";
 
 export const operacoesEstacaoService = {
@@ -227,6 +227,13 @@ export const operacoesAguaService = {
     const { data } = await api.post<TanqueAgua>("/operacoes/agua/tanques", dto);
     return data;
   },
+  async updateTanque(id: string, dto: Partial<TanqueAgua>): Promise<TanqueAgua> {
+    const { data } = await api.patch<TanqueAgua>(`/operacoes/agua/tanques/${id}`, dto);
+    return data;
+  },
+  async deleteTanque(id: string): Promise<void> {
+    await api.delete(`/operacoes/agua/tanques/${id}`);
+  },
   async registarLeitura(id: string, dto: { nivel_litros?: number; ph?: number; turbidez?: number; condutividade?: number }): Promise<TanqueAgua> {
     const { data } = await api.post<TanqueAgua>(`/operacoes/agua/tanques/${id}/leitura`, dto);
     return data;
@@ -242,5 +249,66 @@ export const operacoesAguaService = {
   async indicadores(): Promise<{ consumo_total_litros: number; custo_total: number; percentual_reciclagem: number }> {
     const { data } = await api.get("/operacoes/agua/indicadores");
     return data;
+  },
+  async alertas(): Promise<{ alertas: { tipo: string; severidade: "alta" | "media" | "baixa"; mensagem: string; tanque_agua_id?: string | null; abastecimento_id?: string }[]; total: number }> {
+    const { data } = await api.get("/operacoes/agua/alertas");
+    return data;
+  },
+  async custos(params?: { data_inicio?: string; data_fim?: string }): Promise<{
+    por_abastecimento: { abastecimento_id: string; numero: string | null; custo_total: number; data: string }[];
+    por_fornecedor: { fornecedor_id: string; fornecedor_nome: string; custo_total: number }[];
+    por_filial: { filial_id: string; filial_nome: string; custo_total: number }[];
+    por_tanque: { tanque_agua_id: string; tanque_codigo: string; custo_total: number }[];
+    evolucao_preco_medio_litro: { mes: string; preco_medio_litro: number }[];
+  }> {
+    const { data } = await api.get("/operacoes/agua/custos", { params });
+    return data;
+  },
+  async listAbastecimentos(params?: {
+    tanque_agua_id?: string; fornecedor_id?: string; filial_id?: string; estado?: string;
+    data_inicio?: string; data_fim?: string;
+    valor_min?: number; valor_max?: number; quantidade_min?: number; quantidade_max?: number;
+  }): Promise<AbastecimentoAgua[]> {
+    const { data } = await api.get<AbastecimentoAgua[]>("/operacoes/agua/abastecimentos", { params });
+    return data;
+  },
+  async createAbastecimento(dto: {
+    tanque_agua_id: string; fornecedor_id: string; filial_id?: string; equipamento_id?: string;
+    quantidade_litros: number; valor_por_litro: number; metodo_pagamento?: string;
+    observacoes?: string; recebido_por_id?: string;
+  }): Promise<AbastecimentoAgua> {
+    const { data } = await api.post<AbastecimentoAgua>("/operacoes/agua/abastecimentos", dto);
+    return data;
+  },
+  async atualizarEstadoAbastecimento(id: string, estado: string): Promise<AbastecimentoAgua> {
+    const { data } = await api.patch<AbastecimentoAgua>(`/operacoes/agua/abastecimentos/${id}/estado`, { estado });
+    return data;
+  },
+  async listMovimentosTanque(id: string): Promise<MovimentoTanqueAgua[]> {
+    const { data } = await api.get<MovimentoTanqueAgua[]>(`/operacoes/agua/tanques/${id}/movimentos`);
+    return data;
+  },
+  async createMovimentoTanque(id: string, dto: { tipo: string; quantidade_litros: number; observacoes?: string }): Promise<MovimentoTanqueAgua> {
+    const { data } = await api.post<MovimentoTanqueAgua>(`/operacoes/agua/tanques/${id}/movimentos`, dto);
+    return data;
+  },
+  async consumoPorDimensao(dimensao: "box" | "colaborador" | "equipa"): Promise<{ dimensao: string; itens: { chave: string; label: string; litros: number; n_lavagens: number }[] }> {
+    const { data } = await api.get("/operacoes/agua/consumo-por-dimensao", { params: { dimensao } });
+    return data;
+  },
+  async gerarDocumentoAbastecimento(id: string, tipo: string): Promise<void> {
+    const { data, headers } = await api.post(`/operacoes/agua/abastecimentos/${id}/documentos/${tipo}`, null, {
+      responseType: "blob",
+    });
+    const url = URL.createObjectURL(new Blob([data], { type: "application/pdf" }));
+    const disposition = headers["content-disposition"] ?? "";
+    const match = disposition.match(/filename="?([^"]+)"?/);
+    const filename = match ? match[1] : `${tipo}.pdf`;
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.target = "_blank";
+    a.click();
+    URL.revokeObjectURL(url);
   },
 };

@@ -1,229 +1,127 @@
 "use client";
 
-import {
-  Building2,
-  Plus,
-  MapPin,
-  Phone,
-  User,
-  CheckCircle2,
-  XCircle,
-  Sparkles,
-} from "lucide-react";
+import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { Building2, Plus, X, Loader2, CheckCircle2, XCircle } from "lucide-react";
+import { operacoesEstacaoService } from "@/shared/services/operacoes.service";
 
-const filiais = [
-  {
-    id: 1,
-    nome: "Sede — Viana",
-    cidade: "Luanda",
-    morada: "Rua da Indústria, Zona Industrial de Viana, Luanda",
-    responsavel: "Beatriz Venâncio",
-    telefone: "+244 923 456 789",
-    estado: "Activa",
-    principal: true,
-  },
-  {
-    id: 2,
-    nome: "Filial Talatona",
-    cidade: "Luanda",
-    morada: "Av. Pedro de Van-Dúnem, Talatona, Luanda Sul",
-    responsavel: "Carlos Domingos Neto",
-    telefone: "+244 912 345 678",
-    estado: "Activa",
-    principal: false,
-  },
-  {
-    id: 3,
-    nome: "Filial Benguela",
-    cidade: "Benguela",
-    morada: "Rua Comandante Gika, n.º 42, Benguela",
-    responsavel: "Maria Luísa Carvalho",
-    telefone: "+244 934 567 890",
-    estado: "Activa",
-    principal: false,
-  },
-  {
-    id: 4,
-    nome: "Filial Lobito",
-    cidade: "Benguela",
-    morada: "Av. da Independência, Lobito",
-    responsavel: "António Sebastião Lopes",
-    telefone: "+244 945 678 901",
-    estado: "Inactiva",
-    principal: false,
-  },
-  {
-    id: 5,
-    nome: "Filial Huambo",
-    cidade: "Huambo",
-    morada: "Rua da República, n.º 115, Huambo",
-    responsavel: "Fernanda Quissanga",
-    telefone: "+244 956 789 012",
-    estado: "Activa",
-    principal: false,
-  },
-  {
-    id: 6,
-    nome: "Armazém Central",
-    cidade: "Luanda",
-    morada: "Zona Franca do Porto de Luanda, Galpão 7",
-    responsavel: "João Muanda Silva",
-    telefone: "+244 967 890 123",
-    estado: "Activa",
-    principal: false,
-  },
-];
-
-const cidadeCor: Record<string, string> = {
-  Luanda:
-    "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
-  Benguela:
-    "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300",
-  Huambo:
-    "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300",
-};
+function Modal({ open, onClose, title, children }: { open: boolean; onClose: () => void; title: string; children: React.ReactNode }) {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+      <div className="bg-panel dark:bg-panel rounded-xl shadow-xl w-full max-w-md">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-ink-ghost/60 dark:border-ink-ghost/20">
+          <h3 className="font-semibold text-ink dark:text-white">{title}</h3>
+          <button onClick={onClose} className="text-ink-mid/50 hover:text-ink-mid"><X className="h-4 w-4" /></button>
+        </div>
+        <div className="p-6">{children}</div>
+      </div>
+    </div>
+  );
+}
 
 export default function FiliaisPage() {
-  const activas = filiais.filter((f) => f.estado === "Activa").length;
+  const qc = useQueryClient();
+  const [showForm, setShowForm] = useState(false);
+  const [form, setForm] = useState({ nome: "", morada: "", activo: true });
+
+  const { data: filiais = [], isLoading } = useQuery({
+    queryKey: ["filiais"],
+    queryFn: operacoesEstacaoService.listFiliais,
+  });
+
+  const createMut = useMutation({
+    mutationFn: () => operacoesEstacaoService.createFilial(form),
+    onSuccess: () => {
+      toast.success("Filial criada");
+      qc.invalidateQueries({ queryKey: ["filiais"] });
+      setShowForm(false);
+      setForm({ nome: "", morada: "", activo: true });
+    },
+    onError: (e: any) => toast.error(e?.response?.data?.detail || "Erro"),
+  });
+
+  const deleteMut = useMutation({
+    mutationFn: (id: string) => operacoesEstacaoService.deleteFilial(id),
+    onSuccess: () => { toast.success("Filial eliminada"); qc.invalidateQueries({ queryKey: ["filiais"] }); },
+    onError: (e: any) => toast.error(e?.response?.data?.detail || "Erro"),
+  });
+
+  const activas = filiais.filter((f) => f.activo).length;
 
   return (
     <div className="space-y-6">
-      {/* Cabeçalho */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Filiais da Empresa
-            </h1>
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300 border border-violet-200 dark:border-violet-700">
-              <Sparkles className="w-3 h-3" />
-              Novo
-            </span>
-          </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Gestão de filiais e locais da empresa
-          </p>
+          <h1 className="text-2xl font-bold text-ink dark:text-white">Filiais da Empresa</h1>
+          <p className="text-sm text-ink-mid/70 dark:text-ink-mid/60">Gestão das unidades físicas da empresa.</p>
         </div>
-        <button className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-700 text-white text-sm font-medium transition-colors self-start sm:self-auto">
-          <Plus className="w-4 h-4" />
-          Nova Filial
+        <button
+          onClick={() => setShowForm(true)}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-ink text-white text-sm font-medium hover:bg-ink/90"
+        >
+          <Plus className="w-4 h-4" /> Nova Filial
         </button>
       </div>
 
-      {/* Banner módulo novo */}
-      <div className="flex items-start gap-3 rounded-xl border border-violet-200 dark:border-violet-800 bg-violet-50 dark:bg-violet-950/40 px-4 py-3">
-        <Sparkles className="w-5 h-5 text-violet-600 dark:text-violet-400 mt-0.5 flex-shrink-0" />
-        <p className="text-sm text-violet-700 dark:text-violet-300">
-          <span className="font-semibold">Módulo em desenvolvimento</span> — funcionalidades de criação e edição serão activadas em breve.
-        </p>
-      </div>
-
-      {/* Contadores */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         {[
-          { label: "Total de Filiais", valor: filiais.length, cor: "text-gray-900 dark:text-white" },
-          { label: "Activas", valor: activas, cor: "text-green-600 dark:text-green-400" },
-          { label: "Inactivas", valor: filiais.length - activas, cor: "text-red-500 dark:text-red-400" },
+          { label: "Total de Filiais", valor: filiais.length },
+          { label: "Activas", valor: activas },
+          { label: "Inactivas", valor: filiais.length - activas },
         ].map((item) => (
-          <div
-            key={item.label}
-            className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4"
-          >
-            <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{item.label}</p>
-            <p className={`text-2xl font-bold ${item.cor}`}>{item.valor}</p>
+          <div key={item.label} className="rounded-xl border border-ink-ghost/60 bg-panel dark:border-ink-ghost/20 dark:bg-panel p-4">
+            <p className="text-xs text-ink-mid/70 mb-1">{item.label}</p>
+            <p className="text-2xl font-bold text-ink dark:text-white">{item.valor}</p>
           </div>
         ))}
       </div>
 
-      {/* Tabela */}
-      <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden">
-        <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            Lista de Filiais ({filiais.length})
-          </h2>
+      <div className="rounded-xl border border-ink-ghost/60 bg-panel dark:border-ink-ghost/20 dark:bg-panel overflow-hidden">
+        <div className="px-5 py-4 border-b border-ink-ghost/40 dark:border-ink-ghost/15 flex items-center justify-between">
+          <h2 className="text-sm font-semibold text-ink-mid dark:text-gray-300">Lista de Filiais ({filiais.length})</h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-gray-50 dark:bg-gray-700/50">
-                <th className="text-left px-5 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                  Nome
-                </th>
-                <th className="text-left px-5 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                  Cidade
-                </th>
-                <th className="text-left px-5 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide hidden md:table-cell">
-                  Morada
-                </th>
-                <th className="text-left px-5 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide hidden lg:table-cell">
-                  Responsável
-                </th>
-                <th className="text-left px-5 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide hidden xl:table-cell">
-                  Telefone
-                </th>
-                <th className="text-left px-5 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                  Estado
-                </th>
+              <tr className="bg-surface dark:bg-gray-700/50">
+                <th className="text-left px-5 py-3 text-xs font-medium text-ink-mid/70 uppercase tracking-wide">Nome</th>
+                <th className="text-left px-5 py-3 text-xs font-medium text-ink-mid/70 uppercase tracking-wide">Morada</th>
+                <th className="text-left px-5 py-3 text-xs font-medium text-ink-mid/70 uppercase tracking-wide">Estado</th>
+                <th className="text-right px-5 py-3 text-xs font-medium text-ink-mid/70 uppercase tracking-wide">Acções</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+            <tbody className="divide-y divide-ink-ghost/40 dark:divide-gray-700">
+              {isLoading && <tr><td colSpan={4} className="p-8 text-center"><Loader2 className="h-5 w-5 animate-spin inline" /></td></tr>}
+              {!isLoading && filiais.length === 0 && <tr><td colSpan={4} className="p-8 text-center text-ink-mid/70">Nenhuma filial cadastrada</td></tr>}
               {filiais.map((filial) => (
-                <tr
-                  key={filial.id}
-                  className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors"
-                >
+                <tr key={filial.id} className="hover:bg-surface dark:hover:bg-gray-700/30 transition-colors">
                   <td className="px-5 py-3.5">
                     <div className="flex items-center gap-2">
-                      <Building2 className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                      <div>
-                        <span className="font-medium text-gray-900 dark:text-white">
-                          {filial.nome}
-                        </span>
-                        {filial.principal && (
-                          <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded text-xs bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300">
-                            Principal
-                          </span>
-                        )}
-                      </div>
+                      <Building2 className="w-4 h-4 text-ink-mid/50 flex-shrink-0" />
+                      <span className="font-medium text-ink dark:text-white">{filial.nome}</span>
                     </div>
                   </td>
+                  <td className="px-5 py-3.5 text-ink-mid dark:text-gray-400">{filial.morada || "—"}</td>
                   <td className="px-5 py-3.5">
-                    <span
-                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
-                        cidadeCor[filial.cidade] ?? "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
-                      }`}
-                    >
-                      <MapPin className="w-3 h-3" />
-                      {filial.cidade}
-                    </span>
-                  </td>
-                  <td className="px-5 py-3.5 text-gray-600 dark:text-gray-400 hidden md:table-cell max-w-xs truncate">
-                    {filial.morada}
-                  </td>
-                  <td className="px-5 py-3.5 hidden lg:table-cell">
-                    <div className="flex items-center gap-1.5 text-gray-700 dark:text-gray-300">
-                      <User className="w-3.5 h-3.5 text-gray-400" />
-                      {filial.responsavel}
-                    </div>
-                  </td>
-                  <td className="px-5 py-3.5 hidden xl:table-cell">
-                    <div className="flex items-center gap-1.5 text-gray-600 dark:text-gray-400">
-                      <Phone className="w-3.5 h-3.5 text-gray-400" />
-                      {filial.telefone}
-                    </div>
-                  </td>
-                  <td className="px-5 py-3.5">
-                    {filial.estado === "Activa" ? (
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        Activa
+                    {filial.activo ? (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-live-dim text-live">
+                        <CheckCircle2 className="w-3.5 h-3.5" /> Activa
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
-                        <XCircle className="w-3.5 h-3.5" />
-                        Inactiva
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-danger/10 text-danger">
+                        <XCircle className="w-3.5 h-3.5" /> Inactiva
                       </span>
                     )}
+                  </td>
+                  <td className="px-5 py-3.5 text-right">
+                    <button
+                      onClick={() => confirm(`Eliminar "${filial.nome}"?`) && deleteMut.mutate(filial.id)}
+                      className="p-2 text-ink-mid/70 hover:text-danger"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -231,6 +129,31 @@ export default function FiliaisPage() {
           </table>
         </div>
       </div>
+
+      <Modal open={showForm} onClose={() => setShowForm(false)} title="Nova filial">
+        <form onSubmit={(e) => { e.preventDefault(); createMut.mutate(); }} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Nome *</label>
+            <input
+              value={form.nome} onChange={(e) => setForm({ ...form, nome: e.target.value })} required
+              className="w-full border rounded-lg px-3 py-2 dark:bg-ink-ghost/20 dark:border-ink-ghost/20"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Morada</label>
+            <input
+              value={form.morada} onChange={(e) => setForm({ ...form, morada: e.target.value })}
+              className="w-full border rounded-lg px-3 py-2 dark:bg-ink-ghost/20 dark:border-ink-ghost/20"
+            />
+          </div>
+          <div className="flex justify-end gap-2 pt-2">
+            <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 border rounded-lg">Cancelar</button>
+            <button type="submit" disabled={createMut.isPending} className="px-4 py-2 bg-ink text-white rounded-lg disabled:opacity-50">
+              {createMut.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Guardar"}
+            </button>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 }

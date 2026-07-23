@@ -750,6 +750,9 @@ export interface UpdateUserDTO {
 // ══════════════════════════════════════════════════════════════════
 // Operações
 // ══════════════════════════════════════════════════════════════════
+export interface Filial {
+  id: string; company_id: string; nome: string; morada?: string | null; activo: boolean; created_at: string;
+}
 export interface AreaServico {
   id: string; company_id: string; filial_id?: string | null;
   nome: string; tipo: "bomba" | "lavagem" | "loja" | "restauracao"; activo: boolean; created_at: string;
@@ -765,7 +768,7 @@ export interface TipoLavagem {
   id: string; company_id: string; codigo: string; nome: string; descricao?: string | null;
   preco_base: number; duracao_estimada_minutos: number; agua_estimada_litros: number; activo: boolean;
 }
-export interface BoxLavagem { id: string; company_id: string; codigo: string; nome: string; estado: string; capacidade: number; }
+export interface BoxLavagem { id: string; company_id: string; filial_id?: string | null; codigo: string; nome: string; estado: string; capacidade: number; }
 export interface SlotLavagem { id: string; box_id: string; data_hora_inicio: string; data_hora_fim: string; estado: string; preco_override?: number | null; }
 export interface CategoriaVeiculo {
   id: string; company_id: string; codigo: string; nome: string;
@@ -789,7 +792,7 @@ export type OrigemOrdemLavagem = "portal_cliente" | "backoffice_walkin" | "backo
 export interface OrdemLavagem {
   id: string; company_id: string; cliente_id?: string | null; viatura_id?: string | null;
   tipo_lavagem_id: string; box_id?: string | null; slot_id?: string | null; estado: string;
-  origem: OrigemOrdemLavagem; equipa?: string | null;
+  origem: OrigemOrdemLavagem; equipa?: string | null; colaborador_responsavel_id?: string | null;
   agua_consumida_litros?: number | null; re_lavagem_de_id?: string | null;
   preco_total?: number | null; extras: ExtraAplicado[]; created_at: string;
 }

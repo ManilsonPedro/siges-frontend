@@ -32,6 +32,8 @@ export const biService = {
     lavagem_receita_total: number;
     lavagem_receita_hoje: number;
     lavagem_ticket_medio: number;
+    lavagem_produtividade_colaboradores: { colaborador_id: string; colaborador_nome: string; n_lavagens: number; receita: number; tempo_medio_minutos: number | null }[];
+    lavagem_comparativo_filiais: { filial_id: string; filial_nome: string; n_lavagens: number; receita: number }[];
   }> {
     const { data } = await api.get("/bi/dashboards/operacional");
     return data;

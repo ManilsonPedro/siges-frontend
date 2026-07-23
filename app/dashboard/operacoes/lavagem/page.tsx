@@ -1,6 +1,6 @@
 "use client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { operacoesLavagemService } from "@/shared/services/operacoes.service";
+import { operacoesLavagemService, operacoesEstacaoService } from "@/shared/services/operacoes.service";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Droplets, Plus, X, Loader2, PlayCircle, CheckCircle2, Star } from "lucide-react";
@@ -50,9 +50,10 @@ export default function LavagemPage() {
   const { data: ordens = [] } = useQuery({ queryKey: ["lavagem-ordens"], queryFn: () => operacoesLavagemService.listOrdens() });
   const { data: categorias = [] } = useQuery({ queryKey: ["lavagem-categorias"], queryFn: operacoesLavagemService.listCategoriasVeiculo });
   const { data: extras = [] } = useQuery({ queryKey: ["lavagem-extras"], queryFn: operacoesLavagemService.listExtras });
+  const { data: filiais = [] } = useQuery({ queryKey: ["filiais"], queryFn: operacoesEstacaoService.listFiliais });
 
   const [tipoForm, setTipoForm] = useState({ codigo: "", nome: "", preco_base: 2000, duracao_estimada_minutos: 30 });
-  const [boxForm, setBoxForm] = useState({ codigo: "", nome: "" });
+  const [boxForm, setBoxForm] = useState({ codigo: "", nome: "", filial_id: "" });
   const [ordemForm, setOrdemForm] = useState<{ tipo_lavagem_id: string; extra_ids: string[] }>({ tipo_lavagem_id: "", extra_ids: [] });
   const [categoriaForm, setCategoriaForm] = useState({ codigo: "", nome: "", fator_preco: 1, fator_agua: 1, ordem: 0 });
   const [extraForm, setExtraForm] = useState({ codigo: "", nome: "", preco: 0, duracao_adicional_minutos: 0 });
@@ -62,8 +63,8 @@ export default function LavagemPage() {
     onSuccess: () => { toast.success("Tipo criado"); qc.invalidateQueries({ queryKey: ["lavagem-tipos"] }); setShowTipo(false); },
   });
   const createBoxMut = useMutation({
-    mutationFn: () => operacoesLavagemService.createBox(boxForm),
-    onSuccess: () => { toast.success("Box criado"); qc.invalidateQueries({ queryKey: ["lavagem-boxes"] }); setShowBox(false); },
+    mutationFn: () => operacoesLavagemService.createBox({ ...boxForm, filial_id: boxForm.filial_id || undefined }),
+    onSuccess: () => { toast.success("Box criado"); qc.invalidateQueries({ queryKey: ["lavagem-boxes"] }); setShowBox(false); setBoxForm({ codigo: "", nome: "", filial_id: "" }); },
   });
   const createOrdemMut = useMutation({
     mutationFn: () => operacoesLavagemService.createOrdem({ ...ordemForm, origem: "backoffice_walkin" }),
@@ -276,6 +277,14 @@ export default function LavagemPage() {
         <form onSubmit={(e) => { e.preventDefault(); createBoxMut.mutate(); }} className="space-y-4">
           <div><label className="block text-sm font-medium mb-1">Código *</label><input value={boxForm.codigo} onChange={(e) => setBoxForm({ ...boxForm, codigo: e.target.value })} required className="w-full border rounded-lg px-3 py-2 dark:bg-ink-ghost/20 dark:border-ink-ghost/20" /></div>
           <div><label className="block text-sm font-medium mb-1">Nome *</label><input value={boxForm.nome} onChange={(e) => setBoxForm({ ...boxForm, nome: e.target.value })} required className="w-full border rounded-lg px-3 py-2 dark:bg-ink-ghost/20 dark:border-ink-ghost/20" /></div>
+          {filiais.length > 0 && (
+            <div><label className="block text-sm font-medium mb-1">Filial</label>
+              <select value={boxForm.filial_id} onChange={(e) => setBoxForm({ ...boxForm, filial_id: e.target.value })} className="w-full border rounded-lg px-3 py-2 dark:bg-ink-ghost/20 dark:border-ink-ghost/20">
+                <option value="">Não especificada</option>
+                {filiais.filter((f) => f.activo).map((f) => <option key={f.id} value={f.id}>{f.nome}</option>)}
+              </select>
+            </div>
+          )}
           <div className="flex justify-end gap-2 pt-2">
             <button type="button" onClick={() => setShowBox(false)} className="px-4 py-2 border rounded-lg">Cancelar</button>
             <button type="submit" disabled={createBoxMut.isPending} className="px-4 py-2 bg-ink text-white rounded-lg disabled:opacity-50">{createBoxMut.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Guardar"}</button>

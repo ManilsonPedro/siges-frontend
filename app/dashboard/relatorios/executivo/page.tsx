@@ -118,6 +118,32 @@ export default function DashboardExecutivoPage() {
                   </ul>
                 </div>
               )}
+              {operacional && operacional.lavagem_produtividade_colaboradores.length > 0 && (
+                <div className="bg-panel dark:bg-panel rounded-xl shadow p-4">
+                  <p className="text-xs text-ink-mid/70 mb-2">Produtividade por Colaborador</p>
+                  <ul className="text-sm space-y-1">
+                    {operacional.lavagem_produtividade_colaboradores.map((c) => (
+                      <li key={c.colaborador_id} className="flex justify-between">
+                        <span>{c.colaborador_nome}</span>
+                        <span>{c.n_lavagens} lavagens{c.tempo_medio_minutos != null ? ` · ${c.tempo_medio_minutos.toFixed(0)} min` : ""}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {operacional && operacional.lavagem_comparativo_filiais.length > 0 && (
+                <div className="bg-panel dark:bg-panel rounded-xl shadow p-4">
+                  <p className="text-xs text-ink-mid/70 mb-2">Comparativo entre Filiais</p>
+                  <ul className="text-sm space-y-1">
+                    {operacional.lavagem_comparativo_filiais.map((f) => (
+                      <li key={f.filial_id} className="flex justify-between">
+                        <span>{f.filial_nome}</span>
+                        <span>{f.n_lavagens} lavagens · {f.receita.toLocaleString("pt-AO")} Kz</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
 

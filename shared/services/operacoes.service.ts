@@ -1,6 +1,6 @@
 import api from "./api";
 import type {
-  AreaServico, Equipamento, TurnoOperacional,
+  Filial, AreaServico, Equipamento, TurnoOperacional,
   TipoLavagem, BoxLavagem, SlotLavagem, OrdemLavagem,
   CategoriaVeiculo, CreateCategoriaVeiculoDTO,
   ExtraLavagem, CreateExtraLavagemDTO,
@@ -12,6 +12,21 @@ import type {
 } from "@/shared/types";
 
 export const operacoesEstacaoService = {
+  async listFiliais(): Promise<Filial[]> {
+    const { data } = await api.get<Filial[]>("/operacoes/estacao/filiais");
+    return data;
+  },
+  async createFilial(dto: { nome: string; morada?: string; activo?: boolean }): Promise<Filial> {
+    const { data } = await api.post<Filial>("/operacoes/estacao/filiais", dto);
+    return data;
+  },
+  async updateFilial(id: string, dto: Partial<{ nome: string; morada: string; activo: boolean }>): Promise<Filial> {
+    const { data } = await api.patch<Filial>(`/operacoes/estacao/filiais/${id}`, dto);
+    return data;
+  },
+  async deleteFilial(id: string): Promise<void> {
+    await api.delete(`/operacoes/estacao/filiais/${id}`);
+  },
   async listAreas(): Promise<AreaServico[]> {
     const { data } = await api.get<AreaServico[]>("/operacoes/estacao/areas-servico");
     return data;
@@ -64,7 +79,7 @@ export const operacoesLavagemService = {
     const { data } = await api.get<BoxLavagem[]>("/operacoes/lavagem/boxes");
     return data;
   },
-  async createBox(dto: { area_servico_id?: string; codigo: string; nome: string; capacidade?: number }): Promise<BoxLavagem> {
+  async createBox(dto: { area_servico_id?: string; filial_id?: string; codigo: string; nome: string; capacidade?: number }): Promise<BoxLavagem> {
     const { data } = await api.post<BoxLavagem>("/operacoes/lavagem/boxes", dto);
     return data;
   },
@@ -138,8 +153,12 @@ export const operacoesLavagemService = {
     const { data } = await api.post<OrdemLavagem>(`/operacoes/lavagem/ordens/${id}/checkin`);
     return data;
   },
-  async iniciar(id: string, box_id?: string): Promise<OrdemLavagem> {
-    const { data } = await api.post<OrdemLavagem>(`/operacoes/lavagem/ordens/${id}/iniciar`, null, { params: { box_id } });
+  async iniciar(id: string, box_id?: string, colaborador_responsavel_id?: string): Promise<OrdemLavagem> {
+    const { data } = await api.post<OrdemLavagem>(`/operacoes/lavagem/ordens/${id}/iniciar`, null, { params: { box_id, colaborador_responsavel_id } });
+    return data;
+  },
+  async definirColaboradorResponsavel(id: string, colaborador_responsavel_id: string): Promise<OrdemLavagem> {
+    const { data } = await api.patch<OrdemLavagem>(`/operacoes/lavagem/ordens/${id}/colaborador-responsavel`, { colaborador_responsavel_id });
     return data;
   },
   async registarConsumo(id: string, dto: { agua_consumida_litros?: number; quimicos?: any[]; armazem_id?: string }): Promise<OrdemLavagem> {

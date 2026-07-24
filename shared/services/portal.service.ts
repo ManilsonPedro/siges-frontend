@@ -25,6 +25,14 @@ export interface ResumoClientePortal {
   valor_total_gasto: number;
   tipo_lavagem_mais_frequente?: string | null;
 }
+export interface TipoLavagemPortal {
+  id: string; codigo: string; nome: string; descricao?: string | null;
+  preco_base: number; duracao_estimada_minutos: number;
+}
+export interface ExtraLavagemPortal {
+  id: string; codigo: string; nome: string; preco: number; duracao_adicional_minutos: number;
+}
+export interface CategoriaVeiculoPortal { id: string; codigo: string; nome: string; }
 
 const ESTADOS_ACTIVOS = "rascunho,agendada,confirmada,checkin,em_curso,controlo_qualidade";
 const ESTADOS_HISTORICO = "concluida,paga,cancelada";
@@ -60,6 +68,18 @@ export const portalAuthService = {
 };
 
 export const portalReservaService = {
+  async listTiposLavagem(): Promise<TipoLavagemPortal[]> {
+    const { data } = await portalApi.get<TipoLavagemPortal[]>("/portal/tipos-lavagem");
+    return data;
+  },
+  async listExtras(): Promise<ExtraLavagemPortal[]> {
+    const { data } = await portalApi.get<ExtraLavagemPortal[]>("/portal/extras");
+    return data;
+  },
+  async listCategoriasVeiculo(): Promise<CategoriaVeiculoPortal[]> {
+    const { data } = await portalApi.get<CategoriaVeiculoPortal[]>("/portal/categorias-veiculo");
+    return data;
+  },
   async disponibilidade(params: { data: string; tipo_lavagem_id: string; categoria_veiculo_id?: string }): Promise<SlotDisponivel[]> {
     const { data } = await portalApi.get<SlotDisponivel[]>("/portal/disponibilidade", { params });
     return data;

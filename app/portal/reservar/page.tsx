@@ -5,7 +5,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Loader2, Plus, CalendarClock } from "lucide-react";
 import { portalAuthService, portalReservaService } from "@/shared/services/portal.service";
-import { operacoesLavagemService } from "@/shared/services/operacoes.service";
 
 export default function PortalReservarPage() {
   const router = useRouter();
@@ -23,8 +22,8 @@ export default function PortalReservarPage() {
   const [showNovaViatura, setShowNovaViatura] = useState(false);
   const [novaViatura, setNovaViatura] = useState({ matricula: "", marca: "", modelo: "", cor: "" });
 
-  const { data: tipos = [] } = useQuery({ queryKey: ["portal-tipos"], queryFn: operacoesLavagemService.listTipos });
-  const { data: extras = [] } = useQuery({ queryKey: ["portal-extras"], queryFn: operacoesLavagemService.listExtras });
+  const { data: tipos = [] } = useQuery({ queryKey: ["portal-tipos"], queryFn: portalReservaService.listTiposLavagem });
+  const { data: extras = [] } = useQuery({ queryKey: ["portal-extras"], queryFn: portalReservaService.listExtras });
   const { data: viaturas = [] } = useQuery({ queryKey: ["portal-viaturas"], queryFn: portalReservaService.listViaturas });
 
   const { data: slots = [], isFetching: isLoadingSlots } = useQuery({
@@ -67,7 +66,7 @@ export default function PortalReservarPage() {
           <select value={tipoId} onChange={(e) => { setTipoId(e.target.value); setSlotId(""); }}
             className="w-full border rounded-lg px-3 py-2 dark:bg-ink-ghost/20 dark:border-ink-ghost/20">
             <option value="">Seleccionar…</option>
-            {tipos.filter((t) => t.activo).map((t) => (
+            {tipos.map((t) => (
               <option key={t.id} value={t.id}>{t.nome} — {t.preco_base.toLocaleString("pt-AO")} Kz</option>
             ))}
           </select>
@@ -104,7 +103,7 @@ export default function PortalReservarPage() {
           <div>
             <label className="block text-sm font-medium mb-2">Extras</label>
             <div className="space-y-1">
-              {extras.filter((ex) => ex.activo).map((ex) => (
+              {extras.map((ex) => (
                 <label key={ex.id} className="flex items-center gap-2 text-sm">
                   <input type="checkbox" checked={extraIds.includes(ex.id)}
                     onChange={(e) => setExtraIds(e.target.checked ? [...extraIds, ex.id] : extraIds.filter((id) => id !== ex.id))} />

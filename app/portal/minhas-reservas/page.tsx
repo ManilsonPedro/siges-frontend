@@ -6,7 +6,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { CalendarClock, Plus, LogOut, Loader2, History } from "lucide-react";
 import { portalAuthService, portalReservaService } from "@/shared/services/portal.service";
-import { operacoesLavagemService } from "@/shared/services/operacoes.service";
 
 const ESTADO_LABEL: Record<string, string> = {
   rascunho: "Rascunho", agendada: "Agendada", confirmada: "Confirmada", checkin: "Check-in",
@@ -33,7 +32,7 @@ export default function MinhasReservasPage() {
     queryFn: portalReservaService.reservasActivas,
     refetchInterval: 20_000,
   });
-  const { data: tipos = [] } = useQuery({ queryKey: ["portal-tipos"], queryFn: operacoesLavagemService.listTipos });
+  const { data: tipos = [] } = useQuery({ queryKey: ["portal-tipos"], queryFn: portalReservaService.listTiposLavagem });
 
   const cancelarMut = useMutation({
     mutationFn: (id: string) => portalReservaService.cancelarReserva(id),

@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { History, ChevronRight, Loader2, ArrowLeft } from "lucide-react";
 import { portalAuthService, portalReservaService } from "@/shared/services/portal.service";
-import { operacoesLavagemService } from "@/shared/services/operacoes.service";
 
 const ESTADO_LABEL: Record<string, string> = {
   concluida: "Concluída", paga: "Paga", cancelada: "Cancelada",
@@ -23,7 +22,7 @@ export default function HistoricoPage() {
 
   const { data: reservas = [], isLoading } = useQuery({ queryKey: ["portal-historico"], queryFn: portalReservaService.historico });
   const { data: resumo } = useQuery({ queryKey: ["portal-resumo"], queryFn: portalReservaService.resumo });
-  const { data: tipos = [] } = useQuery({ queryKey: ["portal-tipos"], queryFn: operacoesLavagemService.listTipos });
+  const { data: tipos = [] } = useQuery({ queryKey: ["portal-tipos"], queryFn: portalReservaService.listTiposLavagem });
 
   function tipoNome(id: string) { return tipos.find((t) => t.id === id)?.nome || id; }
 

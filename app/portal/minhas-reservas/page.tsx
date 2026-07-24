@@ -73,7 +73,7 @@ export default function MinhasReservasPage() {
       )}
       <div className="space-y-3">
         {reservas.map((r) => (
-          <div key={r.id} className="bg-panel dark:bg-panel rounded-xl shadow p-4">
+          <Link key={r.id} href={`/portal/reservas/${r.id}`} className="block bg-panel dark:bg-panel rounded-xl shadow p-4 hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-medium text-ink dark:text-white">{tipoNome(r.tipo_lavagem_id)}</p>
@@ -84,13 +84,13 @@ export default function MinhasReservasPage() {
                 <p className="text-xs text-ink-mid/70 mt-1">{new Date(r.created_at).toLocaleString("pt-PT")}</p>
               </div>
               {(r.estado === "rascunho" || r.estado === "agendada" || r.estado === "confirmada") && (
-                <button onClick={() => confirm("Cancelar esta reserva?") && cancelarMut.mutate(r.id)}
+                <button onClick={(e) => { e.preventDefault(); if (confirm("Cancelar esta reserva?")) cancelarMut.mutate(r.id); }}
                   className="text-xs px-3 py-1.5 border border-danger text-danger rounded-lg hover:bg-danger/10">
                   Cancelar
                 </button>
               )}
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

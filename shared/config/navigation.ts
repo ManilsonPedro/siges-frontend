@@ -396,6 +396,7 @@ export const NAV_CONFIG: NavItem[] = [
           { type: "leaf", key: "cont-balancetes", label: "Balancetes",   href: "/dashboard/contabilidade/balancetes",  permission: "contabilidade.ver" },
           { type: "leaf", key: "cont-razao",      label: "Razão",        href: "/dashboard/contabilidade/razao",       permission: "contabilidade.ver" },
           { type: "leaf", key: "cont-diario",     label: "Diário",       href: "/dashboard/contabilidade/diario",      permission: "contabilidade.ver" },
+          { type: "leaf", key: "cont-saft-ao",    label: "Exportação SAF-T-AO", href: "/dashboard/contabilidade/saft-ao", permission: "contabilidade.ver", isNew: true },
         ],
       },
       {

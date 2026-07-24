@@ -107,6 +107,19 @@ export const contabilidadeService = {
     const { data: res } = await api.get("/contabilidade/diario", { params: { data } });
     return res;
   },
+  async downloadSaftAo(params: { data_inicio: string; data_fim: string }): Promise<void> {
+    const { data, headers } = await api.get("/contabilidade/saft-ao", {
+      params, responseType: "blob",
+    });
+    const url = URL.createObjectURL(new Blob([data], { type: "application/xml" }));
+    const disposition = headers["content-disposition"] ?? "";
+    const match = disposition.match(/filename="?([^"]+)"?/);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = match ? match[1] : "SAFT_AO.xml";
+    a.click();
+    URL.revokeObjectURL(url);
+  },
 };
 
 export const fiscalidadeService = {

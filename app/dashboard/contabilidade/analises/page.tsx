@@ -38,6 +38,13 @@ export default function AnalisesContabilisticasPage() {
           Ver Dashboard Executivo
           <ArrowRight className="h-4 w-4" />
         </Link>
+        <Link
+          href="/dashboard/contabilidade/saft-ao"
+          className="inline-flex items-center gap-2 rounded-lg border border-ink-ghost/60 bg-panel px-4 py-2.5 text-sm font-medium text-ink-mid hover:bg-surface dark:border-ink-ghost/20 dark:text-gray-200"
+        >
+          Exportação SAF-T-AO
+          <ArrowRight className="h-4 w-4" />
+        </Link>
       </div>
     </div>
   );
